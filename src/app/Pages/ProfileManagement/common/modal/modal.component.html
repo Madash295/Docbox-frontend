@@ -1,0 +1,63 @@
+
+<div *ngIf="isOpenModal" class="fixed inset-0 flex items-center justify-center z-50 ">
+    <div class="fixed inset-0 bg-black opacity-60" (click)="close()"></div>
+    <div class="bg-white rounded-lg shadow-lg max-w-xs w-full z-10 relative">
+      <button
+        type="button"
+        (click)="close()"
+        class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <div class="text-lg font-medium bg-gray-100 py-3 px-5 rounded-t-lg">
+     {{ data?.id ? ('Update ' + modalTitle) : ('Add ' + modalTitle) }}
+      </div>
+      <div class="max-h-[85vh] overflow-y-auto ">
+        <div class="mt-5">
+          <form class="space-y-5" [formGroup]="CommonModalForm" (ngSubmit)="SaveModal()">
+            <div class="px-5 py-3">
+              <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                  <div [ngClass]="isSubmitForm ? CommonModalForm.controls['Name'].errors ? 'has-error' : 'has-success' : ''" class="col-span-4 mb-5 relative">
+                     
+                      <input id="Name" type="text" placeholder=" " formControlName="Name" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" />
+                      <label for="Name" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{ modalTitle }} Name</label>
+                      <ng-container *ngIf="isSubmitForm && !CommonModalForm.controls['Name'].errors">
+                          <p class="mt-1 text-[#1abc9c]">Looks Good!</p>
+                      </ng-container>
+                      <ng-container *ngIf="isSubmitForm && CommonModalForm.controls['Name'].errors">
+                          <p class="mt-1 text-danger">Please fill the {{ modalTitle }} Name</p>
+                      </ng-container>
+                  </div>
+              </div>
+              <div [ngClass]="isSubmitForm ? CommonModalForm.controls['status'].errors ? 'has-error' : 'has-success' : ''">
+                <label for="active" class="ml-1">Active</label>
+                <label class="w-12 h-6 relative">
+                    <input type="checkbox" class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" formControlName="status" id="custom_switch_checkbox4" />
+                    <span for="custom_switch_checkbox4" class="bg-[#ebedf2] form-input dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
+               
+                </label>
+              <ng-container *ngIf="isSubmitForm && CommonModalForm.controls['status'].errors">
+                  <p class="mt-1 text-danger">Please Select the status</p>
+              </ng-container>
+            </div> 
+          </div>
+              <div class="flex justify-end items-center gap-4 bg-gray-100 p-3 rounded-b-lg">
+                  <button
+                    type="button"
+                    (click)="close()"
+                    class="btn btn-sm btn-outline-danger border border-red-500 text-red-500 rounded"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+              </div>
+             
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  

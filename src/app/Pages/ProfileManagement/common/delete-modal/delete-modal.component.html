@@ -1,0 +1,33 @@
+
+<div *ngIf="isOpenDelete" class="fixed inset-0 flex items-center justify-center z-50 ">
+    <div class="fixed inset-0 bg-black opacity-60" (click)="close()"></div>
+    <div class="bg-white rounded-lg shadow-lg max-w-sm w-full z-10 relative">
+      <button
+        type="button"
+        (click)="close()"
+        class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Delete {{title}}</div>
+      <div class="p-3 max-h-[85vh] overflow-y-auto ">
+        <div class="mt-5 text-center">
+            <div class="text-white bg-danger ring-4 ring-danger/30 p-4 rounded-full w-fit mx-auto">
+                <icon-trash-lines class="w-7 h-7 mx-auto" />
+            </div>
+            <div class="sm:w-3/4 mx-auto mt-5 font-semibold">Are you sure you want to delete that {{title}}?</div>
+        </div>
+        <div class="flex justify-center items-center mt-8">
+            <button type="button" class="btn btn-outline-danger"  (click)="close()">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-danger ltr:ml-4 rtl:mr-4" (click)="handleDelete()">
+                Delete
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
