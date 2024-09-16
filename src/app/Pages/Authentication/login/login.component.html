@@ -43,7 +43,7 @@
                            
                             <div [ngClass]="isSubmitForm ? LoginForm.controls['Email'].errors ? 'has-error' : 'has-success' : ''" class="relative text-white-dark">
                                 <input id="Email" type="text" placeholder=" " formControlName="Email" name="email" class="block ps-10 py-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" />
-                                <label for="Email" class="start-9 absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75  top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:start-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:start-2 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email</label>
+                                <label for="Email" class="start-9 absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75  top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:start-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" >Email</label>
                                 <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                     <icon-mail [fill]="true" />
                                 </span>
@@ -52,10 +52,6 @@
                                 <p class="mt-1 text-danger">* Please fill the Email</p>
                             </ng-container>
 
-                            <!-- @if (fName.touched && fName.errors?.['required'])
-                                {
-                                <small class="form-text text-danger">{{LoginObj.errors.nameError}}</small>
-                                } -->
                         </div>
                         <div>
                             
@@ -69,10 +65,6 @@
                             <ng-container *ngIf="isSubmitForm && LoginForm.controls['Password'].errors">
                                 <p class="mt-1 text-danger">* Please fill the Email</p>
                             </ng-container>
-                            <!-- @if(fPassword.touched && fPassword.errors?.['required'])
-                            {
-                            <small class="form-text text-danger">{{LoginObj.errors.passwordError}}</small>
-                            } -->
                         </div>
                         <div>
                             <label class="flex cursor-pointer items-center">
@@ -92,7 +84,7 @@
                         </a>
                     </div>
                 </div>
-                <!-- <p class="absolute bottom-6 w-full text-center dark:text-white">© {{ currYear }}.VRISTO All Rights Reserved.</p> -->
+                <!-- <p class="absolute bottom-6 w-full text-center dark:text-white">© 2022.VRISTO All Rights Reserved.</p> -->
             </div>
         </div>
     </div>

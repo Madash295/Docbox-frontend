@@ -1,3 +1,3 @@
 export const baseURL = {
-    apiUrl: 'https://your-api-url.com/api'
+    apiUrl: 'https://localhost:7173/api'
   };
