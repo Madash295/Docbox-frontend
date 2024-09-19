@@ -1,11 +1,12 @@
 export interface Profile {
-    id: string;          // Assuming ID is a string. Change to number if necessary
+    id: string;          
     name: string;
-    description?: string;  // Optional property
+    description?: string; 
     contact: string;
     address: string;
-    city: string;
-    country: string;
+    cityName: string;
+    countryName: string;
+    departmentName:string;
     region: string;
     postalCode: string;
   }

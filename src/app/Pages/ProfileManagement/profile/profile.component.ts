@@ -95,12 +95,13 @@ export class ProfileComponent implements OnInit {
 
   search = '';
   cols = [
-    { field: 'id', title: 'ID', isUnique: true, filter: false },
+    // { field: 'id', title: 'ID', isUnique: true, filter: false },
     { field: 'name', title: 'Full Name' },
     { field: 'contact', title: 'Contact' },
     { field: 'address', title: 'Address' },
-    { field: 'city', title: 'City'},
-    { field: 'country', title: 'Country' },
+    { field: 'cityName', title: 'City'},
+    { field: 'countryName', title: 'Country' },
+    { field: 'departmentName', title: 'Department' },
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
 }
