@@ -69,6 +69,9 @@
     top: 35% !important;
     background-color: transparent;
 }
-
+#docxEditor {
+    width: 100% !important;
+    height: 1000px !important;
+  }
 
 

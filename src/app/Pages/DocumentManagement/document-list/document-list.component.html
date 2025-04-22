@@ -1,0 +1,154 @@
+<div>
+
+  <div class="panel border-[#e0e6ed] px-0 pb-1.5 dark:border-[#1b2e4b]">
+    <div class="datatable invoice-table">
+      <div class="mb-4.5 flex flex-col gap-5 md:flex-row md:items-center">
+        <div class="flex items-center gap-2">
+          <div class="mb-4 px-5 text-gray-500 flex gap-4">
+            <!-- Back Button for Navigation -->
+      <div class="flex justify-end">
+        <button
+          type="button"
+          class="text-black font-extrabold bg-dark-light rounded-md p-1"
+          (click)="goBack()"
+          [disabled]="folderStack.length === 0"
+        >
+        <icon-arrow-backward class="h-6 w-6" />
+        </button>
+      </div>
+            <span class="text-primary text-xl font-bold capitalize" *ngIf="currentPath">{{ currentPath }}</span>
+            <span class="text-primary text-xl font-bold" *ngIf="!currentPath">Root</span>
+          </div>
+        </div>
+        <div class="ltr:ml-auto rtl:mr-auto flex gap-5">
+          <!-- <input [(ngModel)]="search" (ngModelChange)="onSearchChange($event)"   type="text" class="form-input" placeholder="Search..." /> -->
+        </div>
+      </div>
+      <ng-container  *ngIf="!selectedFileConfig">
+
+      <div class="mb-4.5 flex flex-col gap-5 px-5 md:flex-row md:items-center">
+          <a routerLink="/apps/invoice/add" class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" (click)="openCreateFileModal() ">
+            <icon-plus  class="h-6 w-6 font-bold" />
+            Create
+          </a>
+          <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56">
+            <icon-logout  class="h-6 w-6 font-bold" />
+            Upload or drop
+          </a>
+          <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-56">
+            <icon-folder-minus class="h-6 w-6 text-yellow-500 font-bold" />
+            Create Folder
+          </a>
+          <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-56">
+            <icon-archive class="h-6 w-6 text-primary font-bold" />
+            Archive
+          </a>
+          <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col  h-24 w-56">
+            <icon-trash-lines class="h-6 w-6 text-danger font-bold" />
+            Delete
+          </a>
+          <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-64">
+            <icon-share class="h-6 w-6 text-black font-bold" />
+            Share Selected
+          </a>
+      </div>
+
+      <ng-datatable
+        #datatable
+        [rows]="items"
+        [columns]="cols"
+        [hasCheckbox]="true"
+        [sortable]="true"
+        [search]="search"
+        skin="whitespace-nowrap bh-table-hover"
+        (rowClick)="handleRowClick($event)"
+      >
+        <ng-template slot="name" let-value="data">
+          <div class="flex items-center">
+            <img [src]="value.icon" alt="icon" class="h-6 w-6 ltr:mr-2 rtl:ml-2" />
+            <span>{{ value.name }}</span>
+          </div>
+        </ng-template>
+        <ng-template slot="type" let-value="data">
+          <span>{{ value.type }}</span>
+        </ng-template>
+        <ng-template slot="actions" let-value="data">
+          <div class="flex items-center justify-center gap-4">
+            <a routerLink="/apps/invoice/edit" class="text-info hover:text-info">
+              <icon-edit class="h-4.5 w-4.5" />
+            </a>
+            <a routerLink="/apps/invoice/preview" class="hover:text-primary">
+              <icon-eye />
+            </a>
+            <button type="button" class="text-primary hover:text-warning">
+              <icon-archive class="h-4.5 w-4.5" />
+            </button>
+            <button type="button" class="text-danger hover:text-danger">
+              <icon-trash-lines />
+            </button>
+          </div>
+        </ng-template>
+        <ng-template slot="modified" let-value="data">
+          <span>6/7/2024 2:46 pm</span>
+        </ng-template>
+        <ng-template slot="mark" let-value="data">
+          <icon-star class="h-4.5 w-4.5" />
+        </ng-template>
+        <ng-template slot="size" let-value="data">
+          <span>8kb</span>
+        </ng-template>
+      </ng-datatable>
+    </ng-container>
+      
+    </div>
+   
+  </div>
+
+
+  <div *ngIf="selectedFileConfig" class="editor">
+    <!-- Document Server URL should be replaced with an actual URL -->
+    
+    <document-editor
+    id="docxEditor"
+    documentServerUrl="http://localhost:80/web-apps/apps/api/documents/api.js"
+    [config]="selectedFileConfig"
+    (events_onDocumentReady)="onDocumentReady($event)"
+    (events_onRequestHistory)="onRequestHistory($event)"
+    (events_onRequestHistoryData)="onRequestHistoryData($event)"
+    (events_onRequestRestore)="onRequestRestore($event)"
+    (events_onRequestHistoryClose)="onRequestHistoryClose()"
+    (onLoadComponentError)="onLoadComponentError"
+></document-editor>
+  </div>
+</div>
+
+  <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFileModal()"></div>
+    <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+      <button
+        type="button"
+        (click)="closeCreateFileModal()"
+        class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Add File</div>
+      <div class="max-h-[85vh] overflow-y-auto">
+        <div class="mt-5 ">
+  <div class="modal-content p-5">
+   
+    <form [formGroup]="createFileForm" (ngSubmit)="onSubmitCreateFile()">
+      <label for="file-type">File Type:</label>
+      <ng-select formControlName="fileType" [items]="fileTypes" bindLabel="label" bindValue="value"></ng-select>
+      <label for="">File Name</label>
+      <input type="text" formControlName="fileName" placeholder="Enter file name" required>
+      <button type="submit" class="btn-primary p-2 text-white">Create File</button>
+      <!-- <p *ngIf="createFileForm.invalid" class="error">Please fill out all fields.</p> -->
+    </form>
+  </div>
+</div>
+</div>
+
+</div>

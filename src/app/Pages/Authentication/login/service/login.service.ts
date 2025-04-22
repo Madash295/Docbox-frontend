@@ -11,7 +11,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<{ user: User; token: string }> {
-    return this.http.post<{ user: User; token: string }>(`${this.apiUrl}/auth/login`, { email, password });
+  login(email: string, password: string): Observable<{ role: string; token: string }> {
+    return this.http.post<{ role: string; token: string }>(`${this.apiUrl}/auth/login`, { email, password });
   }
+  getRole(): string | null {
+    return localStorage.getItem('userRole');
+  }
+
 }

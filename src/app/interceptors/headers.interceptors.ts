@@ -1,37 +1,66 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, take } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { AppState } from '../store/app.state';
-import { logout } from '../store/authentication/auth.actions';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+
 import { AuthService } from '../service/auth.service';
-import { selectAuthToken } from '../store/authentication/auth.selector'; // Adjust import path if needed
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private store: Store<AppState>, private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.store.select(selectAuthToken).pipe( // Use selector to get token
-      take(1),
-      switchMap(token => {
-        if (token) {
-          req = req.clone({
-            setHeaders: {
-              Authorization: `Bearer ${token}`
-            }
-          });
+  // Interceptor to add a JWT token as a header to every request
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    debugger
+    const jwtToken = this.authService.getToken();
+
+    if (jwtToken) {
+      // Check token expiration (handled in AuthService, in UTC)
+      debugger
+      const isTokenExpired = this.authService.isTokenExpired();
+
+      if (!isTokenExpired) {
+        // Token is not expired; add Authorization header
+   
+        request = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${jwtToken}` // Add the JWT token to headers
+          }
+        });
+        debugger
+      } else {
+        debugger
+        // Token is expired; logout the user and redirect to login
+         this.authService.logout(); // Log out the user
+        // // Redirect to login page
+        this.router.navigate(['/']);
+        
+        return throwError('Token expired');
+      }
+    }
+
+    return next.handle(request).pipe(
+
+      catchError((error: HttpErrorResponse) => {
+        debugger
+        
+        // Handle 403 Forbidden error
+        if (error.status === 401) {
+          // this.authService.logout(); // Log out the user
+          // this.router.navigate(['/']); // Redirect to login page
         }
-        return next.handle(req).pipe(
-          catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-              this.store.dispatch(logout());
-              // this.authService.logout(); // Remove if logout method does not exist
-            }
-            return throwError(error);
-          })
-        );
+        return throwError(error); // Rethrow the error so that it can be handled by other parts of the app
       })
     );
   }

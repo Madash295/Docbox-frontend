@@ -3,8 +3,8 @@
         <div class="h-full bg-white dark:bg-[#0e1726]">
             <div class="flex items-center justify-between px-4 py-3">
                 <a routerLink="/" class="main-logo flex shrink-0 items-center">
-                    <img class="ml-[5px] w-8 flex-none" src="/assets/images/logo.svg" alt="" />
-                    <span class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">VRISTO</span>
+                    <img class="ml-[5px] w-28 flex-none" src="/assets/images/docbox.png" alt="" />
+                    <!-- <span class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">VRISTO</span> -->
                 </a>
                 <a
                     href="javascript:;"
@@ -36,20 +36,20 @@
                         </button>
                         <div [@slideDownUp]="!activeDropdown.includes('dashboard')" class="accordion-content">
                             <ul class="sub-menu text-gray-500">
-                                <li>
+                                <!-- <li>
                                     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMobileMenu()"
                                         >{{ 'sales' | translate }}</a
                                     >
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a routerLink="/analytics" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'analytics' | translate }}</a>
+                                    <a routerLink="dashboard/Analytics" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'analytics' | translate }}</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a routerLink="/finance" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'finance' | translate }}</a>
                                 </li>
                                 <li>
                                     <a routerLink="/crypto" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'crypto' | translate }}</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </li>
@@ -76,19 +76,49 @@
                     <li class="accordion menu nav-item">
                         <button
                             type="button"
-                            routerLink="users/roles"
+                            routerLink="users/all-files"
                             routerLinkActive="active"
                             class="nav-link group w-full"
-                            [ngClass]="{ active: activeDropdown.includes('roles') }"
+                            [ngClass]="{ active: activeDropdown.includes('all-files') }"
                         >
                             <div class="flex items-center">
-                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
+                                <icon-file class="shrink-0 group-hover:!text-primary" />
 
-                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Roles' | translate }}</span>
+                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'All Files' | translate }}</span>
                             </div>
                         </button>
                     </li>
                     <li class="accordion menu nav-item">
+                        <button
+                            type="button"
+                            routerLink="users/shared-files"
+                            routerLinkActive="active"
+                            class="nav-link group w-full"
+                            [ngClass]="{ active: activeDropdown.includes('all-files') }"
+                        >
+                            <div class="flex items-center">
+                                <icon-share class="shrink-0 group-hover:!text-primary" />
+
+                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Shared Files' | translate }}</span>
+                            </div>
+                        </button>
+                    </li>
+                    <li class="accordion menu nav-item">
+                        <button
+                            type="button"
+                            routerLink="users/important-files"
+                            routerLinkActive="active"
+                            class="nav-link group w-full"
+                            [ngClass]="{ active: activeDropdown.includes('all-files') }"
+                        >
+                            <div class="flex items-center">
+                                <icon-star class="shrink-0 group-hover:!text-primary" />
+
+                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Starred Files' | translate }}</span>
+                            </div>
+                        </button>
+                    </li>
+                    <!-- <li class="accordion menu nav-item">
                         <button
                             type="button"
                             routerLink="users/types"
@@ -102,8 +132,8 @@
                                 <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Types' | translate }}</span>
                             </div>
                         </button>
-                    </li>
-                    <li class="accordion menu nav-item">
+                    </li> -->
+                    <!-- <li class="accordion menu nav-item">
                         <button
                             type="button"
                             routerLink="users/categories"
@@ -117,8 +147,8 @@
                                 <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Categories' | translate }}</span>
                             </div>
                         </button>
-                    </li>
-                    <li class="accordion menu nav-item">
+                    </li> -->
+                    <!-- <li class="accordion menu nav-item">
                         <button
                             type="button"
                             routerLink="users/role-right"
@@ -131,8 +161,8 @@
                                 <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'RoleRight' | translate }}</span>
                             </div>
                         </button>
-                    </li>
-                    <li class="accordion menu nav-item">
+                    </li> -->
+                    <!-- <li class="accordion menu nav-item">
                         <button
                             type="button"
                             routerLink="users/location"
@@ -146,6 +176,20 @@
                             </div>
                         </button>
                     </li>
+                    <li class="accordion menu nav-item">
+                        <button
+                            type="button"
+                            routerLink="leads/findLeads"
+                            routerLinkActive="active"
+                            class="nav-link group w-full"
+                            [ngClass]="{ active: activeDropdown.includes('findLeads') }"
+                        >
+                            <div class="flex items-center">
+                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
+                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'FindLeads' | translate }}</span>
+                            </div>
+                        </button>
+                    </li> -->
                 </ul>
             </ng-scrollbar>
         </div>

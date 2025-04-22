@@ -47,7 +47,7 @@ rows = [
     },
     {
         id: 2,
-        RoleName: 'Shipper',
+        RoleName: 'Faculty',
         ProfileName: 'Profile 2',
         createdBy: 'Celeste Grant',
     },
@@ -55,11 +55,11 @@ rows = [
         id: 3,
         createdBy: 'Tillman Forbes',
         ProfileName: 'Profile 3',
-        RoleName: 'User',
+        RoleName: 'Administration',
     },
     {
         id: 4,
-        RoleName:'Loader',
+        RoleName:'HOD',
         ProfileName: 'Profile 4',
         createdBy: 'Daisy Whitley',
     },

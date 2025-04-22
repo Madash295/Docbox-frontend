@@ -1,0 +1,160 @@
+<div class="overflow-hidden">
+    <div class="absolute overflow-hidden inset-0 bg-[url('/assets/images/auth/bg-gradient.png')] bg-center bg-no-repeat">
+        <!-- <img src="/assets/images/auth/bg-gradient.png" alt="image" class="min-h-screen w-full object-cover" /> -->
+    </div>
+    <div
+        class="relative flex  items-center justify-center  bg-cover bg-center bg-no-repeat px-6 py-5 dark:bg-[#060818] sm:px-16"
+    >
+        <!-- <img src="/assets/images/auth/production.jpg" alt="image" class="absolute left-0 top-1/2 h-full max-h-[893px] -translate-y-1/2" /> -->
+        <!-- <img src="/assets/images/auth/coming-soon-object2.png" alt="image" class="absolute left-24 top-0 h-40 md:left-[30%]" />
+        <img src="/assets/images/auth/coming-soon-object3.png" alt="image" class="absolute right-0 top-0 h-[300px]" /> -->
+        <!-- <img src="/assets/images/auth/polygon-object.svg" alt="image" class="absolute bottom-0 end-[28%]" /> -->
+        <div
+            class="relative flex w-full max-w-[1202px] flex-col justify-between overflow-hidden rounded-md bg-white backdrop-blur-3xl dark:bg-black/50 lg:min-h-[558px] lg:flex-row lg:gap-10 xl:gap-0"
+        >
+            <div
+                class="relative hidden w-full items-center justify-center  bg-[url('/assets/images/auth/document.png')] bg-contain bg-bottom bg-no-repeat p-5 lg:inline-flex lg:max-w-[895px]  "
+            >
+                <!-- <div
+                    class="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"
+                ></div> -->
+                <div class="absolute top-0 mt-10 left-10">
+                    <a routerLink="/auth/register" class="w-48 lg:w-72">
+                        <img src="/assets/images/docbox.png" alt="Logo" class="w-full" />
+                        <h2 class="text-primary font-bold ml-8 mt-2">All in One Document Solution</h2>
+                    </a>
+                    <!-- <div class="mt-24 hidden w-full max-w-[430px] lg:block">
+                        <img src="/assets/images/auth/login.svg" alt="Cover Image" class="w-full" />
+                    </div> -->
+                </div>
+            </div>
+            <div class="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-2 sm:px-6 lg:max-w-[517px]">
+                <div class="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
+                    <a routerLink="/" class="block w-8 lg:hidden">
+                        <img src="/assets/images/logo.svg" alt="Logo" class="mx-auto w-10" />
+                    </a>
+                </div>
+                <ng-container *ngIf="displayType === 'register'">
+                <div class="w-full max-w-[440px] lg:mt-4">
+                    <div class="mb-5">
+                        <h1 class="text-3xl font-extrabold uppercase !leading-snug text-yellow md:text-4xl">Sign up</h1>
+                        <p class="text-base font-bold leading-normal text-white-dark">Enter your email and password to login</p>
+                    </div>
+                    <form class="space-y-5 dark:text-white" [formGroup]="RegistrationForm" (ngSubmit)="Register()">
+                        <div>
+                           
+                            <div [ngClass]="isSubmitForm ? RegistrationForm.controls['companyName'].errors ? 'has-error' : 'has-success' : ''" class="relative text-white-dark">
+                                <input id="companyName" type="text" placeholder=" " formControlName="companyName" name="companyName" class="block ps-10 py-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" />
+                                <label for="companyName" class="start-9 absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75  top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:start-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" >Company Name</label>
+                                <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                                    <icon-user [fill]="true" />
+                                </span>
+                            </div>
+                            <ng-container *ngIf="isSubmitForm && RegistrationForm.controls['companyName'].errors">
+                                <p class="mt-1 text-danger">* Please fill the companyName</p>
+                            </ng-container>
+
+                        </div>
+                        <div>
+                           
+                            <div [ngClass]="isSubmitForm ? RegistrationForm.controls['username'].errors ? 'has-error' : 'has-success' : ''" class="relative text-white-dark">
+                                <input id="username" type="text" placeholder=" " formControlName="username" name="username" class="block ps-10 py-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" />
+                                <label for="username" class="start-9 absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75  top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:start-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" >Username</label>
+                                <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                                    <icon-user [fill]="true" />
+                                </span>
+                            </div>
+                            <ng-container *ngIf="isSubmitForm && RegistrationForm.controls['username'].errors">
+                                <p class="mt-1 text-danger">* Please fill the Username</p>
+                            </ng-container>
+
+                        </div>
+                        <div>
+                           
+                            <div [ngClass]="isSubmitForm ? RegistrationForm.controls['email'].errors ? 'has-error' : 'has-success' : ''" class="relative text-white-dark">
+                                <input id="Email" type="text" placeholder=" " formControlName="email" name="email" class="block ps-10 py-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" />
+                                <label for="Email" class="start-9 absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75  top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:start-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" >Email</label>
+                                <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                                    <icon-mail [fill]="true" />
+                                </span>
+                            </div>
+                            <ng-container *ngIf="isSubmitForm && RegistrationForm.controls['email'].errors">
+                                <p class="mt-1 text-danger">* Please fill the Email</p>
+                            </ng-container>
+
+                        </div>
+                        <div>
+                            
+                            <div [ngClass]="isSubmitForm ? RegistrationForm.controls['password'].errors ? 'has-error' : 'has-success' : ''" class="relative text-white-dark">
+                                <input type="password" name="password" formControlName="password" class="block ps-10 py-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" placeholder=" " required>
+                                <label for="Password" class="start-9 absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75  top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:start-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" >Password</label>
+                                <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                                    <icon-lock-dots [fill]="true" />
+                                </span>
+                            </div>
+                            <ng-container *ngIf="isSubmitForm && RegistrationForm.controls['Password'].errors">
+                                <p class="mt-1 text-danger">* Please fill the Password</p>
+                            </ng-container>
+                        </div>
+                        <div>
+                            
+                            <div [ngClass]="isSubmitForm ? RegistrationForm.controls['confirmPassword'].errors ? 'has-error' : 'has-success' : ''" class="relative text-white-dark">
+                                <input type="confirmPassword" name="confirmPassword" formControlName="confirmPassword" class="block ps-10 py-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" placeholder=" " required>
+                                <label for="confirmPassword" class="start-9 absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75  top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:start-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" >Confirm Password</label>
+                                <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                                    <icon-lock-dots [fill]="true" />
+                                </span>
+                            </div>
+                            <ng-container *ngIf="isSubmitForm && RegistrationForm.controls['confirmPassword'].errors">
+                                <p class="mt-1 text-danger">* Please fill the Confirm Password</p>
+                            </ng-container>
+                        </div>
+                        <!-- <div>
+                            <label class="flex cursor-pointer items-center">
+                                <input type="checkbox" class="form-checkbox bg-white dark:bg-black" formControlName="RememberMe" />
+                                <span class="text-white-dark">Remember me</span>
+                            </label>
+                        </div> -->
+                        <button type="submit" class="btn bg-primary text-white !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
+                            Sign up
+                        </button>
+                    </form>
+
+                    <div class="text-center dark:text-white mt-5">
+                        Already Registered ?
+                        <a (click)="handleLogin()" class="uppercase text-primary transition hover:text-black dark:hover:text-white">
+                            SIGN IN
+                        </a>
+
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="displayType === 'VerifyOTP'">
+                <div class="w-full max-w-[440px] lg:mt-4">
+                    <div class="mb-5">
+                        <h1 class="text-3xl font-extrabold uppercase !leading-snug text-yellow md:text-4xl">Verify OTP</h1>
+                        <p class="text-base font-bold leading-normal text-white-dark">Enter your six digit OTP code that is sent to gmail</p>
+                    </div>
+                    <div class="form-container">
+                        <div class="login-form">
+                          <div>
+                            <ng-otp-input (onInputChange)="onOtpEntry($event)" [config]="config" style="text-align: justify;"></ng-otp-input>
+                          </div>
+                            <button class="btn bg-primary text-white !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]" (click)="handleClick()">Verify</button>
+                        </div>
+                      </div>
+                      
+                      <div class="text-center dark:text-white mt-5">
+                        Don't have an account ?
+                        <a (click)="handleLogin()" class="uppercase text-primary transition hover:text-black dark:hover:text-white">
+                            SIGN IN
+                        </a>
+                    </div>
+
+                </div>
+            </ng-container>
+                <!-- <p class="absolute bottom-6 w-full text-center dark:text-white">© 2022.VRISTO All Rights Reserved.</p> -->
+            </div>
+        </div>
+    </div>
+</div>

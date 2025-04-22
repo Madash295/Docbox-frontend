@@ -97,11 +97,19 @@ export class ProfileComponent implements OnInit {
   cols = [
     // { field: 'id', title: 'ID', isUnique: true, filter: false },
     { field: 'name', title: 'Full Name' },
-    { field: 'contact', title: 'Contact' },
-    { field: 'address', title: 'Address' },
-    { field: 'cityName', title: 'City'},
-    { field: 'countryName', title: 'Country' },
-    { field: 'departmentName', title: 'Department' },
+    { field: 'email', title: 'email' },
+    { field: 'organizationName', title: 'Address' },
+    { field: 'type', title: 'City'},
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
+  rows = [
+    {
+        id: 1,
+        name: 'Ali',
+        email: 'xyz@gmail.com',
+        organizationName: 'Foundation University',
+        type:'Faculty',
+        createdBy: 'Company admin',
+    },
+];
 }

@@ -42,25 +42,25 @@ rows = [
     {
         id: 1,
         name: 'Admin',
-        createdBy: 'Caroline Jensen',
+        createdBy: 'Docbox',
         isActive: true,
     },
     {
         id: 2,
-        name: 'Shipper',
-        createdBy: 'Celeste Grant',
+        name: 'Faculty',
+        createdBy: 'Docbox',
         isActive: false,
     },
     {
         id: 3,
-        createdBy: 'Tillman Forbes',
-        name: 'User',
+        createdBy: 'Company Admin',
+        name: 'Administration',
         isActive: false,
     },
     {
         id: 4,
-        name:'Loader',
-        createdBy: 'Daisy Whitley',
+        name:'HOD',
+        createdBy: 'Company Admin',
         isActive: true,
     },
 ];

@@ -1,0 +1,83 @@
+
+  /* .login-signup-container h1 {
+    color: #15486c;
+      text-align: center;
+      font-family: "Verdana", serif;
+      font-family: "Barlow", sans-serif;
+      font-size: 2.219vw;
+      font-style: italic;
+      font-weight: 700;
+      line-height: 138.5%; 
+      text-transform: uppercase;
+  } */
+  /* .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-wrapper {
+    display: flex;
+    border-radius: 12px;
+  }
+  
+  .btn {
+    padding: 0.521vw 1.042vw;
+    cursor: pointer;
+    border: none;
+    background: #e9e9e9;
+    box-shadow: 0px 4px 38px 0px rgba(0, 0, 0, 0.11) inset;
+    width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: rgba(0, 0, 0, 0.37);
+    font-family: "Barlow", sans-serif;
+    font-size: 1.4vw;
+    font-style: normal;
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+    font-weight: 600;
+    line-height: normal;
+  } */
+
+  /* #loginBtn {
+    border-radius: 0.75rem 0rem 0rem 0.75rem;
+  }
+  #signupBtn {
+    border-radius: 0rem 0.75rem 0.75rem 0rem;
+  }
+  .active {
+    background: linear-gradient(90deg, #72baec 0%, #54a6de 100%);
+    color: #ffffff;
+    font-family: "Barlow", sans-serif;
+    font-size: 1.4vw;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+  }
+  
+  .scroll-wrapper {
+    width: 100%;
+    max-height: 500px; 
+    overflow: auto; 
+  } */
+  
+  /* .form-container {
+    width: 100%;
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    text-align: left;
+  
+  } */
+   
+  /* For Edge and Internet Explorer */
+  /* @supports (-ms-overflow-style: none) {
+    .form-container {
+      -ms-overflow-style: none;
+    }
+    .form-container::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+   */

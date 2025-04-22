@@ -4,27 +4,27 @@
             <a href="javascript:;" class="text-primary hover:underline">Profile</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-            <span>Add Profile</span>
+            <span>Add Company User</span>
         </li>
     </ul>
     <div class="panel mt-2 pb-0">
         <div class="mb-4.5 flex md:items-center md:flex-row flex-col gap-5">
             <div class="flex items-center gap-5">
-                <h5 class="mb-5 text-lg font-semibold dark:text-white-light">User Profiles</h5>
+                <h5 class="mb-5 text-lg font-semibold dark:text-white-light">Company Profiles</h5>
             </div>
             <div class="ltr:ml-auto rtl:mr-auto">
                         <button
                             class="btn btn-primary"
                             (click)="openProfileModal()"
                         >
-                            Add Profile
+                            Add Company Profile
                         </button>
             </div>
         </div>
         <div class="datatable">
             <ng-datatable
                 #datatable
-                [rows]="profilesToDisplay"
+                [rows]="rows"
                 [columns]="cols"
                 [columnFilter]="true"
                 (pageChange) ="onPageChange($event)"

@@ -5,10 +5,9 @@ import * as AuthActions from './auth.actions';
 export function authReducer(state = initialAuthState, action: Action): AuthState {
   switch (action.type) {
     case AuthActions.loginSuccess.type:
-      const { user, token } = (action as any).payload; // Cast action to access payload
+      const { role, token } = (action as any).payload; // Cast action to access payload
       return {
         ...state,
-        user,
         token,
         error: null
       };

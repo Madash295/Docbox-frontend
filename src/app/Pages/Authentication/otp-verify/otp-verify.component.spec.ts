@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocationModalComponent } from './location-modal.component';
+import { OtpVerifyComponent } from './otp-verify.component';
 
-describe('LocationModalComponent', () => {
-  let component: LocationModalComponent;
-  let fixture: ComponentFixture<LocationModalComponent>;
+describe('OtpVerifyComponent', () => {
+  let component: OtpVerifyComponent;
+  let fixture: ComponentFixture<OtpVerifyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LocationModalComponent]
+      imports: [OtpVerifyComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LocationModalComponent);
+    fixture = TestBed.createComponent(OtpVerifyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

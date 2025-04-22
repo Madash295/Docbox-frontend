@@ -3,12 +3,15 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { authReducer } from './Pages/Authentication/login/store/authentication/auth.reducer';
 import { AuthEffects } from './Pages/Authentication/login/store/authentication/auth.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { AuthInterceptor } from './interceptors/headers.interceptors'; 
+import { fileReducer } from '../app/Pages/DocumentManagement/store/document.reducer';
+import { FileEffects } from '../app/Pages/DocumentManagement/store/document.effects';
 //Routes
 import { routes } from './app.route';
 
@@ -62,8 +65,8 @@ import { IconModule } from './shared/icon/icon.module';
                 deps: [HttpClient],
             },
         }),
-        StoreModule.forRoot({ index: indexReducer, auth: authReducer }),
-        EffectsModule.forRoot([AuthEffects]),
+        StoreModule.forRoot({ index: indexReducer, auth: authReducer , files: fileReducer}),
+        EffectsModule.forRoot([AuthEffects, FileEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states
             logOnly: !isDevMode(), // Restrict extension to log-only mode
@@ -78,18 +81,26 @@ import { IconModule } from './shared/icon/icon.module';
         //     visibility: 'hover',
         //     appearance: 'standard',
         // }),
-        IconModule], providers: [AppService, Title,
-            {
-                provide: NG_SCROLLBAR_OPTIONS,
-                useValue: {
-                  visibility: 'hover',
-                  appearance: 'standard'
-                //   autoHide: 'scroll'
-                }
-              }
-
-            , provideHttpClient(withInterceptorsFromDi())
-          ] })
+        IconModule], 
+        providers: [
+          AppService,
+          Title,
+          {
+            provide: NG_SCROLLBAR_OPTIONS,
+            useValue: {
+              visibility: 'hover',
+              appearance: 'standard',
+            },
+          },
+          // Register the AuthInterceptor with HTTP_INTERCEPTORS
+          {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true, // Allow multiple interceptors
+          },
+          provideHttpClient(withInterceptorsFromDi()), // You can still use the `provideHttpClient` method for other interceptors
+        ],
+      })
 export class AppModule {}
 
 // AOT compilation support

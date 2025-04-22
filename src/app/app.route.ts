@@ -62,6 +62,7 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './layouts/app-layout';
 import { AuthLayout } from './layouts/auth-layout';
+import { authGuard } from './auth.guard';
 
 // Route configuration with lazy loading for standalone components
 export const routes: Routes = [
@@ -72,55 +73,61 @@ export const routes: Routes = [
             { 
                 path: '', 
                 loadComponent: () => import('./Pages/Authentication/login/login.component').then(m => m.LoginComponent), 
-                title: 'Login' 
+                title: 'Login',
+                data: { roles: ['Admin'] },  
+                canActivate: [authGuard],
+            },
+            { 
+                path: 'auth/register', 
+                loadComponent: () => import('./Pages/Authentication/otp-verify/otp-verify.component').then(m => m.OtpVerifyComponent), 
+                title: 'Register',
+                   data: { roles: ['Admin'] },  
+                   canActivate: [authGuard],
             },
         ],
     },
     {
         path: '',
+        canActivate: [authGuard],
         component: AppLayout,
         children: [
             { 
                 path: 'home', 
                 loadComponent: () => import('./index').then(m => m.IndexComponent), 
-                title: 'Dashboard' 
+                title: 'Dashboard' ,
+                data: { roles: ['Admin'] }, 
+                canActivate: [authGuard],
             },
 
             { 
                 path: 'users/profile', 
                 loadComponent: () => import('./Pages/ProfileManagement/profile/profile.component').then(m => m.ProfileComponent), 
-                title: 'Profile' 
+                title: 'Profile' ,
+                data: { roles: ['Admin'] }, 
+                canActivate: [authGuard],
             },
             
             { 
-                path: 'users/roles', 
-                loadComponent: () => import('./Pages/ProfileManagement/role/role.component').then(m => m.RoleComponent), 
-                title: 'Role' 
-            },
-            
-            { 
-                path: 'users/categories', 
-                loadComponent: () => import('./Pages/ProfileManagement/category/category.component').then(m => m.CategoryComponent), 
-                title: 'Category' 
-            },
-            
-            { 
-                path: 'users/types', 
-                loadComponent: () => import('./Pages/ProfileManagement/type/type.component').then(m => m.TypeComponent), 
-                title: 'Type' 
+                path: 'users/all-files', 
+                loadComponent: () => import('./Pages/DocumentManagement/document-list/document-list.component').then(m => m.DocumentListComponent), 
+                title: 'All Files',
+                data: { roles: ['Admin'] }, 
+                canActivate: [authGuard],
             },
             
             { 
                 path: 'users/role-right', 
                 loadComponent: () => import('./Pages/ProfileManagement/role-right/role-right.component').then(m => m.RoleRightComponent), 
-                title: 'Role Right' 
+                title: 'Role Right' ,
+                data: { roles: ['Admin'] },
+                canActivate: [authGuard], 
             },
-            
-            { 
-                path: 'users/location', 
-                loadComponent: () => import('./Pages/ProfileManagement/location/location.component').then(m => m.LocationComponent), 
-                title: 'Location' 
-            },
+
+            // { 
+            //     path: 'dashboard/Analytics', 
+            //     loadComponent: () => import('./Pages/Authentication/otp-verify/otp-verify.component').then(m => m.OtpVerifyComponent), 
+            //     title: 'Analytics' 
+            // }
         ],
     },
 ];

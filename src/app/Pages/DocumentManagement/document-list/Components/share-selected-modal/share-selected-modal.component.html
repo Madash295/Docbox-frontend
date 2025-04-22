@@ -1,0 +1,81 @@
+
+<div *ngIf="isOpenModal" class="fixed inset-0 flex items-center justify-center z-50 ">
+    <div class="fixed inset-0 bg-black opacity-60" (click)="close()"></div>
+    <div class="bg-white rounded-lg shadow-lg max-w-xs w-full z-10 relative">
+      <button
+        type="button"
+        (click)="close()"
+        class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <div class="text-lg font-medium bg-gray-100 py-3 px-5 rounded-t-lg">
+        Share Selected Files
+      </div>
+      <div class="max-h-[85vh] overflow-y-auto ">
+        <div class="mt-5">
+          <form class="space-y-5" [formGroup]="ShareModalForm" (ngSubmit)="SaveModal()">
+            <div class="px-5 py-3">
+             <div [ngClass]="isSubmitForm ? ShareModalForm.controls['selectedUsers'].errors ? 'has-error' : 'has-success' : ''">
+                      <ng-select
+                          [items]="ShareOptions"
+                          [multiple]="true"
+                          bindLabel="name"
+                          bindValue="id"
+                          formControlName="selectedUsers"
+                          [clearable]="false"
+                          placeholder="Select Users"
+                          [searchable]="true"
+                      >
+                      <ng-template ng-option-tmp let-item="item" let-index="index">
+                        <ng-container>
+                          {{ item.name }}
+                        </ng-container>
+                      </ng-template>
+                    </ng-select>
+                   
+                    <ng-container *ngIf="isSubmitForm && ShareModalForm.controls['selectedUsers'].errors">
+                        <p class="mt-1 text-danger">* Please Select Users</p>
+                    </ng-container>
+                </div>
+
+                <div [ngClass]="isSubmitForm && ProfileModalForm.controls['accessType'].invalid ? 'has-error' : ''">
+                    <ng-select
+                    [items]="TypeOptions"
+                    formControlName="accessType"
+                    bindLabel="name"
+                    bindValue="id"
+                    [clearable]="false"
+                    placeholder="Select Type"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-index="index">
+                      <ng-container>
+                        {{ item.name }}
+                      </ng-container>
+                    </ng-template>
+                  </ng-select>
+                  <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['accessType'].errors">
+                      <p class="mt-1 text-danger">* Please Select Type</p>
+                  </ng-container>
+                </div>
+          </div>
+              <div class="flex justify-end items-center gap-4 bg-gray-100 p-3 rounded-b-lg">
+                  <button
+                    type="button"
+                    (click)="close()"
+                    class="btn btn-sm btn-outline-danger border border-red-500 text-red-500 rounded"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+              </div>
+             
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  

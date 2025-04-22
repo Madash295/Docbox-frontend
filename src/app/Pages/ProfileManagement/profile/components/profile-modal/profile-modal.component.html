@@ -16,30 +16,30 @@
           <form class="space-y-5" [formGroup]="ProfileModalForm" (ngSubmit)="saveProfile()">
             <div class="px-5 py-3">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['FirstName'].errors ? 'has-error' : 'has-success' : ''" class="relative">
+                  <!-- <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['FirstName'].errors ? 'has-error' : 'has-success' : ''" class="relative">
                       <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" formControlName="FirstName" placeholder=" " />
-                      <label for="floating_outlined" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">First Name</label>
+                      <label for="floating_outlined" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Full Name</label>
                       <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['FirstName'].errors">
                           <p class="mt-1 text-danger">* Please fill the Name</p>
                       </ng-container>
                   </div>
                   <div  [ngClass]="isSubmitForm ? ProfileModalForm.controls['MiddleName'].errors ? 'has-error' : 'has-success' : ''" class="relative" >
                     <input type="text" id="middleName" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" formControlName="MiddleName" placeholder=" " />
-                    <label for="middleName" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Middle Name</label>
+                    <label for="middleName" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Organization Name</label>
                     <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['MiddleName'].errors">
-                        <p class="mt-1 text-danger">* Please fill the Middle Name</p>
+                        <p class="mt-1 text-danger">* Please fill the Company Name</p>
                     </ng-container>
-                 </div>
+                 </div> -->
                 
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-                  <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['LastName'].errors ? 'has-error' : 'has-success' : ''" class="relative">
+              
+                  <!-- <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['LastName'].errors ? 'has-error' : 'has-success' : ''" class="relative">
                     <input type="text" id="lastName" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" formControlName="LastName" placeholder=" " />
                     <label for="lastName" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Last Name</label>
                     <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['LastName'].errors">
                         <p class="mt-1 text-danger">* Please fill the Last Name</p>
                     </ng-container>
-                  </div>
+                  </div> -->
                   <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['email'].errors ? 'has-error' : 'has-success' : ''" class="relative">
                       <input type="text" id="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" formControlName="email" placeholder=" " />
                       <label for="email" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email</label>
@@ -47,15 +47,16 @@
                         <p class="mt-1 text-danger">* Please fill the Email</p>
                     </ng-container>
                   </div> 
-              </div> 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-                  <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['password'].errors ? 'has-error' : 'has-success' : ''" class="relative">
-                      <input type="text" id="password" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" formControlName="password" placeholder=" " />
-                      <label for="password" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Password</label>
-                      <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['password'].errors">
-                        <p class="mt-1 text-danger">* Please fill the Password</p>
-                    </ng-container>
-                  </div>
+                  <!-- <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['password'].errors ? 'has-error' : 'has-success' : ''" class="relative">
+                    <input type="text" id="password" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" formControlName="password" placeholder=" " />
+                    <label for="password" class="floating-label absolute bg-white text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-3 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Password</label>
+                    <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['password'].errors">
+                      <p class="mt-1 text-danger">* Please fill the Password</p>
+                  </ng-container>
+                </div> -->
+             
+              <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+                
                   <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['location'].errors ? 'has-error' : 'has-success' : ''" class="relative">
                     
                     <input id="location" type="text" placeholder=" " formControlName="location" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer form-input" />
@@ -64,33 +65,34 @@
                       <p class="mt-1 text-danger">* Please fill the Location</p>
                   </ng-container>
                </div>
-              </div>
+               <div [ngClass]="isSubmitForm && ProfileModalForm.controls['belongTo'].invalid ? 'has-error' : ''">
+                <ng-select
+                [items]="TypeOptions"
+                formControlName="belongTo"
+                bindLabel="name"
+                bindValue="id"
+                [clearable]="false"
+                placeholder="Select Type"
+              >
+                <ng-template ng-option-tmp let-item="item" let-index="index">
+                  <ng-container *ngIf="item.id === 0">
+                    <div  (click)="onAddTypeClick()" class="font-bold  text-gray-600 flex gap-2">
+                      <icon-plus/> Add New Type 
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="item.id !== 0">
+                    {{ item.name }}
+                  </ng-container>
+                </ng-template>
+              </ng-select>
+              <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['belongTo'].errors">
+                  <p class="mt-1 text-danger">* Please Select Type</p>
+              </ng-container>
+            </div>
+              </div> -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-                <div [ngClass]="isSubmitForm && ProfileModalForm.controls['belongTo'].invalid ? 'has-error' : ''">
-                  <ng-select
-                  [items]="TypeOptions"
-                  formControlName="belongTo"
-                  bindLabel="name"
-                  bindValue="id"
-                  [clearable]="false"
-                  placeholder="Select Type"
-                >
-                  <ng-template ng-option-tmp let-item="item" let-index="index">
-                    <ng-container *ngIf="item.id === 0">
-                      <div  (click)="onAddTypeClick()" class="font-bold  text-gray-600 flex gap-2">
-                        <icon-plus/> Add New Type 
-                      </div>
-                    </ng-container>
-                    <ng-container *ngIf="item.id !== 0">
-                      {{ item.name }}
-                    </ng-container>
-                  </ng-template>
-                </ng-select>
-                <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['belongTo'].errors">
-                    <p class="mt-1 text-danger">* Please Select Type</p>
-                </ng-container>
-              </div>
-                  <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['category'].errors ? 'has-error' : 'has-success' : ''">
+               
+                  <!-- <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['category'].errors ? 'has-error' : 'has-success' : ''">
                       <ng-select
                           [items]="CategoryOptions"
                           [multiple]="true"
@@ -115,9 +117,9 @@
                     <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['category'].errors">
                         <p class="mt-1 text-danger">* Please Select Category</p>
                     </ng-container>
-                  </div>
+                  </div> -->
                  
-                  <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['status'].errors ? 'has-error' : 'has-success' : ''" class="mt-3 mx-1">
+                  <!-- <div [ngClass]="isSubmitForm ? ProfileModalForm.controls['status'].errors ? 'has-error' : 'has-success' : ''" class="mt-3 mx-1">
                       <label for="active">Active</label>
                       <label class="w-12 h-6 relative">
                           <input type="checkbox" class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" formControlName="status" id="custom_switch_checkbox4" />
@@ -127,7 +129,7 @@
                     <ng-container *ngIf="isSubmitForm && ProfileModalForm.controls['status'].errors">
                         <p class="mt-1 text-danger">* Please Select the status</p>
                     </ng-container>
-                  </div>   
+                  </div>    -->
               </div>
               </div>
               <div class="flex justify-end items-center gap-4 bg-gray-100 p-3 rounded-b-lg">

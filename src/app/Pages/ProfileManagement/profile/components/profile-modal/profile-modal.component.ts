@@ -31,9 +31,9 @@ export class ProfileModalComponent {
 
   TypeOptions = [
     { id: 0, name: 'Add Type' , disabled: true }, // This is the "Add Type" option
-    { id: 1, name: 'Shipper' },
-    { id: 2, name: 'Carrier' },
-    { id: 3, name: 'Loader' }
+    { id: 1, name: 'Administration' },
+    { id: 2, name: 'Faculty' },
+    { id: 3, name: 'HOD' }
   ];
   CategoryOptions = [
     { id: 0, name: 'Add Category' , disabled: true }, // This is the "Add Category" option
@@ -63,15 +63,9 @@ export class ProfileModalComponent {
   constructor(private fb: FormBuilder, private utilsService: UtilsService) {
     // Initialize the form with FormBuilder
     this.ProfileModalForm = this.fb.group({
-      FirstName: new FormControl("", [Validators.required]),
-      MiddleName: new FormControl("", [Validators.required]),
-      LastName: new FormControl("", [Validators.required]),
+   
       email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("", [Validators.required, Validators.minLength(8)]),
-      belongTo: new FormControl("", [Validators.required]),
-      category: new FormControl("", [Validators.required]),
-      status: new FormControl("", [Validators.required]),
-      location: new FormControl("", [Validators.required]),
+      
     });
   }
 
@@ -93,15 +87,8 @@ export class ProfileModalComponent {
   }
   setFormValues(profile: any) {
     this.ProfileModalForm.setValue({
-      FirstName: profile.FirstName || "",
-      MiddleName: profile.MiddleName || "",
-      LastName: profile.LastName || "",
       email: profile.email || "",
-      password: "",
-      belongTo: profile.belongTo || "",
-      category: profile.category || "",
-      status: profile.status || "",
-      location: profile.location || "",
+
     });
   }
 

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UtilsService } from 'src/app/utils.service';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../../../models/user.model';
 import { login } from './store/authentication/auth.actions';
 import { AuthState } from './store/authentication/auth.state';
@@ -13,6 +14,8 @@ import { selectAuthUser, selectAuthToken } from './store/authentication/auth.sel
 // import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/service/app.service';
 import { CommonModule } from '@angular/common';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { IconModule } from '../../../shared/icon/icon.module';
 @Component({
   selector: 'app-login',
@@ -33,7 +36,7 @@ export class LoginComponent {
   LoginForm: FormGroup;
   isSubmitForm = false;
 
-  constructor(private fb: FormBuilder , public store: Store<AuthState>, public router: Router, private appSetting: AppService, private utilsService: UtilsService) {
+  constructor(private fb: FormBuilder , public store: Store<AuthState>, public router: Router, private appSetting: AppService, private utilsService: UtilsService,private http: HttpClient) {
     // Initialize the form with FormBuilder
     this.user$ = this.store.select(selectAuthUser);
       this.initStoreData();
@@ -69,14 +72,48 @@ export class LoginComponent {
 login() {
   this.isSubmitForm = true;
   if (this.LoginForm.valid) {
-    // Mark all controls as touched to display validation errors
-    // form.control.markAllAsTouched();
-    // return;
-    // Dispatch the login action if form is valid
-    this.utilsService.showMessage('Login Successful', 'success');
-     this.store.dispatch(login({ email: this.LoginObj.username, password: this.LoginObj.password }));
+    const loginData = this.LoginForm.value;
 
-  this.router.navigate(['users/profile']);
+      // Call the API
+      this.http
+        .post('http://localhost:5235/api/Login/login', {
+          email: loginData.Email,
+          password: loginData.Password,
+        })
+        .pipe(
+          catchError((error) => {
+            // Show error message on failure
+            if (error.status === 401) {
+              this.utilsService.showMessage('Invalid email or password.', 'error');
+            } else {
+              this.utilsService.showMessage('An unexpected error occurred.', 'error');
+            }
+            return of(null); // Return a safe value to continue
+          })
+        )
+        .subscribe((response: any) => {
+          if (response) {
+            // Store token and user info in localStorage
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('userRole', response.role);
+
+            // Show success message
+            this.utilsService.showMessage('Login successful', 'success');
+
+            // Navigate to the profile page
+            this.router.navigate(['users/profile']);
+          }
+        });
+  //   console.log(this.LoginForm.value);
+
+  //   // Mark all controls as touched to display validation errors
+  //   // form.control.markAllAsTouched();
+  //   // return;
+  //   // Dispatch the login action if form is valid
+  //   this.utilsService.showMessage('Login Successful', 'success');
+  // //   this.store.dispatch(login({ email: this.LoginObj.username, password: this.LoginObj.password }));
+
+  // this.router.navigate(['users/profile']);
   }
   
   
