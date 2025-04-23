@@ -15,13 +15,15 @@ import { IconModule } from 'src/app/shared/icon/icon.module';
 })
 export class ProfileModalComponent {
     @Input() isOpenProfileModal: boolean = false;
-    @Output() isOpenProfileModalChange = new EventEmitter<boolean>();
+    // Removed duplicate @Output() isOpenProfileModalChange
     @Input() ProfileData: any = null;
     @Input() serviceName = '';
+    @Output() isOpenProfileModalChange = new EventEmitter<boolean>();
+    @Output() userAdded = new EventEmitter<string>();
   
     close() {
       this.isOpenProfileModal = false;
-      this.isOpenProfileModalChange.emit(this.isOpenProfileModal);
+      this.isOpenProfileModalChange.emit(false);
       this.resetForm();
     }
     
@@ -70,21 +72,19 @@ export class ProfileModalComponent {
   }
 
 
-  // Method for handling form submission
   saveProfile() {
-    this.isSubmitForm = true;
     if (this.ProfileModalForm.valid) {
-      // Form is valid
-      this.utilsService.showMessage('RoleRight' + (this.ProfileData?.id ?  ' Updated successfully!' : ' Added successfully!'), 'success');
-      console.log(this.ProfileModalForm.value);
-      
-      // Reset the form after successful submission
-      this.resetForm();
-      
-      // Emit close event
-      this.close();
+      // Emit the email entered into the form
+      this.userAdded.emit(this.ProfileModalForm.value.email);
+      // Optionally reset the form and close the modal
+      this.ProfileModalForm.reset();
+      this.isOpenProfileModal = false;
+      this.isOpenProfileModalChange.emit(false);
     }
   }
+
+  // Method for handling form submission
+  
   setFormValues(profile: any) {
     this.ProfileModalForm.setValue({
       email: profile.email || "",

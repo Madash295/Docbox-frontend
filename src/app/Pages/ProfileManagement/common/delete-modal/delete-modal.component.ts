@@ -15,6 +15,8 @@ export class DeleteModalComponent {
   @Input() serviceName: string = '';
   @Output() isOpenDeleteChange = new EventEmitter<boolean>();
   @Input() dataId: any = 0;
+  @Output() deleteConfirmed = new EventEmitter<number>();
+
   close()
   {
     this.isOpenDelete = false;
@@ -22,9 +24,8 @@ export class DeleteModalComponent {
   }
   constructor(private utilsService: UtilsService) { }
   handleDelete() {
-    console.log(this.dataId);
-     // Emit close event
-     this.utilsService.showMessage(this.title + ' Deleted successfully!', 'success');
-     this.close();
+    this.deleteConfirmed.emit(this.dataId);
+    this.close();
+    
   }
 }

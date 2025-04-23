@@ -7,6 +7,7 @@ import { ProfileModalComponent } from './components/profile-modal/profile-modal.
 import { ProfileService } from './service/profile.service';
 import { Profile } from './profile.model';
 import { act } from '@ngrx/effects';
+import { UtilsService } from 'src/app/utils.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,7 +29,7 @@ export class ProfileComponent implements OnInit {
   profilesToDisplay: Profile[] = []; 
   allProfiles: Profile[] = []; 
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService,private utilsService: UtilsService) {}
 
   ngOnInit(): void {
     this.profileService.listUsers().subscribe({
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
         // If API returns a single object, wrap it into an array.
         const users = Array.isArray(response) ? response : [response];
         this.rows = users.map((user: any) => ({
+          id: user.userId, 
           UserName: user.username,
           Email: user.email,
           CompanyName: user.companyName,
@@ -51,7 +53,42 @@ export class ProfileComponent implements OnInit {
     });
    
   }
+    addUser(email: string): void {
+    this.profileService.adduser(email).subscribe({
+      next: (res: any) => {
+        this.utilsService.showMessage('User added successfully!', 'success');
+        // Optionally refresh the user list
+        this.ngOnInit();
+        this.isProfileModalOpen = false;
+      },
+      error: (error: any) => {
+        console.error('Error adding user', error);
+        this.utilsService.showMessage('Error adding user.', 'error');
+      }
+    });
+  }
 
+
+
+
+
+
+
+
+
+  deleteUser(): void {
+    this.profileService.removeUser(this.profileId.toString()).subscribe({
+      next: (res: any) => {
+        this.utilsService.showMessage('User deleted successfully!', 'success');
+        // Optionally refresh or update your table rows
+        this.ngOnInit();
+      },
+      error: (error: any) => {
+        console.error('Error deleting user', error);
+        this.utilsService.showMessage('Error deleting user.', 'error');
+      }
+    });
+  }
  
 
   loadNextChunk(): void {
@@ -104,6 +141,10 @@ export class ProfileComponent implements OnInit {
     console.log(`Current Page Size: ${this.chunkSize}, Current Page Number: ${this.pageNumber}`);
   }
 
+
+
+
+  
   search = '';
   cols = [
     // { field: 'id', title: 'ID', isUnique: true, filter: false },

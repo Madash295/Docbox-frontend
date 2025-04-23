@@ -49,7 +49,7 @@
             </ng-datatable>
         </div>
     </div>
-        <app-profile-modal  [(isOpenProfileModal)]="isProfileModalOpen " [ProfileData]="profile" [serviceName]="serviceName"  />
-        <app-profile-modal [(isOpenProfileModal)]="isProfileModalOpen " [ProfileData]="profile" [serviceName]="serviceName" />
-        <app-delete-modal [(isOpenDelete)]="isDeleteProfileModalOpen" [dataId]="profileId" [serviceName]="deleteserviceName" title="Profile" />
+        <app-profile-modal  [(isOpenProfileModal)]="isProfileModalOpen " [ProfileData]="profile" [serviceName]="serviceName"(userAdded)="addUser($event)"></app-profile-modal>
+        <app-delete-modal [(isOpenDelete)]="isDeleteProfileModalOpen" [dataId]="profileId" [serviceName]="deleteserviceName" title="Profile" (deleteConfirmed)="deleteUser()"/>
+        
 </div>
