@@ -19,6 +19,18 @@ export class DocumentService {
   createFile(fileType: string, fileName: string, path: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/File/create-file`, {fileType,fileName,path});
   }
+
+
+  uploadFiles(files: File[], path: string): Observable<any> {
+    const formData: FormData = new FormData();
+    files.forEach(file => formData.append('files', file, file.name));
+    return this.http.post(`${this.apiUrl}/File/upload?path=${encodeURIComponent(path)}`, formData);
+}
+
+
+
+
+
   openFile(path: string): Observable<any> {
     const params = new HttpParams().set('path', path);
     return this.http.get(`${this.apiUrl}/File/open-file`, { params });

@@ -31,10 +31,11 @@
             <icon-plus  class="h-6 w-6 font-bold" />
             Create
           </a>
-          <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56">
+          <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56" (click)="openUploadFileModal()">
             <icon-logout  class="h-6 w-6 font-bold" />
-            Upload or drop
+            Upload Files
           </a>
+          <input type="file" id="uploadFileInput" multiple style="display: none;" (change)="onFilesSelected($event)" />
           <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-56">
             <icon-folder-minus class="h-6 w-6 text-yellow-500 font-bold" />
             Create Folder
@@ -89,13 +90,13 @@
           </div>
         </ng-template>
         <ng-template slot="modified" let-value="data">
-          <span>6/7/2024 2:46 pm</span>
+          <span>{{value.lastModified}}</span>
         </ng-template>
         <ng-template slot="mark" let-value="data">
           <icon-star class="h-4.5 w-4.5" />
         </ng-template>
         <ng-template slot="size" let-value="data">
-          <span>8kb</span>
+          <span>{{value.size}}</span>
         </ng-template>
       </ng-datatable>
     </ng-container>

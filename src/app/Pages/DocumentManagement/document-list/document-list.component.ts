@@ -337,7 +337,32 @@ export class DocumentListComponent implements OnInit {
       this.closeCreateFileModal();
     }
   }
-  
+
+  openUploadFileModal(): void {
+    const fileInput = document.getElementById('uploadFileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = ""; // reset previous selection
+      fileInput.click();
+    }
+  }
+
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const filesArray: File[] = Array.from(input.files);
+      const path = this.currentPath || '.';
+      this.documentService.uploadFiles(filesArray, path).subscribe(
+        (response) => {
+          // Optionally refresh the file list
+          this.loadFiles(path);
+        },
+        (error) => {
+          console.error('Error uploading files:', error);
+          alert('Error uploading files.');
+        }
+      );
+    }
+  }
 
   // Editor HTML container
   
