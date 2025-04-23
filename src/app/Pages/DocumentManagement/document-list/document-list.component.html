@@ -55,7 +55,7 @@
             <icon-trash-lines class="h-6 w-6 text-danger font-bold" />
             Delete
           </a>
-          <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-64">
+          <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-64" (click)="openShareModal()">
             <icon-share class="h-6 w-6 text-black font-bold" />
             Share Selected
           </a>
@@ -198,6 +198,62 @@
             <button type="submit" class="btn-primary p-2 text-white mt-2">Create Archive</button>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isShareModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black opacity-60" (click)="closeShareModal()"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+    <button type="button" (click)="closeShareModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Share File</div>
+    <div class="max-h-[85vh] overflow-y-auto p-5">
+      <!-- Step 1: Select Users -->
+      <div *ngIf="currentStep === 1">
+        <form [formGroup]="shareFormStep1">
+          <label class="block mb-2 font-semibold">Select Users:</label>
+          <div *ngFor="let user of users" class="mb-1">
+            <label class="flex items-center gap-2">
+              <!-- Use user.userId to get the correct value -->
+              <input type="checkbox"
+                     [value]="user.userId"
+                     (change)="onUserSelect($event)"
+                     [checked]="shareFormStep1.value.selectedUsers.includes(user.userId)" />
+              <span>{{ user.username }} ({{ user.email }})</span>
+            </label>
+          </div>
+          <div class="mt-4">
+            <button type="button" class="btn-primary" (click)="nextStep()">Next</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2: Select access type and expiration -->
+      <div *ngIf="currentStep === 2">
+        <form [formGroup]="shareFormStep2">
+          <label class="block mb-2 font-semibold">Select Access Type:</label>
+          <div *ngFor="let access of accessTypes" class="mb-1">
+            <label class="flex items-center gap-2">
+              <input type="radio" 
+                     formControlName="accessType" 
+                     [value]="access.id" />
+              <span>{{ access.name }}</span>
+            </label>
+          </div>
+          <div *ngIf="shareFormStep2.value.accessType === '10' || shareFormStep2.value.accessType === '11'" class="mt-4">
+            <label class="block mb-2 font-semibold">Expiration Date & Time:</label>
+            <input type="datetime-local" formControlName="expiration" class="form-input" />
+          </div>
+          <div class="mt-4 flex justify-between">
+            <button type="button" class="btn-secondary" (click)="previousStep()">Back</button>
+            <button type="button" class="btn-primary" (click)="nextStep()">Send</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

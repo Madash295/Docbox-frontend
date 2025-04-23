@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTableModule } from '@bhplugin/ng-datatable';
 import { IconModule } from 'src/app/shared/icon/icon.module';
@@ -21,6 +21,7 @@ export class DocumentListComponent implements OnInit {
   @ViewChild('datatable') datatable: any;
   isModalOpen = false;
   search = '';
+  @Output() shareCompleted: EventEmitter<any> = new EventEmitter();
   cols = [
     { field: 'name', title: 'Name' },
     { field: 'type', title: 'Type' },
@@ -36,6 +37,25 @@ export class DocumentListComponent implements OnInit {
   isArchiveModalOpen: boolean = false;
   archiveForm!: FormGroup;
   archiveSelectedFiles: any[] = [];
+
+
+
+isShareModalOpen: boolean = false;
+  accessTypes = [
+    { id: '6', name: 'ViewOnly' },
+    { id: '7', name: 'Strict View' },
+    { id: '8', name: 'Editor' },
+    { id: '9', name: 'Viewonce' },
+    { id: '10', name: 'EditView TimeShared' },
+    { id: '11', name: 'StrictView TimeShared' },
+  ];
+  filePaths: string[] = [];
+  currentStep: number = 1;
+  shareFormStep1!: FormGroup;
+  shareFormStep2!: FormGroup;
+  users: any[] = [];
+
+
 
 
 
@@ -71,6 +91,29 @@ export class DocumentListComponent implements OnInit {
 
     this.archiveForm = this.fb.group({
       archiveName: ['', Validators.required],
+    });
+
+    this.shareFormStep1 = this.fb.group({
+      selectedUsers: [[], Validators.required]
+    });
+    this.shareFormStep2 = this.fb.group({
+      accessType: ['', Validators.required],
+      expiration: [''] 
+      
+
+
+
+    });
+
+
+    this.documentService.listUsers().subscribe({
+      next: (response) => {
+        // Adjust the property path based on your API response.
+        this.users = response.users || response;
+      },
+      error: (error) => {
+        console.error('Error fetching users', error);
+      }
     });
 
 
@@ -468,9 +511,122 @@ export class DocumentListComponent implements OnInit {
       }
     });
   }
+
+
+  openShareModal(): void {
+    // Populate filePaths similar to archive file selection:
+    const selectedRows = this.datatable.getSelectedRows();
+    if (!selectedRows || selectedRows.length === 0) {
+      alert('Please select at least one file to share.');
+      return;
+    }
+    this.filePaths = selectedRows.map((row: any) => row.path);
+    
+    
+    this.currentStep = 1;
+    this.shareFormStep1.reset({ selectedUsers: [] });
+    this.shareFormStep2.reset({ accessType: '', expiration: '' });
+    this.isShareModalOpen = true;
+  }
   
+  closeShareModal(): void {
+    this.isShareModalOpen = false;
+  }
+
+
+  nextStep(): void {
+    if (this.currentStep === 1) {
+      if (this.shareFormStep1.invalid) {
+        return;
+      }
+      this.currentStep = 2;
+    } else if (this.currentStep === 2) {
+      if (this.shareFormStep2.invalid) {
+        return;
+      }
+      const accessType = this.shareFormStep2.value.accessType;
+      if ((accessType === '10' || accessType === '11') && !this.shareFormStep2.value.expiration) {
+        // Expiration is required for access types 10 or 11.
+        return;
+      }
+      this.shareFile(); // Now this method exists.
+    }
+  }
+
+  previousStep(): void {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
+
+
+  onUserSelect(event: any): void {
+    const selectedUsers = this.shareFormStep1.value.selectedUsers as any[];
+    const userId = event.target.value;
+    if (event.target.checked) {
+      selectedUsers.push(userId);
+    } else {
+      const index = selectedUsers.indexOf(userId);
+      if (index > -1) {
+        selectedUsers.splice(index, 1);
+      }
+    }
+    this.shareFormStep1.patchValue({ selectedUsers });
+  }
+
+  onAccessTypeChange(): void {
+    const accessType = this.shareFormStep2.value.accessType;
+    if (accessType !== '10' && accessType !== '11') {
+      this.shareFormStep2.patchValue({ expiration: '' });
+    }
+  }
+
+  shareFile(): void {
+    const sharedWithRaw = this.shareFormStep1.value.selectedUsers;
+    // Convert selected user IDs to numbers for sharedWithUsers.
+    const sharedWithUsers = sharedWithRaw.map((id: any) => Number(id));
+    const accessTypeId = Number(this.shareFormStep2.value.accessType);
+    let expirationTime = this.shareFormStep2.value.expiration;
+    
+    // If expirationTime is empty and accessTypeId is not 10 or 11, default to 1 day from now.
+    if (!expirationTime && accessTypeId !== 10 && accessTypeId !== 11) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      expirationTime = tomorrow.toISOString();
+    } else if(expirationTime) {
+      expirationTime = new Date(expirationTime).toISOString();
+    }
+    
+    const payload = {
+      filePaths: this.filePaths,
+      sharedWithUsers: sharedWithUsers,
+      accessTypeId: accessTypeId,
+      expirationTime: expirationTime
+    };
+    
+    console.debug("shareFile payload:", payload);
+    
+    this.documentService.fileShare(payload.filePaths, payload.sharedWithUsers,payload.accessTypeId.toString(),payload.expirationTime ).subscribe({
+      next: () => {
+        this.utilsService.showMessage('File shared successfully!', 'success');
+        this.closeShareModal();
+        this.shareCompleted.emit();
+      },
+      error: (error) => {
+        console.error('Error sharing file:', error);
+        this.utilsService.showMessage('Error sharing file.', 'error');
+      }
+    });
+  }
+  
+  
+    
+  
+    
+  }
 
 
 
 
-}
+

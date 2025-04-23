@@ -71,8 +71,21 @@ export class DocumentService {
     return this.http.post(`${this.apiUrl}/File/archive-files`, body);
   }
 
-
-
-
+  
+  listUsers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/File/list-users`);
 }
 
+
+
+  fileShare(filePaths: string[], sharedWith: string[], accesstype: string ,expiration : string): Observable<any> {
+    const accesstypeInt = parseInt(accesstype);
+    const body = {
+      filePaths: filePaths,
+      sharedWithUsers: sharedWith,
+      accessTypeId: accesstypeInt,
+      expirationTime: expiration
+    };
+    return this.http.post(`${this.apiUrl}/File/share-file`, body);
+  }
+}
