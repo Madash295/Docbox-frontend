@@ -56,5 +56,16 @@ export class DocumentService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
     return this.http.post(`${this.apiUrl}/File/restore-version`, { filePath, version }, { headers });
   }
+
+
+ createFolder(path: string, folderName: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/File/create-folder`, { path, foldername: folderName });
+  }
+
+
+
+
+
+
 }
 

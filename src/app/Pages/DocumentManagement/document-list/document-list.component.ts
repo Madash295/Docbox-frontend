@@ -8,7 +8,7 @@ import { DocumentService } from '../document.service'; // Ensure the service pat
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DocumentEditorModule, type IConfig } from '@onlyoffice/document-editor-angular';
-
+import { UtilsService } from 'src/app/utils.service';
 
 @Component({
   selector: 'app-document-list',
@@ -30,8 +30,10 @@ export class DocumentListComponent implements OnInit {
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
   items: any[] = [];
-  createFileForm: FormGroup;
-
+  createFileForm!: FormGroup;
+  createFolderForm!: FormGroup;
+  isFileModalOpen: boolean = false;
+  isFolderModalOpen: boolean = false;
   folderStack: string[] = []; // Stack to manage folder navigation
   currentPath: string = ''; // Stores the current path as breadcrumb
   pathHistory: any[] = []; // Store JSON structure for folder paths
@@ -42,17 +44,21 @@ export class DocumentListComponent implements OnInit {
     { value: 'ppt', label: 'PowerPoint (.pptx)' }
   ];
 
-  constructor(private documentService: DocumentService, private fb: FormBuilder) {
-    this.createFileForm = this.fb.group({
-      fileType: ['document', Validators.required],
-      fileName: ['', Validators.required]
-    });
+  constructor(private documentService: DocumentService, private fb: FormBuilder,private utilsService: UtilsService,) {
+   
 
   }
 
 
   ngOnInit(): void {
     this.loadFiles('.');
+    this.createFileForm = this.fb.group({
+      fileType: ['', Validators.required],
+      fileName: ['', Validators.required],
+    });
+    this.createFolderForm = this.fb.group({
+      folderName: ['', Validators.required],
+    });
   }
 
   loadFiles(path: string): void {
@@ -309,13 +315,46 @@ export class DocumentListComponent implements OnInit {
   onLoadComponentError(errorCode: number, errorDescription: string): void {
     console.error('Load Component Error:', errorCode, errorDescription);
   }
-  openCreateFileModal(): void {
-    this.isModalOpen = true;
+  
+  openCreateFileModal() {
+    this.isFileModalOpen = true;
+    this.createFileForm.reset();
   }
 
-  closeCreateFileModal(): void {
-    this.isModalOpen = false;
+  closeCreateFileModal() {
+    this.isFileModalOpen = false;
   }
+
+  openCreateFolderModal() {
+    this.isFolderModalOpen = true;
+    this.createFolderForm.reset();
+  }
+
+  closeCreateFolderModal() {
+    this.isFolderModalOpen = false;
+  }
+
+  onSubmitCreateFolder() {
+    if(this.createFolderForm.invalid){
+      return;
+    }
+    const folderName = this.createFolderForm.value.folderName;
+    // Call your service API – adjust parameters for your backend as needed.
+    this.documentService.createFolder(this.currentPath, folderName).subscribe({
+      next: (res) => {
+        this.utilsService.showMessage('Folder created successfully!', 'success');
+        this.closeCreateFolderModal();
+        // Optionally refresh file list
+        this.loadFiles(this.currentPath);
+      },
+      error: (err) => {
+        this.utilsService.showMessage('Error creating folder.', 'error');
+        console.error(err);
+      }
+    });
+  }
+
+
 
   onSubmitCreateFile(): void {
     if (this.createFileForm.valid) {

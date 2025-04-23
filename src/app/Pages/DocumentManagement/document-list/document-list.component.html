@@ -27,19 +27,26 @@
       <ng-container  *ngIf="!selectedFileConfig">
 
       <div class="mb-4.5 flex flex-col gap-5 px-5 md:flex-row md:items-center">
-          <a routerLink="/apps/invoice/add" class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" (click)="openCreateFileModal() ">
-            <icon-plus  class="h-6 w-6 font-bold" />
-            Create
-          </a>
+        <a routerLink="/apps/invoice/add" 
+        class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" 
+        (click)="openCreateFileModal()">
+         <icon-plus class="h-6 w-6 font-bold" />
+         Create
+     </a>
           <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56" (click)="openUploadFileModal()">
             <icon-logout  class="h-6 w-6 font-bold" />
             Upload Files
           </a>
           <input type="file" id="uploadFileInput" multiple style="display: none;" (change)="onFilesSelected($event)" />
-          <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-56">
-            <icon-folder-minus class="h-6 w-6 text-yellow-500 font-bold" />
-            Create Folder
-          </a>
+          <a routerLink="/apps/invoice/add" 
+          class="gap-2 panel border-gray-300 border flex flex-col h-24 w-56" 
+          (click)="openCreateFolderModal()">
+           <icon-folder-minus class="h-6 w-6 text-yellow-500 font-bold" />
+           Create Folder
+       </a> 
+       
+       
+       
           <a routerLink="/apps/invoice/add" class="gap-2 panel border-gray-300 border flex flex-col h-24 w-56">
             <icon-archive class="h-6 w-6 text-primary font-bold" />
             Archive
@@ -123,33 +130,52 @@
   </div>
 </div>
 
-  <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
-    <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFileModal()"></div>
-    <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
-      <button
-        type="button"
-        (click)="closeCreateFileModal()"
-        class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-      <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Add File</div>
-      <div class="max-h-[85vh] overflow-y-auto">
-        <div class="mt-5 ">
-  <div class="modal-content p-5">
-   
-    <form [formGroup]="createFileForm" (ngSubmit)="onSubmitCreateFile()">
-      <label for="file-type">File Type:</label>
-      <ng-select formControlName="fileType" [items]="fileTypes" bindLabel="label" bindValue="value"></ng-select>
-      <label for="">File Name</label>
-      <input type="text" formControlName="fileName" placeholder="Enter file name" required>
-      <button type="submit" class="btn-primary p-2 text-white">Create File</button>
-      <!-- <p *ngIf="createFileForm.invalid" class="error">Please fill out all fields.</p> -->
-    </form>
+  <!-- Create File Modal -->
+<div *ngIf="isFileModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFileModal()"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+    <button type="button" (click)="closeCreateFileModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Add File</div>
+    <div class="max-h-[85vh] overflow-y-auto">
+      <div class="mt-5">
+        <div class="modal-content p-5">
+          <form [formGroup]="createFileForm" (ngSubmit)="onSubmitCreateFile()">
+            <label for="file-type">File Type:</label>
+            <ng-select formControlName="fileType" [items]="fileTypes" bindLabel="label" bindValue="value"></ng-select>
+            <label for="">File Name</label>
+            <input type="text" formControlName="fileName" placeholder="Enter file name" required>
+            <button type="submit" class="btn-primary p-2 text-white">Create File</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-</div>
 
+<!-- Create Folder Modal -->
+<div *ngIf="isFolderModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFolderModal()"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+    <button type="button" (click)="closeCreateFolderModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Create Folder</div>
+    <div class="max-h-[85vh] overflow-y-auto">
+      <div class="mt-5">
+        <div class="modal-content p-5">
+          <form [formGroup]="createFolderForm" (ngSubmit)="onSubmitCreateFolder()">
+            <label for="folderName">Folder Name:</label>
+            <input type="text" formControlName="folderName" placeholder="Enter folder name" required>
+            <button type="submit" class="btn-primary p-2 text-white">Create Folder</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
