@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 // import { User } from '../../../../models/user.model';
 import { baseURL } from '../../environments/dev_baseURL';
+import path from 'path';
 // import { Profile } from '../profile.model';
 @Injectable({
   providedIn: 'root'
@@ -75,7 +76,22 @@ export class DocumentService {
   listUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/File/list-users`);
 }
+  Deletefolder (path: string[]): Observable<any> {
+    const body = {
+      path: path
+    };
+  
+  return this.http.post(`${this.apiUrl}/File/delete-folders`,body);
+}
 
+ DeleteFile(path: string[]): Observable<any> {
+  
+  const body = {
+    path: path
+  };
+
+  return this.http.post(`${this.apiUrl}/File/delete-file`,body);
+}
 
 
   fileShare(filePaths: string[], sharedWith: string[], accesstype: string ,expiration : string): Observable<any> {
@@ -88,4 +104,15 @@ export class DocumentService {
     };
     return this.http.post(`${this.apiUrl}/File/share-file`, body);
   }
+
+
+
+
+
+
+
+
+
+
+
 }

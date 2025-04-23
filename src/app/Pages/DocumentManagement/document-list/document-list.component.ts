@@ -9,6 +9,7 @@ import { DocumentService } from '../document.service'; // Ensure the service pat
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DocumentEditorModule, type IConfig } from '@onlyoffice/document-editor-angular';
 import { UtilsService } from 'src/app/utils.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-document-list',
@@ -474,13 +475,15 @@ isShareModalOpen: boolean = false;
     // Get selected rows from the datatable (ensure your datatable component provides this method)
     const selectedRows = this.datatable.getSelectedRows();
     if (!selectedRows || selectedRows.length === 0) {
-      alert('Please select at least one file to archive.');
+     
+      this.utilsService.showMessage('Please select at least one file to archive', 'error');
       return;
     }
     // Filter to only files (exclude folders)
     this.archiveSelectedFiles = selectedRows.filter((row: any) => row.type === 'File');
     if (this.archiveSelectedFiles.length === 0) {
-      alert('Only files can be archived.');
+     
+      this.utilsService.showMessage('Only files can be archived.', 'error');
       return;
     }
     this.isArchiveModalOpen = true;
@@ -517,7 +520,8 @@ isShareModalOpen: boolean = false;
     // Populate filePaths similar to archive file selection:
     const selectedRows = this.datatable.getSelectedRows();
     if (!selectedRows || selectedRows.length === 0) {
-      alert('Please select at least one file to share.');
+      this.utilsService.showMessage('Please select at least one file to share.', 'error');
+    
       return;
     }
     this.filePaths = selectedRows.map((row: any) => row.path);
@@ -621,10 +625,67 @@ isShareModalOpen: boolean = false;
   }
   
   
+  openDeleteModal(): void {
+    const selectedRows = this.datatable.getSelectedRows();
+    if (!selectedRows || selectedRows.length === 0) {
+      this.utilsService.showMessage('Please select at least one file or folder to delete.', 'error');
+      return;
+    }
+    const filePaths: string[] = [];
+    const folderPaths: string[] = [];
+    
+    // Aggregate paths based on type.
+    for (const row of selectedRows) {
+      if (row.type === 'File') {
+        filePaths.push(row.path);
+      } else if (row.type === 'Folder') {
+        folderPaths.push(row.path);
+      }
+    }
+    
+    // Create an array of observables to use with forkJoin.
+    const deletionObservables = [];
+    if (filePaths.length > 0) {
+      deletionObservables.push(this.documentService.DeleteFile(filePaths));
+    }
+    if (folderPaths.length > 0) {
+      deletionObservables.push(this.documentService.Deletefolder(folderPaths));
+    }
+    
+    forkJoin(deletionObservables).subscribe({
+      next: () => {
+        this.utilsService.showMessage('Selected items moved to trash successfully!', 'success');
+        // Refresh the file list after deletion.
+        this.loadFiles(this.currentPath || '.');
+      },
+      error: (error) => {
+        console.error('Error deleting items:', error);
+        this.utilsService.showMessage('Error deleting items.', 'error');
+      }
+    });
+}
+  
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     
   
     
-  }
+  
 
 
 
