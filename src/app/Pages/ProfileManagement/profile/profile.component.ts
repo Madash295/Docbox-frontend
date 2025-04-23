@@ -6,6 +6,7 @@ import { IconModule } from 'src/app/shared/icon/icon.module';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
 import { ProfileService } from './service/profile.service';
 import { Profile } from './profile.model';
+import { act } from '@ngrx/effects';
 
 @Component({
   selector: 'app-profile',
@@ -30,18 +31,28 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
-    this.loadInitialProfiles();
+    this.profileService.listUsers().subscribe({
+      next: (response: any) => {
+        console.log('List users API response:', response);
+        // If API returns a single object, wrap it into an array.
+        const users = Array.isArray(response) ? response : [response];
+        this.rows = users.map((user: any) => ({
+          UserName: user.username,
+          Email: user.email,
+          CompanyName: user.companyName,
+          Joinedat: user.createdAt
+        }));
+        // For potential pagination using loadNextChunk.
+        this.allProfiles = this.rows;
+      },
+      error: (error: any) => {
+        console.error('Error fetching users', error);
+      }
+    });
+   
   }
 
-  async loadInitialProfiles(): Promise<void> {
-    try {
-      const profiles = await this.profileService.getProfiles().toPromise();
-      this.allProfiles = profiles ?? []; 
-      this.loadNextChunk();
-    } catch (error) {
-      console.error('Error fetching profiles:', error);
-    }
-  }
+ 
 
   loadNextChunk(): void {
     const start = (this.pageNumber - 1) * this.chunkSize;
@@ -96,20 +107,11 @@ export class ProfileComponent implements OnInit {
   search = '';
   cols = [
     // { field: 'id', title: 'ID', isUnique: true, filter: false },
-    { field: 'name', title: 'Full Name' },
-    { field: 'email', title: 'email' },
-    { field: 'organizationName', title: 'Address' },
-    { field: 'type', title: 'City'},
-    { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
+    { field: 'UserName', title: 'Full Name' },
+    { field: 'Email', title: 'Email' },
+    { field: 'CompanyName', title: 'Company Name' },
+    { field: 'Joinedat', title: 'Joined At DD-MM-YY' },
+    { field: 'actions',title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
-  rows = [
-    {
-        id: 1,
-        name: 'Ali',
-        email: 'xyz@gmail.com',
-        organizationName: 'Foundation University',
-        type:'Faculty',
-        createdBy: 'Company admin',
-    },
-];
+  rows: any[] = [];
 }

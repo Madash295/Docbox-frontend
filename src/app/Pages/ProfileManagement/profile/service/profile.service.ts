@@ -11,7 +11,10 @@ export class ProfileService {
   private apiUrl = baseURL.apiUrl;
 
   constructor(private http: HttpClient) {}
-  getProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.apiUrl}/Profiles/getAllProfiles`);
+
+
+  listUsers(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.apiUrl}/File/list-users`);
   }
 }
+
