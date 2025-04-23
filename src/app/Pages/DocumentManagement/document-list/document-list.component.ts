@@ -91,6 +91,14 @@ export class DocumentListComponent implements OnInit {
         return '/assets/images/ppt.png'; // Replace with actual xls icon path
       }
 
+      if (item.name.endsWith('.pdf')) {
+        return '/assets/images/pdf.png'; // Replace with actual pdf icon path
+      }
+     
+      if (item.name.endsWith('.zip')) {
+        return '/assets/images/zip.png'; // Replace with actual zip icon path
+      }
+
     }
     return '/assets/icons/file-icon.png'; // Default file icon
   }
@@ -402,7 +410,9 @@ export class DocumentListComponent implements OnInit {
       );
     }
   }
+  openArchiveModal(): void {
 
+  }
   // Editor HTML container
   
 }
