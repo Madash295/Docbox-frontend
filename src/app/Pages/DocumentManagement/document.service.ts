@@ -62,7 +62,14 @@ export class DocumentService {
     return this.http.post(`${this.apiUrl}/File/create-folder`, { path, foldername: folderName });
   }
 
-
+  archiveFiles(filePaths: string[], archiveName: string,path: string): Observable<any> {
+    const body = {
+      filePaths: filePaths,
+      archiveName: archiveName,
+      path: path
+    };
+    return this.http.post(`${this.apiUrl}/File/archive-files`, body);
+  }
 
 
 

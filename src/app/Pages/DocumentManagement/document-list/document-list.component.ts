@@ -32,6 +32,15 @@ export class DocumentListComponent implements OnInit {
   items: any[] = [];
   createFileForm!: FormGroup;
   createFolderForm!: FormGroup;
+
+  isArchiveModalOpen: boolean = false;
+  archiveForm!: FormGroup;
+  archiveSelectedFiles: any[] = [];
+
+
+
+
+
   isFileModalOpen: boolean = false;
   isFolderModalOpen: boolean = false;
   folderStack: string[] = []; // Stack to manage folder navigation
@@ -59,6 +68,12 @@ export class DocumentListComponent implements OnInit {
     this.createFolderForm = this.fb.group({
       folderName: ['', Validators.required],
     });
+
+    this.archiveForm = this.fb.group({
+      archiveName: ['', Validators.required],
+    });
+
+
   }
 
   loadFiles(path: string): void {
@@ -353,7 +368,7 @@ export class DocumentListComponent implements OnInit {
         this.utilsService.showMessage('Folder created successfully!', 'success');
         this.closeCreateFolderModal();
         // Optionally refresh file list
-        this.loadFiles(this.currentPath);
+        this.loadFiles(this.currentPath|| '.');
       },
       error: (err) => {
         this.utilsService.showMessage('Error creating folder.', 'error');
@@ -410,9 +425,52 @@ export class DocumentListComponent implements OnInit {
       );
     }
   }
-  openArchiveModal(): void {
 
+
+  openArchiveModal(): void {
+    // Get selected rows from the datatable (ensure your datatable component provides this method)
+    const selectedRows = this.datatable.getSelectedRows();
+    if (!selectedRows || selectedRows.length === 0) {
+      alert('Please select at least one file to archive.');
+      return;
+    }
+    // Filter to only files (exclude folders)
+    this.archiveSelectedFiles = selectedRows.filter((row: any) => row.type === 'File');
+    if (this.archiveSelectedFiles.length === 0) {
+      alert('Only files can be archived.');
+      return;
+    }
+    this.isArchiveModalOpen = true;
+    this.archiveForm.reset();
   }
-  // Editor HTML container
+
+  closeArchiveModal(): void {
+    this.isArchiveModalOpen = false;
+  }
+
+  onSubmitArchive(): void {
+    if (this.archiveForm.invalid) {
+      return;
+    }
+    const archiveName = this.archiveForm.value.archiveName;
+    const filePaths = this.archiveSelectedFiles.map(file => file.path);
+    const archivePath = this.currentPath || '.';
+    this.documentService.archiveFiles(filePaths, archiveName,archivePath).subscribe({
+      next: () => {
+        this.utilsService.showMessage('Archive created successfully!', 'success');
+        this.isArchiveModalOpen = false;
+        // Refresh file list if needed
+        this.loadFiles(archivePath);
+      },
+      error: (error) => {
+        console.error('Error archiving files:', error);
+        this.utilsService.showMessage('Error archiving files.', 'error');
+      }
+    });
+  }
   
+
+
+
+
 }

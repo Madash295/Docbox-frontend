@@ -179,3 +179,26 @@
     </div>
   </div>
 </div>
+<!-- Archive Modal -->
+<div *ngIf="isArchiveModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black opacity-60" (click)="closeArchiveModal()"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+    <button type="button" (click)="closeArchiveModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Create Archive</div>
+    <div class="max-h-[85vh] overflow-y-auto">
+      <div class="mt-5">
+        <div class="modal-content p-5">
+          <form [formGroup]="archiveForm" (ngSubmit)="onSubmitArchive()">
+            <label for="archive-name">Archive Name:</label>
+            <input type="text" formControlName="archiveName" id="archive-name" placeholder="Enter archive name" required>
+            <button type="submit" class="btn-primary p-2 text-white mt-2">Create Archive</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
