@@ -47,16 +47,22 @@ export class DocumentService {
 
 
   getFileHistoryData(filePath: string, version: string): Observable<any> {
+    
     const authToken = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
     return this.http.get(`${this.apiUrl}/File/history-data?filePath=${encodeURIComponent(filePath)}&version=${version}`, { headers });
   }
 
-  restoreFileVersion(filePath: string, version: string): Observable<any> {
+  restoreFileVersion(filePaths: string, version: string): Observable<any> {
+    const versionTypInt = parseInt(version);
     const authToken = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
-    return this.http.post(`${this.apiUrl}/File/restore-version`, { filePath, version }, { headers });
-  }
+
+    return this.http.post(
+      `${this.apiUrl}/File/restore-version?filePath=${encodeURIComponent(filePaths)}&version=${versionTypInt}`,
+      {}, // empty body
+      { headers });
+}
 
 
  createFolder(path: string, folderName: string): Observable<any> {

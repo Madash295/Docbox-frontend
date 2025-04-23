@@ -319,6 +319,8 @@ isShareModalOpen: boolean = false;
   }
 
   onRequestHistoryData(event: any): void {
+
+  
     this.documentService.getFileHistoryData(this.relativeFilePath, event.data).subscribe({
 
       next: (versionData) => {
@@ -346,11 +348,13 @@ isShareModalOpen: boolean = false;
 
   onRequestRestore(event: any): void {
 
+    console.log("relativeFilePath",this.relativeFilePath)
+    const version = event.data.version;
     
-
-    this.documentService.restoreFileVersion(this.relativeFilePath, event.data.version).subscribe({
+    this.documentService.restoreFileVersion(this.relativeFilePath, version).subscribe({
       next: () => {
-        window.location.reload();
+        const file = { path: this.relativeFilePath, type: 'File' };
+        this.openFileInEditor(file);
       },
       error: (error) => {
         console.error("Error restoring version:", error);
@@ -358,6 +362,8 @@ isShareModalOpen: boolean = false;
       }
     });
   }
+
+
 
   onRequestHistoryClose(): void {
     window.location.reload();
@@ -459,7 +465,8 @@ isShareModalOpen: boolean = false;
       const path = this.currentPath || '.';
       this.documentService.uploadFiles(filesArray, path).subscribe(
         (response) => {
-          // Optionally refresh the file list
+          this.utilsService.showMessage('Files uploaded successfully!', 'success');
+        
           this.loadFiles(path);
         },
         (error) => {
