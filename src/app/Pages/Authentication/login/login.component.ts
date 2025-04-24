@@ -68,6 +68,11 @@ export class LoginComponent {
         // });
 }
 
+handleSignUp()
+{
+  this.router.navigate(['auth/register']);
+}
+
 
 login() {
   this.isSubmitForm = true;

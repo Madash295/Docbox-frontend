@@ -6,3 +6,39 @@
 {
     height: 1000px !important;
 }
+.summary-panel-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 24rem;
+    z-index: 100; 
+    background-color: #ffffff;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Optional sliding animation */
+  .summary-panel-container.closed {
+    transform: translateX(-100%);
+  }
+  
+  .summary-panel-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 90;
+  }
+  .summary-box {
+    max-height: 80vh;          /* Allow space for other elements */
+    overflow-y: auto;          /* Scroll if text overflows */
+    white-space: pre-wrap;     /* Preserve formatting and wrap long lines */
+    background-color: #f9f9f9; /* Optional: soft background */
+    padding: 1rem;             /* Padding for readability */
+    border-radius: 0.5rem;     /* Optional: rounded corners */
+    font-family: monospace;    /* Monospaced font for better formatting */
+    line-height: 1.5;
+    border: 1px solid #ddd;
+  }
+    

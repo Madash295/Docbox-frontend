@@ -71,7 +71,13 @@ export class DocumentService {
     };
     return this.http.post(`${this.apiUrl}/File/archive-files`, body);
   }
-
+  // getSummary(fileName: string): Observable<{ summary: string }> {
+  //   const apiUrl = `${this.apiUrl}/File/summarize?fileName=${(fileName)}`;
+  //   return this.http.get<{ summary: string }>(apiUrl);
+  // }
+  getSummary(fileName: string): Observable<string> {
+    return this.http.get(`${this.apiUrl}/File/summarize?fileName=${fileName}`, { responseType: 'text' });
+  }
   
   listUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/File/list-users`);

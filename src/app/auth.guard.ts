@@ -18,6 +18,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 
   // Redirect to an unauthorized or login page
- ///router.navigate(['/']);
+  /// router.navigate(['/']);
   return true;
 };

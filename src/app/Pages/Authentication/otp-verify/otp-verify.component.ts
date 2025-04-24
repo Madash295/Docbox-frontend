@@ -157,6 +157,7 @@ Register()
         if (response) {
           // Store token and user info in localStorage
            localStorage.setItem('token', response.token);
+           localStorage.setItem('userRole', response.role);
           // localStorage.setItem('user', JSON.stringify(response.user));
 
           // Show success message

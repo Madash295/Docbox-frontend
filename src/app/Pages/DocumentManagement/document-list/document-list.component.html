@@ -91,6 +91,9 @@
             <button type="button" class="text-primary hover:text-warning">
               <icon-archive class="h-4.5 w-4.5" />
             </button>
+            <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
+              <icon-menu-notes class="h-4.5 w-4.5" />
+            </button>
             <button type="button" class="text-danger hover:text-danger">
               <icon-trash-lines />
             </button>
@@ -113,9 +116,7 @@
   </div>
 
 
-  <div *ngIf="selectedFileConfig" class="editor">
-    <!-- Document Server URL should be replaced with an actual URL -->
-    
+  <div *ngIf="selectedFileConfig" class="editor">    
     <document-editor
     id="docxEditor"
     documentServerUrl="http://localhost:80/web-apps/apps/api/documents/api.js"
@@ -202,6 +203,29 @@
     </div>
   </div>
 </div>
+<!-- Sliding Summary Panel -->
+<div *ngIf="isSummaryPanelOpen" class="fixed inset-0 flex items-center justify-end z-50">
+  <div class="fixed inset-0 bg-black opacity-60" (click)="closeSummaryPanel()"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl h-screen w-full z-10 relative">
+    <button type="button" (click)="closeSummaryPanel()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="modal-content p-5">
+      <h2 class="text-lg text-primary font-bold mb-4">Document Summary</h2>
+      <div *ngIf="isLoadingSummary" class="text-center">
+        <span>Loading...</span>
+      </div>
+      <div *ngIf="!isLoadingSummary && documentSummary">
+        <pre class="summary-box">{{ documentSummary }}</pre>
+      </div>
+      <div *ngIf="!isLoadingSummary && !documentSummary" class="text-center text-gray-500">
+        <span>No summary available.</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div *ngIf="isShareModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeShareModal()"></div>
@@ -257,4 +281,5 @@
       </div>
     </div>
   </div>
+    
 </div>

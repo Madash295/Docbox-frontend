@@ -39,6 +39,10 @@ export class DocumentListComponent implements OnInit {
   archiveForm!: FormGroup;
   archiveSelectedFiles: any[] = [];
 
+  isSummaryPanelOpen = false;
+  isLoadingSummary = false;
+  documentSummary: string | null = null;
+
 
 
 isShareModalOpen: boolean = false;
@@ -515,6 +519,9 @@ isShareModalOpen: boolean = false;
     });
   }
 
+  closeSummaryPanel(): void {
+    this.isSummaryPanelOpen = false;
+  }
 
   openShareModal(): void {
     // Populate filePaths similar to archive file selection:
@@ -664,6 +671,27 @@ isShareModalOpen: boolean = false;
       }
     });
 }
+
+openSummaryPanel(file: any): void {
+  console.log('File for summary:', file);
+  this.isSummaryPanelOpen = true;
+  this.isLoadingSummary = true;
+
+  this.documentService.getSummary(file.name).subscribe({
+    next: (response) => {
+      console.log('Summary response:', response);
+      this.documentSummary = response;
+      this.isLoadingSummary = false;
+      this.utilsService.showMessage('Summary Generated successfully!', 'success');
+    },
+    error: (error) => {
+      console.error('Error fetching summary:', error);
+      this.isLoadingSummary = false;
+      this.utilsService.showMessage('Error Generating Summary file.', 'error');
+    }
+  });
+}
+
   
 
 
