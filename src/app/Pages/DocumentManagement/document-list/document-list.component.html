@@ -28,13 +28,11 @@
 
       <div class="mb-4.5 flex flex-col gap-5 px-5 md:flex-row md:items-center">
         <div *ngIf="datatable.getSelectedRows().length > 0" class="flex gap-2">
-          <a routerLink="/apps/invoice/add" 
-          class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" 
-          (click)="openCreateFileModal()">
-           <icon-multiple-forward-right class="h-6 w-6 font-bold" />
-           Move File
-       </a>
-       <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56" (click)="openUploadFileModal()">
+          <button type="button" class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" (click)="openmovefilemodal()">
+            <icon-copy class="h-6 w-6 font-bold"></icon-copy>
+            Move File
+          </button>
+       <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56" (click)="openmovefilemodal()">
             <icon-copy  class="h-6 w-6 font-bold" />
             Copy Files
        </a>
@@ -296,4 +294,69 @@
     </div>
   </div>
     
+</div>
+
+<!-- Copy Modal -->
+<div *ngIf="isCopyModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black opacity-60" (click)="isCopyModalOpen=false"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+      <div class="p-4 border-b">
+          <h2 class="text-lg font-bold">Select Destination Folder for Copy</h2>
+      </div>
+      <div class="p-4">
+          <div class="mb-4">
+              <button type="button" class="btn-secondary" (click)="goBackDestination()">Back</button>
+              <span class="ml-4">Current Path: {{ copyDestinationPath }}</span>
+          </div>
+          <ng-datatable
+              [rows]="destinationItems"
+              [columns]="[{ field: 'name', title: 'Name' }, { field: 'type', title: 'Type' }]"
+              (rowClick)="navigateDestinationFolder($event)"
+              skin="whitespace-nowrap bh-table-hover">
+          </ng-datatable>
+          <div class="mt-4 flex justify-end">
+              <button type="button" class="btn-primary" (click)="pasteFiles()">Paste</button>
+              <button type="button" class="btn-secondary ml-2" (click)="isCopyModalOpen=false">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Move Modal -->
+<div *ngIf="isMoveModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black opacity-60" (click)="isMoveModalOpen=false"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+      <div class="p-4 border-b">
+          <h2 class="text-lg font-bold">Select Destination Folder for Move</h2>
+      </div>
+      <div class="p-4">
+          <div class="mb-4">
+              <button type="button" class="btn-secondary" (click)="goBackDestination()">Back</button>
+              <span class="ml-4">Current Path: {{ moveDestinationPath }}</span>
+          </div>
+          <ng-datatable
+              [rows]="destinationItems"
+              [columns]="[{ field: 'name', title: 'Name' }, { field: 'type', title: 'Type' }]"
+              (rowClick)="navigateDestinationFolder($event)"
+              skin="whitespace-nowrap bh-table-hover">
+          </ng-datatable>
+          <div class="mt-4 flex justify-end">
+              <button type="button" class="btn-primary" (click)="pasteFiles()">Paste</button>
+              <button type="button" class="btn-secondary ml-2" (click)="isMoveModalOpen=false">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Overwrite Confirmation Modal -->
+<div *ngIf="isOverwriteConfirmOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black opacity-60"></div>
+  <div class="bg-white rounded-lg shadow-lg max-w-md w-full z-10 p-6">
+      <h2 class="text-lg font-bold mb-4">File Conflict</h2>
+      <p class="mb-4">A file with the same name exists in the destination. Do you want to overwrite?</p>
+      <div class="flex justify-end">
+          <button type="button" class="btn-primary" (click)="confirmOverwrite(true)">Yes</button>
+          <button type="button" class="btn-secondary ml-2" (click)="confirmOverwrite(false); cancelOverwrite()">No</button>
+      </div>
+  </div>
 </div>

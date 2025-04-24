@@ -44,6 +44,33 @@ export class DocumentListComponent implements OnInit {
   documentSummary: string | null = null;
 
 
+  isCopyModalOpen: boolean = false;
+  copyDestinationPath: string = '.';
+  copySelectedFiles: any[] = [];
+
+  
+  isMoveModalOpen: boolean = false;
+  moveDestinationPath: string = '.';
+  moveSelectedFiles: any[] = [];
+
+ 
+  destinationItems: any[] = [];
+
+  // Overwrite
+  isOverwriteConfirmOpen: boolean = false;
+  pendingOperation: 'copy' | 'move' | null = null;
+  pendingDestinationPath: string = '';
+  pendingFilePaths: string[] = [];
+
+
+
+
+
+
+
+
+
+
 
 isShareModalOpen: boolean = false;
   accessTypes = [
@@ -316,7 +343,7 @@ isShareModalOpen: boolean = false;
         //   }
       
       },
-      error: (error) => {
+      error: (error : any) => {
         console.error("Error fetching or processing history:", error);
       }
     });
@@ -344,7 +371,7 @@ isShareModalOpen: boolean = false;
         
         event.data = historyData;
       },
-      error: (error) => {
+      error: (error :any) => {
         console.error("Error fetching history data:", error);
       }
     });
@@ -712,7 +739,7 @@ openSummaryPanel(file: any): void {
       this.isLoadingSummary = false;
       this.utilsService.showMessage('Summary Generated successfully!', 'success');
     },
-    error: (error) => {
+    error: (error :any) => {
       console.error('Error fetching summary:', error);
       this.isLoadingSummary = false;
       this.utilsService.showMessage('Error Generating Summary file.', 'error');
@@ -720,7 +747,188 @@ openSummaryPanel(file: any): void {
   });
 }
 
-  
+
+opencopyfilemodal(): void {
+  const selectedRows = this.datatable.getSelectedRows();
+  this.copySelectedFiles = selectedRows.filter((row: any) => row.type === 'File');
+  if(this.copySelectedFiles.length === 0){
+      this.utilsService.showMessage('Please select at least one file to copy.', 'error');
+      return;
+  }
+  this.copyDestinationPath = '.';
+  this.loadDestinationItems(this.copyDestinationPath);
+  this.isCopyModalOpen = true;
+}
+
+openmovefilemodal(): void {
+  const selectedRows = this.datatable.getSelectedRows();
+  this.moveSelectedFiles = selectedRows.filter((row: any) => row.type === 'File');
+  if(this.moveSelectedFiles.length === 0){
+      this.utilsService.showMessage('Please select at least one file to move.', 'error');
+      return;
+  }
+  this.moveDestinationPath = '.';
+  this.loadDestinationItems(this.moveDestinationPath);
+  this.isMoveModalOpen = true;
+}
+
+loadDestinationItems(path: string): void {
+  this.documentService.getListFiles(path).subscribe(
+      (response: any) => {
+          // Display all items so that the user can navigate folders.
+          this.destinationItems = response.contents;
+      },
+      (error :any) => {
+          console.error('Error loading destination items:', error);
+      }
+  );
+}
+
+navigateDestinationFolder(item: any): void {
+  if(item.type === 'Folder'){
+      // Update active destination path based on which modal is open.
+      if(this.copyModalActive()){
+          this.copyDestinationPath = this.copyDestinationPath === '.' ? item.name : this.copyDestinationPath + '/' + item.name;
+      } else {
+          this.moveDestinationPath = this.moveDestinationPath === '.' ? item.name : this.moveDestinationPath + '/' + item.name;
+      }
+      this.loadDestinationItems(this.getActiveDestinationPath());
+  }
+}
+
+goBackDestination(): void {
+  let currentPath = this.getActiveDestinationPath();
+  const parts = currentPath === '.' ? [] : currentPath.split('/');
+  parts.pop();
+  const newPath = parts.length ? parts.join('/') : '.';
+  if(this.copyModalActive()){
+      this.copyDestinationPath = newPath;
+  } else {
+      this.moveDestinationPath = newPath;
+  }
+  this.loadDestinationItems(newPath);
+}
+
+getActiveDestinationPath(): string {
+  return this.copyModalActive() ? this.copyDestinationPath : this.moveDestinationPath;
+}
+
+copyModalActive(): boolean {
+  return this.isCopyModalOpen;
+}
+
+pasteFiles(): void {
+  const destinationPath = this.getActiveDestinationPath();
+  // Get file paths from the active modal's file list.
+  const filePaths = (this.copyModalActive() ? this.copySelectedFiles : this.moveSelectedFiles).map(f => f.path);
+  // Save pending values in case overwrite is needed.
+  this.pendingDestinationPath = destinationPath;
+  this.pendingFilePaths = filePaths;
+  this.pendingOperation = this.copyModalActive() ? 'copy' : 'move';
+
+  if (this.pendingOperation === 'copy') {
+      this.documentService.Copyfile(filePaths, destinationPath, false).subscribe({
+          next: () => {
+              this.utilsService.showMessage('Files copied successfully!', 'success');
+              this.closeAllModals();
+              this.loadFiles(this.currentPath || '.');
+          },
+          error: (error) => {
+              if (error.status === 409) {
+                  this.isOverwriteConfirmOpen = true;
+              } else {
+                  console.error('Error copying files:', error);
+                  this.utilsService.showMessage('Error copying files.', 'error');
+              }
+          }
+      });
+  } else if (this.pendingOperation === 'move') {
+      // Instead of calling Movefile, perform copy then delete
+      this.documentService.Copyfile(filePaths, destinationPath, false).subscribe({
+          next: () => {
+              // After copy succeeds, delete the originals.
+              this.documentService.DeleteFile(filePaths).subscribe({
+                  next: () => {
+                      this.utilsService.showMessage('Files moved successfully!', 'success');
+                      this.closeAllModals();
+                      this.loadFiles(this.currentPath || '.');
+                  },
+                  error: (error: any) => {
+                      console.error('Error deleting original files:', error);
+                      this.utilsService.showMessage('Error moving files.', 'error');
+                  }
+              });
+          },
+          error: (error: any) => {
+              if (error.status === 409) {
+                  this.isOverwriteConfirmOpen = true;
+              } else {
+                  console.error('Error moving files:', error);
+                  this.utilsService.showMessage('Error moving files.', 'error');
+              }
+          }
+      });
+  }
+}
+
+confirmOverwrite(overwrite: boolean): void {
+  this.isOverwriteConfirmOpen = false;
+  if (overwrite) {
+      if (this.pendingOperation === 'copy') {
+          this.documentService.Copyfile(this.pendingFilePaths, this.pendingDestinationPath, true).subscribe({
+              next: () => {
+                  this.utilsService.showMessage('Files copied (with overwrite) successfully!', 'success');
+                  this.closeAllModals();
+                  this.loadFiles(this.currentPath || '.');
+              },
+              error: (error) => {
+                  console.error('Error copying files with overwrite:', error);
+                  this.utilsService.showMessage('Error copying files.', 'error');
+              }
+          });
+      } else if (this.pendingOperation === 'move') {
+          // First, copy with overwrite then delete originals.
+          this.documentService.Copyfile(this.pendingFilePaths, this.pendingDestinationPath, true).subscribe({
+              next: () => {
+                  this.documentService.DeleteFile(this.pendingFilePaths).subscribe({
+                      next: () => {
+                          this.utilsService.showMessage('Files moved (with overwrite) successfully!', 'success');
+                          this.closeAllModals();
+                          this.loadFiles(this.currentPath || '.');
+                      },
+                      error: (error: any) => {
+                          console.error('Error deleting original files after move:', error);
+                          this.utilsService.showMessage('Error moving files.', 'error');
+                      }
+                  });
+              },
+              error: (error: any) => {
+                  console.error('Error moving files with overwrite:', error);
+                  this.utilsService.showMessage('Error moving files.', 'error');
+              }
+          });
+      }
+  }
+}
+
+cancelOverwrite(): void {
+  this.isOverwriteConfirmOpen = false;
+  this.pendingOperation = null;
+  this.pendingFilePaths = [];
+  this.pendingDestinationPath = '';
+}
+
+closeAllModals(): void {
+  this.isCopyModalOpen = false;
+  this.isMoveModalOpen = false;
+  this.isOverwriteConfirmOpen = false;
+}
+
+
+
+
+
+
 
 
   }

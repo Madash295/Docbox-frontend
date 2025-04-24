@@ -122,13 +122,23 @@ export class DocumentService {
   }
 
 
+  Copyfile(filePaths: string[], destinationPath: string ,overwrite:boolean): Observable<any> {
+    const body = {
+      sourcePaths: filePaths,
+      destinationPath: destinationPath,
+      overwriteExisting: overwrite
+    };
+    return this.http.post(`${this.apiUrl}/File/copy-files`, body);
+  }
 
 
-
-
-
-
-
-
+  Movefile(filePaths: string[], destinationPath: string ,overwrite:boolean): Observable<any> {
+    const body = {
+      sourcePaths: filePaths,
+      destinationPath: destinationPath,
+      overwriteExisting: overwrite
+    };
+    return this.http.post(`${this.apiUrl}/File/move-files`, body);
+  }
 
 }
