@@ -171,13 +171,13 @@ isShareModalOpen: boolean = false;
       return '/assets/images/folder.png'; // Replace with actual folder icon path
     }
     if (item.type === 'File') {
-      if (item.name.endsWith('.docx')) {
+      if (item.name.endsWith('.docx')|| item.name.endsWith('.doc')|| item.name.endsWith('.rtf')) {
         return '/assets/images/doc.png'; // Replace with actual doc icon path
       }
-      if (item.name.endsWith('.xlsx')) {
+      if (item.name.endsWith('.xlsx') || item.name.endsWith('.xls')|| item.name.endsWith('.csv')|| item.name.endsWith('.ods')) {
         return '/assets/images/xls.png'; // Replace with actual xls icon path
       }
-      if (item.name.endsWith('.pptx')) {
+      if (item.name.endsWith('.pptx') || item.name.endsWith('.ppt')) {
         return '/assets/images/ppt.png'; // Replace with actual xls icon path
       }
 
@@ -397,7 +397,8 @@ isShareModalOpen: boolean = false;
 
 
   onRequestHistoryClose(): void {
-    window.location.reload();
+    const file = { path: this.relativeFilePath, type: 'File' };
+    this.openFileInEditor(file);
   }
 
   closeEditor(): void {
@@ -454,6 +455,36 @@ isShareModalOpen: boolean = false;
       error: (err) => {
         this.utilsService.showMessage('Error creating folder.', 'error');
         console.error(err);
+      }
+    });
+  }
+
+  openEditor(file: any): void {
+    if (!file || file.type !== 'File') return;
+    
+    this.documentService.openeditfile(file.path).subscribe({
+      next: (response) => {
+        // const documentData = response.documentData;
+        // documentData.token = response.token;
+        const documentData = JSON.parse(decodeURIComponent(encodeURIComponent(JSON.stringify(response.documentData))));
+        documentData.token = encodeURIComponent(response.token);
+        this.relativeFilePath = documentData.document.filePath;
+        console.log(documentData)
+        // this.selectedFileConfig = documentData;
+        
+        // Add history event handlers
+        documentData.events = {
+          onRequestHistory: (event: any) => this.onRequestHistory(event),
+          onRequestHistoryData: (event: any) => this.onRequestHistoryData(event),
+          onRequestRestore: (event: any) => this.onRequestRestore(event),
+          onRequestHistoryClose: () => this.onRequestHistoryClose()
+        };
+
+        this.selectedFileConfig = documentData;
+      },
+      error: (error) => {
+        console.error('Error opening file:', error);
+        alert('Unable to open the file. Please try again later.');
       }
     });
   }

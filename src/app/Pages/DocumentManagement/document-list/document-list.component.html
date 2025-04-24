@@ -94,21 +94,18 @@
         </ng-template>
         <ng-template slot="actions" let-value="data">
           <div class="flex items-center justify-center gap-4">
-            <a routerLink="/apps/invoice/edit" class="text-info hover:text-info">
-              <icon-edit class="h-4.5 w-4.5" />
-            </a>
+            
             <a routerLink="/apps/invoice/preview" class="hover:text-primary">
               <icon-eye />
             </a>
-            <button type="button" class="text-primary hover:text-warning">
-              <icon-archive class="h-4.5 w-4.5" />
-            </button>
+            <a routerLink="/apps/invoice/edit" class="text-info hover:text-info" (click)="openEditor(value); $event.stopPropagation()">
+              <icon-edit class="h-4.5 w-4.5" />
+            </a>
             <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
-              <icon-menu-notes class="h-4.5 w-4.5" />
+              <img src="assets/images/ai.png" alt="AI " class="h-4.5 w-4.5" />
             </button>
-            <button type="button" class="text-danger hover:text-danger">
-              <icon-trash-lines />
-            </button>
+            
+            
           </div>
         </ng-template>
         <ng-template slot="modified" let-value="data">

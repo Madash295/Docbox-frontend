@@ -34,8 +34,15 @@ export class DocumentService {
 
   openFile(path: string): Observable<any> {
     const params = new HttpParams().set('path', path);
+    return this.http.get(`${this.apiUrl}/File/open-viewfile`, { params });
+  }
+   openeditfile(path: string): Observable<any> {
+    const params = new HttpParams().set('path', path);
     return this.http.get(`${this.apiUrl}/File/open-file`, { params });
   }
+
+
+
 
   getFileHistory(filePath: string): Observable<any> {
     const authToken = localStorage.getItem('authToken');
