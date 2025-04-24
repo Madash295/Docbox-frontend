@@ -1,9 +1,10 @@
 html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-}
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+    }}
 
 
 
@@ -13,7 +14,13 @@ html, body {
 }
 .editor
 {
-    height: 1000px !important;
+    position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     z-index: 9999;
+     background-color: white;
 }
 .summary-panel-container {
     position: fixed;
