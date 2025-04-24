@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ThemeCustomizerComponent {
     store: any;
-    showCustomizer = false;
+    showCustomizer: boolean = false;
     constructor(public storeData: Store<any>, public router: Router) {
         this.initStore();
     }
@@ -22,6 +22,6 @@ export class ThemeCustomizerComponent {
 
     reloadRoute() {
         window.location.reload();
-        this.showCustomizer = true;
+        this.showCustomizer = false;
     }
 }

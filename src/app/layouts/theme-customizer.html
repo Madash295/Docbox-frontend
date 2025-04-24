@@ -2,7 +2,7 @@
     <div
         class="fixed inset-0 z-[51] hidden bg-[black]/60 px-4 transition-[display]"
         [ngClass]="{ '!block': showCustomizer }"
-        (click)="showCustomizer = false"
+      
     ></div>
 
     <nav
@@ -10,6 +10,7 @@
         [ngClass]="{ 'ltr:!right-0 rtl:!left-0': showCustomizer }"
     >
         <a
+            *ngIf="showCustomizer"
             href="javascript:;"
             class="absolute bottom-0 top-0 my-auto flex h-10 w-12 cursor-pointer items-center justify-center bg-primary text-white ltr:-left-12 ltr:rounded-bl-full ltr:rounded-tl-full rtl:-right-12 rtl:rounded-br-full rtl:rounded-tr-full"
             (click)="showCustomizer = !showCustomizer"
@@ -27,7 +28,7 @@
                         <icon-x class="h-5 w-5" />
                     </a>
                     <h4 class="mb-1 dark:text-white">TEMPLATE CUSTOMIZER</h4>
-                    <p class="text-white-dark">Set preferences that will be cookied for your live preview demonstration.</p>
+                    <p class="text-white-dark dark:text-white">Set preferences that will be cookied for your live preview demonstration.</p>
                 </div>
                 <div class="mb-3 rounded-md border border-dashed border-[#e0e6ed] p-3 dark:border-[#1b2e4b]">
                     <h5 class="mb-1 text-base leading-none dark:text-white">Color Scheme</h5>
