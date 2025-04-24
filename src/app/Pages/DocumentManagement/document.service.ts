@@ -77,10 +77,14 @@ export class DocumentService {
     };
     return this.http.post(`${this.apiUrl}/File/archive-files`, body);
   }
-  // getSummary(fileName: string): Observable<{ summary: string }> {
-  //   const apiUrl = `${this.apiUrl}/File/summarize?fileName=${(fileName)}`;
-  //   return this.http.get<{ summary: string }>(apiUrl);
-  // }
+  searchFiles(searchText: string, fuzzySearch: boolean, searchWithinFiles: boolean, includeImages: boolean): Observable<any> {
+    const params = new HttpParams()
+      .set('query', searchText)
+      .set('fuzzySearch', fuzzySearch.toString())
+      .set('searchWithinFiles', searchWithinFiles.toString())
+      .set('includeImages', includeImages.toString());
+    return this.http.get(`${this.apiUrl}/File/search`, { params });
+  }
   getSummary(fileName: string): Observable<string> {
     return this.http.get(`${this.apiUrl}/File/summarize?fileName=${fileName}`, { responseType: 'text' });
   }

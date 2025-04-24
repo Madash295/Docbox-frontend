@@ -637,6 +637,27 @@ isShareModalOpen: boolean = false;
       }
     });
   }
+
+  searchTerm = '';
+  onSearchChange(searchTerm: string): void {
+   if(searchTerm.length > 3) {
+      this.documentService.searchFiles(searchTerm, true, true, false).subscribe(
+        (response: any) => {
+          this.items = response.results.map((result: any) => ({
+            name: result.fileName,
+            path: result.relativePath,
+            type: 'File', 
+            icon: this.getIcon({ type: 'File', name: result.fileName }),
+            modified: new Date().toISOString(), 
+            size: 'N/A' 
+          }));
+        },
+        (error) => {
+          console.error('Error searching files:', error);
+        }
+      );
+    }
+  }
   
   
   openDeleteModal(): void {

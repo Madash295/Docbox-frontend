@@ -21,22 +21,36 @@
           </div>
         </div>
         <div class="ltr:ml-auto rtl:mr-auto flex gap-5">
-          <!-- <input [(ngModel)]="search" (ngModelChange)="onSearchChange($event)"   type="text" class="form-input" placeholder="Search..." /> -->
+          <input [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange($event)"   type="text" class="form-input" placeholder="Search..." />
         </div>
       </div>
       <ng-container  *ngIf="!selectedFileConfig">
 
       <div class="mb-4.5 flex flex-col gap-5 px-5 md:flex-row md:items-center">
+        <div *ngIf="datatable.getSelectedRows().length > 0" class="flex gap-2">
+          <a routerLink="/apps/invoice/add" 
+          class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" 
+          (click)="openCreateFileModal()">
+           <icon-multiple-forward-right class="h-6 w-6 font-bold" />
+           Move File
+       </a>
+       <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56" (click)="openUploadFileModal()">
+            <icon-copy  class="h-6 w-6 font-bold" />
+            Copy Files
+       </a>
+        </div>
+        <div *ngIf="datatable.getSelectedRows().length === 0" class="flex gap-2">
         <a routerLink="/apps/invoice/add" 
         class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" 
         (click)="openCreateFileModal()">
          <icon-plus class="h-6 w-6 font-bold" />
          Create
-     </a>
+       </a>
           <a routerLink="/apps/invoice/add" class=" gap-2 panel border-gray-300 border-dashed border flex flex-col h-24 w-56" (click)="openUploadFileModal()">
             <icon-logout  class="h-6 w-6 font-bold" />
             Upload Files
           </a>
+        </div>
           <input type="file" id="uploadFileInput" multiple style="display: none;" (change)="onFilesSelected($event)" />
           <a routerLink="/apps/invoice/add" 
           class="gap-2 panel border-gray-300 border flex flex-col h-24 w-56" 
