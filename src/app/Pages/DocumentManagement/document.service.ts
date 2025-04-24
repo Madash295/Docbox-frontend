@@ -148,4 +148,17 @@ export class DocumentService {
     return this.http.post(`${this.apiUrl}/File/move-files`, body);
   }
 
+
+  downloadfile(filePath: string): Observable<any> {
+    const params = new HttpParams().set('path', filePath);
+    return this.http.get(`${this.apiUrl}/File/download`, { params, responseType: 'blob' });
+  }
+
+
+
+
+
+
+
+
 }

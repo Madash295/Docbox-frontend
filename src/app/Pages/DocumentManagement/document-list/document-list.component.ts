@@ -956,7 +956,26 @@ closeAllModals(): void {
 }
 
 
+opendownloadmodal(file: any): void {
+  this.documentService.downloadfile(file.path).subscribe({
+    next: (response: Blob) => {
+      const blobUrl = window.URL.createObjectURL(response);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.name; // use the file name for download
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      window.URL.revokeObjectURL(blobUrl);
+      this.utilsService.showMessage('Download started successfully!', 'success');
+    },
+    error: (error) => {
+      console.error('Error downloading file:', error);
+      this.utilsService.showMessage('Error downloading file.', 'error');
+    }
+  });
 
+}
 
 
 
