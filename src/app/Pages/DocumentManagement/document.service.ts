@@ -23,9 +23,10 @@ export class DocumentService {
 
 
   uploadFiles(files: File[], path: string): Observable<any> {
+   
     const formData: FormData = new FormData();
     files.forEach(file => formData.append('files', file, file.name));
-    return this.http.post(`${this.apiUrl}/File/upload?path=${encodeURIComponent(path)}`, formData);
+    return this.http.post(`${this.apiUrl}/File/upload?path=${encodeURIComponent(path)}`, formData, { responseType: 'text' });
 }
 
 
