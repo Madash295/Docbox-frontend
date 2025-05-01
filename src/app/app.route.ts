@@ -116,9 +116,9 @@ export const routes: Routes = [
             },
             
             { 
-                path: 'users/role-right', 
-                loadComponent: () => import('./Pages/ProfileManagement/role-right/role-right.component').then(m => m.RoleRightComponent), 
-                title: 'Role Right' ,
+                path: 'documents/sharedFiles', 
+                loadComponent: () => import('./Pages/DocumentManagement/shared-files/shared-files.component').then(m => m.SharedFilesComponent), 
+                title: 'Shared Files' ,
                 data: { roles: ['Admin'] },
                 canActivate: [authGuard], 
             },

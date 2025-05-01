@@ -666,25 +666,65 @@ isShareModalOpen: boolean = false;
   }
 
   searchTerm = '';
-  onSearchChange(searchTerm: string): void {
-   if(searchTerm.length > 3) {
-      this.documentService.searchFiles(searchTerm, true, true, false).subscribe(
-        (response: any) => {
-          this.items = response.results.map((result: any) => ({
-            name: result.fileName,
-            path: result.relativePath,
-            type: 'File', 
-            icon: this.getIcon({ type: 'File', name: result.fileName }),
-            modified: new Date().toISOString(), 
-            size: 'N/A' 
-          }));
-        },
-        (error) => {
-          console.error('Error searching files:', error);
-        }
-      );
-    }
+  isFilterPanelOpen = false;
+  fuzzySearch = false;
+  searchWithinFiles = false;
+  includeImages = false;
+  toggleFilterPanel(): void {
+    this.isFilterPanelOpen = !this.isFilterPanelOpen;
   }
+
+  applyFilters(): void {
+    this.isFilterPanelOpen = false; // Close the filter panel
+    this.onSearchChange(this.searchTerm, this.fuzzySearch, this.searchWithinFiles, this.includeImages);
+  }
+
+  // onSearchChange(searchTerm: string): void {
+  //  if(searchTerm.length > 3) {
+  //     this.documentService.searchFiles(searchTerm, true, true, false).subscribe(
+  //       (response: any) => {
+  //         this.items = response.results.map((result: any) => ({
+  //           name: result.fileName,
+  //           path: result.relativePath,
+  //           type: 'File', 
+  //           icon: this.getIcon({ type: 'File', name: result.fileName }),
+  //           modified: new Date().toISOString(), 
+  //           size: 'N/A' 
+  //         }));
+  //       },
+  //       (error) => {
+  //         console.error('Error searching files:', error);
+  //       }
+  //     );
+  //   }
+  // }
+
+  onSearchChange(
+    searchTerm: string,
+    fuzzySearch: boolean = false,
+    searchWithinFiles: boolean = false,
+    includeImages: boolean = false
+  ): void {
+    if (searchTerm.length > 0) {
+      this.documentService
+        .searchFiles(searchTerm, fuzzySearch, searchWithinFiles, includeImages)
+        .subscribe(
+          (response: any) => {
+            this.items = response.results.map((result: any) => ({
+              name: result.fileName,
+              path: result.relativePath,
+              type: 'File',
+              icon: this.getIcon({ type: 'File', name: result.fileName }),
+              modified: new Date().toISOString(),
+              size: 'N/A',
+            }));
+          },
+          (error) => {
+            console.error('Error searching files:', error);
+          }
+        );
+      }
+    }
   
   
   openDeleteModal(): void {

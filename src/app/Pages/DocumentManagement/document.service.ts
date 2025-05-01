@@ -17,6 +17,12 @@ export class DocumentService {
     const params = new HttpParams().set('path', path);
     return this.http.get(`${this.apiUrl}/File/list-files`, { params });
   }
+  getSharedFiles(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/File/sent-shared-files`);
+  }
+  getReceivedFiles(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/File/received-shared-files`);
+  }
   createFile(fileType: string, fileName: string, path: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/File/create-file`, {fileType,fileName,path});
   }

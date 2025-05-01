@@ -20,9 +20,54 @@
             <span class="text-primary text-xl font-bold" *ngIf="!currentPath">Root</span>
           </div>
         </div>
-        <div class="ltr:ml-auto rtl:mr-auto flex gap-5">
+     <div class="ltr:ml-auto rtl:mr-auto flex gap-5">
           <input [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange($event)"   type="text" class="form-input" placeholder="Search..." />
+           
+          <button
+          type="button"
+          class="text-gray-500 hover:text-primary"
+          (click)="toggleFilterPanel()"
+        >
+          <icon-filter class="h-6 w-6" />
+        </button>
         </div>
+      
+   <div
+*ngIf="isFilterPanelOpen"
+class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
+>
+<div *ngIf="searchWithinFiles == true" class="flex items-center gap-2">
+  <label class="text-white text-sm">Fuzzy</label>
+  <input
+    type="checkbox"
+    [(ngModel)]="fuzzySearch"
+    class="toggle-checkbox"
+  />
+</div>
+<div class="flex flex-row items-center gap-2">
+  <label class="text-white">Within Files</label>
+  <input
+    type="checkbox"
+    [(ngModel)]="searchWithinFiles"
+    class="toggle-checkbox"
+  />
+</div> 
+<div *ngIf="searchWithinFiles == true" class="flex items-center gap-2">
+  <label class="text-white">Include Images</label>
+  <input
+    type="checkbox"
+    [(ngModel)]="includeImages"
+    class="toggle-checkbox"
+  />
+</div>
+<button
+  type="button"
+  class="btn bg-white text-sm text-gray-800 p-1 rounded-md"
+  (click)="applyFilters()"
+>
+  Search
+</button>
+</div>
       </div>
       <ng-container  *ngIf="!selectedFileConfig">
 
