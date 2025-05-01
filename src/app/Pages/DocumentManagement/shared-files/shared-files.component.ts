@@ -9,6 +9,7 @@ import { DocumentService } from '../document.service';
 import { DocumentEditorModule, type IConfig } from '@onlyoffice/document-editor-angular';
 import { UtilsService } from 'src/app/utils.service';
 import path from 'path';
+import { access } from 'fs';
 
 @Component({
   selector: 'app-shared-files',
@@ -26,6 +27,7 @@ export class SharedFilesComponent {
     { field: 'type', title: 'Type' },
     { field: 'size', title: 'Size' },
     { field: 'recipient', title: 'Recipient'},
+    { field: 'accesstype', title: 'Access Type'},
     { field: 'modified', title: 'Last Modified' },
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
@@ -35,6 +37,7 @@ export class SharedFilesComponent {
     { field: 'type', title: 'Type' },
     { field: 'size', title: 'Size' },
     { field: 'sender', title: 'Sender'},
+    { field: 'accesstype', title: 'Access Type'},
     { field: 'modified', title: 'Last Modified' },
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
@@ -90,6 +93,7 @@ export class SharedFilesComponent {
         path: item.filePath,
         lastModified:item.lastModified,
         recipientid: item.sendToUserId,
+        accesstype: item.accessType,
         recipient: item.sharedWith,
         icon: this.getIcon(item.type, item.fileName)  
       }));
@@ -105,6 +109,7 @@ export class SharedFilesComponent {
         size: item.size,
         path: item.filePath,
         fileid: item.fileSharingId,
+        accesstype: item.accessType,
         lastModified:item.lastModified,
         sender: item.ownerUsername,
         icon: this.getIcon(item.type, item.fileName)  
