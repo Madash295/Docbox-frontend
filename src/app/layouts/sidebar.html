@@ -16,7 +16,7 @@
             </div>
             <ng-scrollbar class="relative !h-[calc(100vh-80px)]" appearance="compact">
                 <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
-                    <li class="accordion menu nav-item">
+                    <li class="accordion menu nav-item" *ngIf="userRole === 'Admin'">
                         <button
                             type="button"
                             class="nav-link group w-full"
@@ -58,7 +58,7 @@
                         <span>{{ ('users' | translate) || '&nbsp;' }}</span>
                     </h2>
 
-                    <li class="accordion menu nav-item">
+                    <li class="accordion menu nav-item" *ngIf="userRole === 'Admin'">
                         <button
                             type="button"
                             routerLink="users/profile"
@@ -103,93 +103,6 @@
                             </div>
                         </button>
                     </li>
-                    <li class="accordion menu nav-item">
-                        <button
-                            type="button"
-                            routerLink="users/important-files"
-                            routerLinkActive="active"
-                            class="nav-link group w-full"
-                            [ngClass]="{ active: activeDropdown.includes('all-files') }"
-                        >
-                            <div class="flex items-center">
-                                <icon-star class="shrink-0 group-hover:!text-primary" />
-
-                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Starred Files' | translate }}</span>
-                            </div>
-                        </button>
-                    </li>
-                    <!-- <li class="accordion menu nav-item">
-                        <button
-                            type="button"
-                            routerLink="users/types"
-                            routerLinkActive="active"
-                            class="nav-link group w-full"
-                            [ngClass]="{ active: activeDropdown.includes('types') }"
-                        >
-                            <div class="flex items-center">
-                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
-
-                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Types' | translate }}</span>
-                            </div>
-                        </button>
-                    </li> -->
-                    <!-- <li class="accordion menu nav-item">
-                        <button
-                            type="button"
-                            routerLink="users/categories"
-                            routerLinkActive="active"
-                            class="nav-link group w-full"
-                            [ngClass]="{ active: activeDropdown.includes('categories') }"
-                        >
-                            <div class="flex items-center">
-                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
-
-                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Categories' | translate }}</span>
-                            </div>
-                        </button>
-                    </li> -->
-                    <!-- <li class="accordion menu nav-item">
-                        <button
-                            type="button"
-                            routerLink="users/role-right"
-                            routerLinkActive="active"
-                            class="nav-link group w-full"
-                            [ngClass]="{ active: activeDropdown.includes('RoleRight') }"
-                        >
-                            <div class="flex items-center">
-                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
-                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'RoleRight' | translate }}</span>
-                            </div>
-                        </button>
-                    </li> -->
-                    <!-- <li class="accordion menu nav-item">
-                        <button
-                            type="button"
-                            routerLink="users/location"
-                            routerLinkActive="active"
-                            class="nav-link group w-full"
-                            [ngClass]="{ active: activeDropdown.includes('location') }"
-                        >
-                            <div class="flex items-center">
-                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
-                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Location' | translate }}</span>
-                            </div>
-                        </button>
-                    </li>
-                    <li class="accordion menu nav-item">
-                        <button
-                            type="button"
-                            routerLink="leads/findLeads"
-                            routerLinkActive="active"
-                            class="nav-link group w-full"
-                            [ngClass]="{ active: activeDropdown.includes('findLeads') }"
-                        >
-                            <div class="flex items-center">
-                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
-                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'FindLeads' | translate }}</span>
-                            </div>
-                        </button>
-                    </li> -->
                 </ul>
             </ng-scrollbar>
         </div>

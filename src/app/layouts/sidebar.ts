@@ -15,6 +15,7 @@ export class SidebarComponent {
     store: any;
     activeDropdown: string[] = [];
     parentDropdown: string = '';
+    userRole: string | null = null;
     constructor(public translate: TranslateService, public storeData: Store<any>, public router: Router) {
         this.initStore();
     }
@@ -28,6 +29,8 @@ export class SidebarComponent {
 
     ngOnInit() {
         this.setActiveDropdown();
+         // Get the user role from localStorage
+        this.userRole = localStorage.getItem('userRole');
     }
 
     setActiveDropdown() {
