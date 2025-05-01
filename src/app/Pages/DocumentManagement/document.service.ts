@@ -29,9 +29,10 @@ export class DocumentService {
 
 
   uploadFiles(files: File[], path: string): Observable<any> {
+   
     const formData: FormData = new FormData();
     files.forEach(file => formData.append('files', file, file.name));
-    return this.http.post(`${this.apiUrl}/File/upload?path=${encodeURIComponent(path)}`, formData);
+    return this.http.post(`${this.apiUrl}/File/upload?path=${encodeURIComponent(path)}`, formData, { responseType: 'text' });
 }
 
 
@@ -40,8 +41,15 @@ export class DocumentService {
 
   openFile(path: string): Observable<any> {
     const params = new HttpParams().set('path', path);
+    return this.http.get(`${this.apiUrl}/File/open-viewfile`, { params });
+  }
+   openeditfile(path: string): Observable<any> {
+    const params = new HttpParams().set('path', path);
     return this.http.get(`${this.apiUrl}/File/open-file`, { params });
   }
+
+
+
 
   getFileHistory(filePath: string): Observable<any> {
     const authToken = localStorage.getItem('authToken');
@@ -146,5 +154,18 @@ export class DocumentService {
     };
     return this.http.post(`${this.apiUrl}/File/move-files`, body);
   }
+
+
+  downloadfile(filePath: string): Observable<any> {
+    const params = new HttpParams().set('path', filePath);
+    return this.http.get(`${this.apiUrl}/File/download`, { params, responseType: 'blob' });
+  }
+
+
+
+
+
+
+
 
 }
