@@ -72,7 +72,7 @@
               <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
                 <img src="assets/images/ai.png" alt="AI " class="h-4.5 w-4.5" />
               </button>
-              <button type="button" class="text-danger hover:text-danger">
+              <button type="button" class="text-danger hover:text-danger"(click)="openrevokeaccess(value); $event.stopPropagation()">
                 <icon-trash-lines />
               </button>
             </div>
@@ -122,9 +122,8 @@
                 <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
                   <img src="assets/images/ai.png" alt="AI " class="h-4.5 w-4.5" />
                 </button>
-                <button type="button" class="text-danger hover:text-danger">
-                  <icon-trash-lines />
-                </button>
+               
+                
               </div>
             </ng-template>
             <ng-template slot="modified" let-value="data">

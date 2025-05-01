@@ -338,10 +338,20 @@ export class SharedFilesComponent {
       }
     });
   }
+  openrevokeaccess(file: any): void {
+    console.log('File for summary:', file);
+    this.documentService.revokeaccess(file.path, file.recipientid).subscribe({
+      next: (response) => {
+        this.utilsService.showMessage('Access revoked successfully!', 'success');
+        this.sharedFiles();
+      },
+      error: (error :any) => {
+        console.error('Error fetching summary:', error);
+        this.utilsService.showMessage('Error revoking access.', 'error');
+      }
+    });
 
-
-
-
+  }
 
 
 

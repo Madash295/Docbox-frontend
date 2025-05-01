@@ -167,9 +167,13 @@ export class DocumentService {
 
 
 
-
-
-
+  revokeaccess(filePath: string, sharedWithUserId: number): Observable<any> {
+    const body = {
+      filePath: filePath,
+      sharedWithUserId: sharedWithUserId
+    };
+    return this.http.delete(`${this.apiUrl}/File/revoke-sharing`, { body });
+  }
 
 
 }
