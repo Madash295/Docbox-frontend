@@ -48,6 +48,10 @@ export class DocumentService {
     return this.http.get(`${this.apiUrl}/File/open-file`, { params });
   }
 
+  opensharefile(id: number): Observable<any> {
+    const params = new HttpParams().set('fileSharingId', id.toString());
+    return this.http.get(`${this.apiUrl}/File/open-shared-file`, { params });
+  }
 
 
 

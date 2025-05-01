@@ -385,7 +385,7 @@ isShareModalOpen: boolean = false;
     this.documentService.restoreFileVersion(this.relativeFilePath, version).subscribe({
       next: () => {
         const file = { path: this.relativeFilePath, type: 'File' };
-        this.openFileInEditor(file);
+        this.openEditor(file);
       },
       error: (error) => {
         console.error("Error restoring version:", error);

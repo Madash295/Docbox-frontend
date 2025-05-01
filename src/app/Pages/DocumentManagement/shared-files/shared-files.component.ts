@@ -8,6 +8,7 @@ import { DocumentService } from '../document.service';
 
 import { DocumentEditorModule, type IConfig } from '@onlyoffice/document-editor-angular';
 import { UtilsService } from 'src/app/utils.service';
+import path from 'path';
 
 @Component({
   selector: 'app-shared-files',
@@ -24,7 +25,7 @@ export class SharedFilesComponent {
     { field: 'name', title: 'Name' },
     { field: 'type', title: 'Type' },
     { field: 'size', title: 'Size' },
-    { field: 'mark', title: 'Important'},
+    { field: 'recipient', title: 'Recipient'},
     { field: 'modified', title: 'Last Modified' },
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
@@ -33,7 +34,7 @@ export class SharedFilesComponent {
     { field: 'name', title: 'Name' },
     { field: 'type', title: 'Type' },
     { field: 'size', title: 'Size' },
-    { field: 'mark', title: 'Important'},
+    { field: 'sender', title: 'Sender'},
     { field: 'modified', title: 'Last Modified' },
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
@@ -45,6 +46,36 @@ export class SharedFilesComponent {
    
 
   }
+  getIcon(type: string, name: string): string {
+    console.debug('getIcon:', { type, name });
+    name = name.toLowerCase();
+    if (type === 'Folder') {
+      return '/assets/images/folder.png';
+    }
+    if (type === 'File') {
+      if (name.endsWith('.docx') || name.endsWith('.doc') || name.endsWith('.rtf')) {
+        return '/assets/images/doc.png';
+      }
+      if (name.endsWith('.xlsx') || name.endsWith('.xls') || name.endsWith('.csv') || name.endsWith('.ods')) {
+        return '/assets/images/xls.png';
+      }
+      if (name.endsWith('.pptx') || name.endsWith('.ppt')) {
+        return '/assets/images/ppt.png';
+      }
+      if (name.endsWith('.pdf')) {
+        return '/assets/images/pdf.png';
+      }
+      if (name.endsWith('.zip')) {
+        return '/assets/images/zip.png';
+      }
+    }
+    return '/assets/icons/file-icon.png';
+}
+
+  ngOnChanges(): void {
+    this.sharedFiles();
+    this.receivedFiles();
+  }
   ngOnInit(): void {
     this.sharedFiles();
     this.receivedFiles();
@@ -52,14 +83,31 @@ export class SharedFilesComponent {
   sharedFiles(): void {
     this.documentService.getSharedFiles().subscribe((data: any) => {
       this.Shareditems = data.map((item: any) => ({
-        ...item
+        
+        name: item.fileName,
+        type: item.type,
+        size: item.size,
+        path: item.filePath,
+        lastModified:item.lastModified,
+        recipientid: item.sendToUserId,
+        recipient: item.sharedWith,
+        icon: this.getIcon(item.type, item.fileName)  
       }));
+      
+      
     }
   )};
   receivedFiles(): void {
     this.documentService.getReceivedFiles().subscribe((data: any) => {
       this.Receiveditems = data.map((item: any) => ({
-        ...item
+        name: item.fileName,
+        type: item.type,
+        size: item.size,
+        path: item.filePath,
+        fileid: item.fileSharingId,
+        lastModified:item.lastModified,
+        sender: item.ownerUsername,
+        icon: this.getIcon(item.type, item.fileName)  
       }));
     }
   )}
@@ -68,7 +116,7 @@ export class SharedFilesComponent {
     this.isSummaryPanelOpen = true;
     this.isLoadingSummary = true;
   
-    this.documentService.getSummary(file.name).subscribe({
+    this.documentService.getSummary(file.path).subscribe({
       next: (response) => {
         console.log('Summary response:', response);
         this.documentSummary = response;
@@ -83,7 +131,7 @@ export class SharedFilesComponent {
     });
   }
   handleRowClick(row: any): void {
-      this.openFileInEditor(row);
+   //   this.openFileInEditor(row);
   }  
   relativeFilePath: string = '';
   openFileInEditor(file: any): void {
@@ -229,4 +277,74 @@ export class SharedFilesComponent {
   onLoadComponentError(errorCode: number, errorDescription: string): void {
     console.error('Load Component Error:', errorCode, errorDescription);
   }
+
+  openEditor(file: any): void {
+    if (!file || file.type !== 'File') return;
+    
+    this.documentService.openeditfile(file.path).subscribe({
+      next: (response) => {
+        // const documentData = response.documentData;
+        // documentData.token = response.token;
+        const documentData = JSON.parse(decodeURIComponent(encodeURIComponent(JSON.stringify(response.documentData))));
+        documentData.token = encodeURIComponent(response.token);
+        this.relativeFilePath = documentData.document.filePath;
+        console.log(documentData)
+        // this.selectedFileConfig = documentData;
+        
+        // Add history event handlers
+        documentData.events = {
+          onRequestHistory: (event: any) => this.onRequestHistory(event),
+          onRequestHistoryData: (event: any) => this.onRequestHistoryData(event),
+          onRequestRestore: (event: any) => this.onRequestRestore(event),
+          onRequestHistoryClose: () => this.onRequestHistoryClose()
+        };
+
+        this.selectedFileConfig = documentData;
+      },
+      error: (error) => {
+        console.error('Error opening file:', error);
+        alert('Unable to open the file. Please try again later.');
+      }
+    });
+  }
+
+
+  opensharedEditor(file: any): void {
+    if (!file || file.type !== 'File') return;
+    
+    this.documentService.opensharefile(file.fileid).subscribe({
+      next: (response) => {
+        // const documentData = response.documentData;
+        // documentData.token = response.token;
+        const documentData = JSON.parse(decodeURIComponent(encodeURIComponent(JSON.stringify(response.documentData))));
+        documentData.token = encodeURIComponent(response.token);
+        this.relativeFilePath = documentData.document.filePath;
+        console.log(documentData)
+        // this.selectedFileConfig = documentData; 
+        
+        // Add history event handlers
+        documentData.events = {
+          onRequestHistory: (event: any) => this.onRequestHistory(event),
+          onRequestHistoryData: (event: any) => this.onRequestHistoryData(event),
+          onRequestRestore: (event: any) => this.onRequestRestore(event),
+          onRequestHistoryClose: () => this.onRequestHistoryClose()
+        };
+
+        this.selectedFileConfig = documentData;
+      },
+      error: (error) => {
+        console.error('Error opening file:', error);
+        alert('Unable to open the file. Please try again later.');
+      }
+    });
+  }
+
+
+
+
+
+
+
+
+
 }

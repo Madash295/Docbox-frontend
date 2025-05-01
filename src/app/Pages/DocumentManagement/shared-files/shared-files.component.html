@@ -20,7 +20,7 @@
               (click)="tab2 = 'shared'"
           >
               <icon-share class="ltr:mr-2 rtl:ml-2 h-8 w-8 text-black bg-white p-2 rounded-sm" />
-              Shared Files
+              Sent Files
           </a>
           </div>
           <div class="flex-1">
@@ -60,17 +60,17 @@
           </ng-template>
           <ng-template slot="actions" let-value="data">
             <div class="flex items-center justify-center gap-4">
-              <a routerLink="/apps/invoice/edit" class="text-info hover:text-info">
-                <icon-edit class="h-4.5 w-4.5" />
-              </a>
-              <a routerLink="/apps/invoice/preview" class="hover:text-primary">
+              <a routerLink="/apps/invoice/preview" class="hover:text-primary"(click)="openFileInEditor(value); $event.stopPropagation()">
                 <icon-eye />
               </a>
-              <button type="button" class="text-primary hover:text-warning">
-                <icon-archive class="h-4.5 w-4.5" />
-              </button>
+
+              <a routerLink="/apps/invoice/edit" class="text-info hover:text-info" (click)="openEditor(value); $event.stopPropagation()">
+                <icon-edit class="h-4.5 w-4.5" />
+              </a>
+        
+            
               <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
-                <icon-menu-notes class="h-4.5 w-4.5" />
+                <img src="assets/images/ai.png" alt="AI " class="h-4.5 w-4.5" />
               </button>
               <button type="button" class="text-danger hover:text-danger">
                 <icon-trash-lines />
@@ -81,7 +81,8 @@
             <span>{{value.lastModified}}</span>
           </ng-template>
           <ng-template slot="mark" let-value="data">
-            <icon-star class="h-4.5 w-4.5" />
+          
+            <span>{{value.recipient}}</span>
           </ng-template>
           <ng-template slot="size" let-value="data">
             <span>{{value.size}}</span>
@@ -113,17 +114,13 @@
             </ng-template>
             <ng-template slot="actions" let-value="data">
               <div class="flex items-center justify-center gap-4">
-                <a routerLink="/apps/invoice/edit" class="text-info hover:text-info">
+               
+                
+                <a routerLink="/apps/invoice/edit" class="text-info hover:text-info"(click)="opensharedEditor(value); $event.stopPropagation()">
                   <icon-edit class="h-4.5 w-4.5" />
                 </a>
-                <a routerLink="/apps/invoice/preview" class="hover:text-primary">
-                  <icon-eye />
-                </a>
-                <button type="button" class="text-primary hover:text-warning">
-                  <icon-archive class="h-4.5 w-4.5" />
-                </button>
                 <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
-                  <icon-menu-notes class="h-4.5 w-4.5" />
+                  <img src="assets/images/ai.png" alt="AI " class="h-4.5 w-4.5" />
                 </button>
                 <button type="button" class="text-danger hover:text-danger">
                   <icon-trash-lines />
@@ -134,6 +131,7 @@
               <span>{{value.lastModified}}</span>
             </ng-template>
             <ng-template slot="mark" let-value="data">
+              <span>{{value.sender}}</span>
               <icon-star class="h-4.5 w-4.5" />
             </ng-template>
             <ng-template slot="size" let-value="data">
