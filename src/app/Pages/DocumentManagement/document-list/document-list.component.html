@@ -188,7 +188,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
   <!-- Create File Modal -->
 <div *ngIf="isFileModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFileModal()"></div>
-  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+  <div class="bg-white rounded-lg shadow-lg max-w-xl w-full z-10 relative">
     <button type="button" (click)="closeCreateFileModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -201,9 +201,32 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
           <form [formGroup]="createFileForm" (ngSubmit)="onSubmitCreateFile()">
             <label for="file-type">File Type:</label>
             <ng-select formControlName="fileType" [items]="fileTypes" bindLabel="label" bindValue="value"></ng-select>
-            <label for="">File Name</label>
+            <!-- <label for="">File Name</label>
             <input type="text" formControlName="fileName" placeholder="Enter file name" required>
-            <button type="submit" class="btn-primary p-2 text-white">Create File</button>
+            <button type="submit" class="btn-primary p-2 text-white">Create File</button> -->
+            <div class="field mt-3">
+              <label for="fileName">File Name:</label>
+              <input
+                id="fileName"
+                type="text"
+                formControlName="fileName"
+                placeholder="Enter file name"
+                class="p-inputtext p-component w-full p-2"
+                required
+              />
+            </div>
+            <div class="mt-4 flex justify-end">
+              <p-button
+                label="Cancel"
+                class="p-button-secondary bg-danger text-white p-2 rounded-md"
+                (click)="closeCreateFileModal()"
+              ></p-button>
+              <p-button
+                label="Create"
+                class="p-button-primary ml-2  bg-primary text-white p-2 rounded-md"
+                type="submit"
+              ></p-button>
+            </div>
           </form>
         </div>
       </div>
@@ -214,7 +237,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
 <!-- Create Folder Modal -->
 <div *ngIf="isFolderModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFolderModal()"></div>
-  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+  <div class="bg-white rounded-lg shadow-lg max-w-xl w-full z-10 relative">
     <button type="button" (click)="closeCreateFolderModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -225,9 +248,32 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       <div class="mt-5">
         <div class="modal-content p-5">
           <form [formGroup]="createFolderForm" (ngSubmit)="onSubmitCreateFolder()">
-            <label for="folderName">Folder Name:</label>
+            <!-- <label for="folderName">Folder Name:</label>
             <input type="text" formControlName="folderName" placeholder="Enter folder name" required>
-            <button type="submit" class="btn-primary p-2 text-white">Create Folder</button>
+            <button type="submit" class="btn-primary p-2 text-white">Create Folder</button> -->
+            <div class="field">
+              <label for="folderName">Folder Name:</label>
+              <input
+                id="folderName"
+                type="text"
+                formControlName="folderName"
+                placeholder="Enter folder name"
+                class="p-inputtext p-component w-full p-2"
+                required
+              />
+            </div>
+            <div class="mt-4 flex justify-end">
+              <p-button
+                label="Cancel"
+                class="p-button-secondary bg-danger text-white p-2 rounded-md"
+                (click)="closeCreateFolderModal()"
+              ></p-button>
+              <p-button
+                label="Create"
+                class="p-button-primary ml-2  bg-primary text-white p-2 rounded-md"
+                type="submit"
+              ></p-button>
+            </div>
           </form>
         </div>
       </div>
@@ -237,7 +283,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
 <!-- Archive Modal -->
 <div *ngIf="isArchiveModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeArchiveModal()"></div>
-  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+  <div class="bg-white rounded-lg shadow-lg max-w-xl w-full z-10 relative">
     <button type="button" (click)="closeArchiveModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -248,9 +294,32 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       <div class="mt-5">
         <div class="modal-content p-5">
           <form [formGroup]="archiveForm" (ngSubmit)="onSubmitArchive()">
-            <label for="archive-name">Archive Name:</label>
-            <input type="text" formControlName="archiveName" id="archive-name" placeholder="Enter archive name" required>
-            <button type="submit" class="btn-primary p-2 text-white mt-2">Create Archive</button>
+            <!-- <label for="archive-name">Archive Name:</label>
+            <input type="text" formControlName="archiveName" id="archive-name" placeholder="Enter archive name" required> -->
+            <div class="field">
+              <label for="archiveName">Archive Name:</label>
+              <input
+                id="archiveName"
+                type="text"
+                formControlName="archiveName"
+                placeholder="Enter archive name"
+                class="p-inputtext p-component w-full"
+                required
+              />
+            </div>
+            <!-- <button type="submit" class="btn-primary p-2 text-white mt-2">Create Archive</button> -->
+            <div class="mt-4 flex justify-end">
+              <p-button
+                label="Cancel"
+                class="p-button-secondary"
+                (click)="closeArchiveModal()"
+              ></p-button>
+              <p-button
+                label="Create"
+                class="p-button-primary ml-2"
+                type="submit"
+              ></p-button>
+            </div>
           </form>
         </div>
       </div>
@@ -387,7 +456,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       </div>
       <div class="p-4">
           <div class="mb-4">
-              <button type="button" class="btn-secondary" (click)="goBackDestination()">Back</button>
+              <button type="button" class="btn-secondary bg-secondary p-2 rounded-md" (click)="goBackDestination()">Back</button>
               <span class="ml-4">Current Path: {{ copyDestinationPath }}</span>
           </div>
           <ng-datatable
@@ -397,8 +466,8 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
               skin="whitespace-nowrap bh-table-hover">
           </ng-datatable>
           <div class="mt-4 flex justify-end">
-              <button type="button" class="btn-primary" (click)="pasteFiles()">Paste</button>
-              <button type="button" class="btn-secondary ml-2" (click)="isCopyModalOpen=false">Cancel</button>
+              <button type="button" class="btn-primary bg-primary text-white p-2 rounded-md" (click)="pasteFiles()">Paste</button>
+              <button type="button" class="btn-danger p-2 rounded-md text-white ml-2" (click)="isCopyModalOpen=false">Cancel</button>
           </div>
       </div>
   </div>
@@ -413,7 +482,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       </div>
       <div class="p-4">
           <div class="mb-4">
-              <button type="button" class="btn-secondary" (click)="goBackDestination()">Back</button>
+              <button type="button" class="btn-secondary p-2 rounded-md" (click)="goBackDestination()">Back</button>
               <span class="ml-4">Current Path: {{ moveDestinationPath }}</span>
           </div>
           <ng-datatable
@@ -423,8 +492,8 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
               skin="whitespace-nowrap bh-table-hover">
           </ng-datatable>
           <div class="mt-4 flex justify-end">
-              <button type="button" class="btn-primary" (click)="pasteFiles()">Paste</button>
-              <button type="button" class="btn-secondary ml-2" (click)="isMoveModalOpen=false">Cancel</button>
+              <button type="button" class="btn-primary p-2 rounded-md" (click)="pasteFiles()">Paste</button>
+              <button type="button" class="btn-danger ml-2 p-2 rounded-md" (click)="isMoveModalOpen=false">Cancel</button>
           </div>
       </div>
   </div>
