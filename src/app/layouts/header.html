@@ -272,7 +272,7 @@
                                 </div>
                                 <div class="truncate ltr:pl-4 rtl:pr-4">
                                     <h4 class="text-base">
-                                        Nayyab Noor<span class="rounded bg-success-light px-1 text-xs text-success ltr:ml-2 rtl:ml-2">Pro</span>
+                                        Nayyab Noor
                                     </h4>
                                     <a class="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white" href="javascript:;"
                                         >nayyab&#64;gmail.com</a
@@ -284,23 +284,11 @@
                             <a routerLink="/users/profile" *hlMenuItem="let menuItem" class="dark:hover:text-white">
                                 <icon-user class="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
 
-                                Profile
+                              My Profile
                             </a>
                         </li>
-                        <li>
-                            <a routerLink="/apps/mailbox" *hlMenuItem="let menuItem" class="dark:hover:text-white">
-                                <icon-mail class="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
-
-                                Inbox
-                            </a>
-                        </li>
-                        <li>
-                            <a routerLink="/auth/boxed-lockscreen" *hlMenuItem="let menuItem" class="dark:hover:text-white">
-                                <icon-lock-dots class="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
-
-                                Lock Screen
-                            </a>
-                        </li>
+                      
+                       
                         <li class="border-t border-white-light dark:border-white-light/10" >
                             <a  *hlMenuItem="let menuItem" class="!py-3 text-danger" (click)="logoutFromFacebook()">
                                 <icon-logout class="h-4.5 w-4.5 shrink-0 rotate-90 ltr:mr-2 rtl:ml-2" />

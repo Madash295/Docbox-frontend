@@ -138,25 +138,21 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
           <span>{{ value.type }}</span>
         </ng-template>
         <ng-template slot="actions" let-value="data">
-          <div class="flex items-center justify-center gap-4">
-            
-            <a routerLink="/apps/invoice/preview" class="hover:text-primary">
-              <icon-eye />
-            </a>
-            <a routerLink="/apps/invoice/edit" class="text-info hover:text-info" (click)="openEditor(value); $event.stopPropagation()">
-              <icon-edit class="h-4.5 w-4.5" />
-            </a>
-            <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
-              <img src="assets/images/ai.png" alt="AI " class="h-4.5 w-4.5" />
-            </button>
-            
-            <button type="button" class="text-black hover:text-primary"(click)="opendownloadmodal(value); $event.stopPropagation()">
-              <img src="assets/images/downloadicon.png" alt="AI " class="h-4.5 w-4.5" />
-            </button>
-           
-            
+          <div class="flex items-center justify-center gap-4" *ngIf="value.type === 'File'">
+              <a routerLink="/apps/invoice/preview" class="hover:text-primary">
+                  <icon-eye />
+              </a>
+              <a routerLink="/apps/invoice/edit" class="text-info hover:text-info" (click)="openEditor(value); $event.stopPropagation()">
+                  <icon-edit class="h-4.5 w-4.5" />
+              </a>
+              <button type="button" class="text-black hover:text-primary" (click)="openSummaryPanel(value); $event.stopPropagation()">
+                  <img src="assets/images/ai.png" alt="AI" class="h-4.5 w-4.5" />
+              </button>
+              <button type="button" class="text-black hover:text-primary" (click)="opendownloadmodal(value); $event.stopPropagation()">
+                  <img src="assets/images/downloadicon.png" alt="Download" class="h-4.5 w-4.5" />
+              </button>
           </div>
-        </ng-template>
+      </ng-template>
         <ng-template slot="modified" let-value="data">
           <span>{{value.lastModified}}</span>
         </ng-template>

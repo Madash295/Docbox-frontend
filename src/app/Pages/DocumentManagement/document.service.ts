@@ -107,6 +107,9 @@ export class DocumentService {
     return this.http.get(`${this.apiUrl}/File/summarize?fileName=${fileName}`, { responseType: 'text' });
   }
   
+  getsharedsummary(fileSharingId: number): Observable<string> {
+    return this.http.get(`${this.apiUrl}/File/summarize-shared-file?fileSharingId=${fileSharingId}`, { responseType: 'text' });
+  }
   listUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/File/list-users`);
 }
