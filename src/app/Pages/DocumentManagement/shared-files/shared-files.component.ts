@@ -135,6 +135,25 @@ export class SharedFilesComponent {
       }
     });
   }
+  opensharedSummaryPanel(file: any): void {
+    console.log('File for summary:', file);
+    this.isSummaryPanelOpen = true;
+    this.isLoadingSummary = true;
+  
+    this.documentService.getsharedsummary(file.fileid).subscribe({
+      next: (response) => {
+        console.log('Summary response:', response);
+        this.documentSummary = response;
+        this.isLoadingSummary = false;
+        this.utilsService.showMessage('Summary Generated successfully!', 'success');
+      },
+      error: (error :any) => {
+        console.error('Error fetching summary:', error);
+        this.isLoadingSummary = false;
+        this.utilsService.showMessage('Error Generating Summary file.', 'error');
+      }
+    });
+  }
   handleRowClick(row: any): void {
    //   this.openFileInEditor(row);
   }  
