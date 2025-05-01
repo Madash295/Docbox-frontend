@@ -73,5 +73,9 @@
     width: 100% !important;
     height: 1000px !important;
   }
+  .p-multiselect-panel {
+    z-index: 1101 !important; /* higher than the modal's z-index (PrimeNG dialog default is 1100) */
+    position: absolute !important;
+  }
 
 

@@ -287,30 +287,39 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
 
 <div *ngIf="isShareModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeShareModal()"></div>
-  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative max-h-[90vh] overflow-y-auto">
     <button type="button" (click)="closeShareModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
       </svg>
     </button>
+
     <div class="text-lg font-medium bg-gray-100 p-3 rounded-t-lg">Share File</div>
-    <div class="max-h-[85vh] overflow-y-auto p-5">
+    <div class="p-5">
+      
       <!-- Step 1: Select Users -->
       <div *ngIf="currentStep === 1">
         <form [formGroup]="shareFormStep1">
           <label class="block mb-2 font-semibold">Select Users:</label>
-          <div *ngFor="let user of users" class="mb-1">
-            <label class="flex items-center gap-2">
-              <!-- Use user.userId to get the correct value -->
-              <input type="checkbox"
-                     [value]="user.userId"
-                     (change)="onUserSelect($event)"
-                     [checked]="shareFormStep1.value.selectedUsers.includes(user.userId)" />
-              <span>{{ user.username }} ({{ user.email }})</span>
-            </label>
-          </div>
-          <div class="mt-4">
-            <button type="button" class="btn-primary" (click)="nextStep()">Next</button>
+          <p-multiSelect
+            inputId="selectedUsers"
+            [options]="users"
+            optionLabel="email"
+            optionValue="userId"
+            formControlName="selectedUsers"
+            display="chip"
+            placeholder="Select users"
+            appendTo="body"
+          ></p-multiSelect>
+
+          <div class="mt-4 flex justify-end">
+            <p-button
+              label="Next"
+              icon="pi pi-arrow-right"
+              class="bg-primary text-white p-2 rounded-md"
+              (click)="nextStep()"
+              [disabled]="shareFormStep1.invalid"
+            ></p-button>
           </div>
         </form>
       </div>
@@ -319,28 +328,157 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       <div *ngIf="currentStep === 2">
         <form [formGroup]="shareFormStep2">
           <label class="block mb-2 font-semibold">Select Access Type:</label>
-          <div *ngFor="let access of accessTypes" class="mb-1">
-            <label class="flex items-center gap-2">
-              <input type="radio" 
-                     formControlName="accessType" 
-                     [value]="access.id" />
-              <span>{{ access.name }}</span>
-            </label>
-          </div>
+          <!-- <div *ngFor="let access of accessTypes" class="mb-2">
+            <p-radioButton
+              name="accessType"
+              [value]="access.id"
+              formControlName="accessType"
+              [label]="access.name"
+            ></p-radioButton>
+          </div> -->
+
+          <p-dropdown 
+          [options]="accessTypes"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select access type"
+          formControlName="accessType"
+          appendTo="body"
+        ></p-dropdown>
+
           <div *ngIf="shareFormStep2.value.accessType === '10' || shareFormStep2.value.accessType === '11'" class="mt-4">
             <label class="block mb-2 font-semibold">Expiration Date & Time:</label>
-            <input type="datetime-local" formControlName="expiration" class="form-input" />
+            <p-calendar
+            formControlName="expiration"
+            [showTime]="true"
+            [hourFormat]="'24'"
+            appendTo="body"
+            [showIcon]="true"
+            inputStyleClass="w-full"
+            placeholder="Select date"
+          ></p-calendar>
           </div>
+
           <div class="mt-4 flex justify-between">
-            <button type="button" class="btn-secondary" (click)="previousStep()">Back</button>
-            <button type="button" class="btn-primary" (click)="nextStep()">Send</button>
+            <p-button
+              label="Back"
+              icon="pi pi-arrow-left"
+              class="p-button-secondary"
+              (click)="previousStep()"
+            ></p-button>
+            <p-button
+              label="Send"
+              icon="pi pi-check"
+              class="p-button-success"
+              (click)="nextStep()"
+              [disabled]="shareFormStep2.invalid || (['10', '11'].includes(shareFormStep2.value.accessType) && !shareFormStep2.value.expiration)"
+            ></p-button>
           </div>
         </form>
       </div>
+
     </div>
   </div>
-    
 </div>
+
+<!-- <p-dialog
+  [(visible)]="isShareModalOpen"
+  header="Share File"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-container *ngIf="currentStep === 1">
+ 
+    <form [formGroup]="shareFormStep1" class="p-fluid">
+      <h3>Select Users</h3>
+      <p-table
+        [value]="users"
+        [paginator]="true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [(selection)]="shareFormStep1.controls['selectedUsers'].value"
+        (selectionChange)="shareFormStep1.controls['selectedUsers'].setValue($event)"
+        [dataKey]="'userId'"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+            <th>Username</th>
+            <th>Email</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr [pSelectableRow]="user">
+            <td><p-tableCheckbox [value]="user"></p-tableCheckbox></td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <div class="mt-4 flex justify-end">
+        <p-button
+          label="Next"
+          icon="pi pi-arrow-right"
+          (click)="nextStep()"
+          [disabled]="shareFormStep1.invalid"
+        ></p-button>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="currentStep === 2">
+   
+    <form [formGroup]="shareFormStep2" class="p-fluid">
+      <h3>Select Access Type</h3>
+
+      <div *ngFor="let access of accessTypes" class="mb-2">
+        <p-radioButton
+          name="accessType"
+          [value]="access.id"
+          formControlName="accessType"
+          [label]="access.name"
+        ></p-radioButton>
+      </div>
+
+      <div
+        *ngIf="shareFormStep2.get('accessType')?.value === '10' || shareFormStep2.get('accessType')?.value === '11'"
+        class="mt-4"
+      >
+        <label for="expiration">Expiration Date & Time</label>
+        <p-calendar
+          formControlName="expiration"
+          [showTime]="true"
+          hourFormat="24"
+          inputId="expiration"
+        ></p-calendar>
+      </div>
+
+      <div class="mt-4 flex justify-between">
+        <p-button
+          label="Back"
+          icon="pi pi-arrow-left"
+          (click)="previousStep()"
+          class="p-button-secondary"
+        ></p-button>
+        <p-button
+          label="Send"
+          icon="pi pi-check"
+          (click)="nextStep()"
+          [disabled]="
+            shareFormStep2.invalid ||
+            (['10', '11'].includes(shareFormStep2.value.accessType) &&
+              !shareFormStep2.value.expiration)
+          "
+        ></p-button>
+      </div>
+    </form>
+  </ng-container>
+</p-dialog>
+ -->
 
 <!-- Copy Modal -->
 <div *ngIf="isCopyModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
