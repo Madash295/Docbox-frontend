@@ -11,10 +11,28 @@ import { DocumentEditorModule, type IConfig } from '@onlyoffice/document-editor-
 import { UtilsService } from 'src/app/utils.service';
 import { forkJoin } from 'rxjs';
 
+// PrimeNG Modules
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+
+
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, DataTableModule, IconModule, FormsModule, DocumentEditorModule,ReactiveFormsModule,NgSelectModule],
+  imports: [CommonModule, DataTableModule, IconModule, FormsModule, DocumentEditorModule,ReactiveFormsModule,NgSelectModule,DropdownModule ,
+    MultiSelectModule, // For p-dialog
+    TableModule, // For p-table
+    ButtonModule, // For p-button
+    CalendarModule, // For p-calendar
+    RadioButtonModule, // For p-radioButton
+    CheckboxModule, // For checkboxes
+  ],
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.css'],
 })
@@ -74,13 +92,14 @@ export class DocumentListComponent implements OnInit {
 
 isShareModalOpen: boolean = false;
   accessTypes = [
-    { id: '6', name: 'ViewOnly' },
+    { id: '6', name: 'View Only' },
     { id: '7', name: 'Strict View' },
     { id: '8', name: 'Editor' },
-    { id: '9', name: 'Viewonce' },
-    { id: '10', name: 'EditView TimeShared' },
-    { id: '11', name: 'StrictView TimeShared' },
+    { id: '9', name: 'View Once' },
+    { id: '10', name: 'Edit View TimeShared' },
+    { id: '11', name: 'Strict View TimeShared' },
   ];
+  selectedAccessType: string | null = null;
   filePaths: string[] = [];
   currentStep: number = 1;
   shareFormStep1!: FormGroup;
@@ -636,19 +655,19 @@ isShareModalOpen: boolean = false;
   }
 
 
-
+  selectedUsers: any[] = [];
   onUserSelect(event: any): void {
-    const selectedUsers = this.shareFormStep1.value.selectedUsers as any[];
+    this.selectedUsers = this.shareFormStep1.value.selectedUsers || [];
     const userId = event.target.value;
     if (event.target.checked) {
-      selectedUsers.push(userId);
+      this.selectedUsers.push(userId);
     } else {
-      const index = selectedUsers.indexOf(userId);
+      const index = this.selectedUsers.indexOf(userId);
       if (index > -1) {
-        selectedUsers.splice(index, 1);
+        this.selectedUsers.splice(index, 1);
       }
     }
-    this.shareFormStep1.patchValue({ selectedUsers });
+    this.shareFormStep1.patchValue({ selectedUsers: this.selectedUsers });
   }
 
   onAccessTypeChange(): void {
