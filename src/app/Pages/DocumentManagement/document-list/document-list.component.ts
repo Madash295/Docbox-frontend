@@ -45,7 +45,6 @@ export class DocumentListComponent implements OnInit {
     { field: 'name', title: 'Name' },
     { field: 'type', title: 'Type' },
     { field: 'size', title: 'Size' },
-    { field: 'mark', title: 'Important'},
     { field: 'modified', title: 'Last Modified' },
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
   ];
