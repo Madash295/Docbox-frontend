@@ -9,7 +9,7 @@ import { DocumentService } from '../document.service'; // Ensure the service pat
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DocumentEditorModule, type IConfig } from '@onlyoffice/document-editor-angular';
 import { UtilsService } from 'src/app/utils.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, throwIfEmpty } from 'rxjs';
 
 // PrimeNG Modules
 import { DialogModule } from 'primeng/dialog';
@@ -47,6 +47,14 @@ export class DocumentListComponent implements OnInit {
     { field: 'size', title: 'Size' },
     { field: 'modified', title: 'Last Modified' },
     { field: 'actions', title: 'Actions', sort: false, headerClass: 'justify-center' },
+  ];
+
+  Searchingcols = [
+    { field: 'fileName', title: 'Name' },
+    { field: 'contentScore', title: 'ContentScore' },
+    { field: 'relativePath', title: 'RelativePath' },
+    { field: 'contentMatchCount', title: 'Content MatchCount' },
+    { field: 'contentPreview', title: 'Content Preview' }
   ];
   items: any[] = [];
   createFileForm!: FormGroup;
@@ -231,6 +239,13 @@ isShareModalOpen: boolean = false;
       this.openFileInEditor(row);
     }
   }
+
+  handleSearchRowClick(row: any): void {
+    this.isSearchActive = false; // Reset search state
+    this.searchTerm = ''; // Clear search term
+      this.loadFiles(row.relativePath);
+  }
+
 
   goBack(): void {
     if (this.folderStack.length > 0) {
@@ -727,26 +742,19 @@ isShareModalOpen: boolean = false;
     this.isFilterPanelOpen = false; // Close the filter panel
     this.onSearchChange(this.searchTerm, this.fuzzySearch, this.searchWithinFiles, this.includeImages);
   }
-
-  // onSearchChange(searchTerm: string): void {
-  //  if(searchTerm.length > 3) {
-  //     this.documentService.searchFiles(searchTerm, true, true, false).subscribe(
-  //       (response: any) => {
-  //         this.items = response.results.map((result: any) => ({
-  //           name: result.fileName,
-  //           path: result.relativePath,
-  //           type: 'File', 
-  //           icon: this.getIcon({ type: 'File', name: result.fileName }),
-  //           modified: new Date().toISOString(), 
-  //           size: 'N/A' 
-  //         }));
-  //       },
-  //       (error) => {
-  //         console.error('Error searching files:', error);
-  //       }
-  //     );
-  //   }
-  // }
+  clearFilters(): void {
+    // Reset all filter values
+    this.fuzzySearch = false;
+    this.searchWithinFiles = false;
+    this.includeImages = false;
+    this.searchTerm = '';
+    this.loadFiles(this.currentPath || '.');
+    // setTimeout(() => {
+    // this.isFilterPanelOpen = false;
+    // }, 100); // Close the filter panel after clearing
+  }
+  isSearchActive = false;
+  SearchingItems: any[] = [];
 
   onSearchChange(
     searchTerm: string,
@@ -754,25 +762,28 @@ isShareModalOpen: boolean = false;
     searchWithinFiles: boolean = false,
     includeImages: boolean = false
   ): void {
-    if (searchTerm.length > 0) {
+   
+      this.isSearchActive = true;
       this.documentService
         .searchFiles(searchTerm, fuzzySearch, searchWithinFiles, includeImages)
         .subscribe(
           (response: any) => {
-            this.items = response.results.map((result: any) => ({
-              name: result.fileName,
-              path: result.relativePath,
+            this.SearchingItems = response.results.map((result: any) => ({
+              fileName: result.fileName,
+              relativePath: result.relativePath,
               type: 'File',
               icon: this.getIcon({ type: 'File', name: result.fileName }),
-              modified: new Date().toISOString(),
-              size: 'N/A',
+              contentScore: result.contentScore || 0,
+              contentMatchCount: result.contentMatchCount,
+              contentPreview: result.contentPreview || 0,
             }));
+            console.log('Search results:', this.SearchingItems);
           },
           (error) => {
             console.error('Error searching files:', error);
           }
         );
-      }
+      
     }
   
   

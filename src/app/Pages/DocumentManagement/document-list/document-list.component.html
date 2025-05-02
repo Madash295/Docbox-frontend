@@ -20,12 +20,13 @@
             <span class="text-primary text-xl font-bold" *ngIf="!currentPath">Root</span>
           </div>
         </div>
-     <div class="ltr:ml-auto rtl:mr-auto flex gap-5">
+     <div class="ltr:ml-auto rtl:mr-auto flex gap-4 mx-2">
           <input [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange($event)"   type="text" class="form-input" placeholder="Search..." />
            
           <button
           type="button"
-          class="text-gray-500 hover:text-primary"
+          class="text-gray-500 hover:text-gray-300"
+          [ngClass]="{ 'bg-primary text-white p-2 rounded-md': isFilterPanelOpen }"
           (click)="toggleFilterPanel()"
         >
           <icon-filter class="h-6 w-6" />
@@ -60,19 +61,36 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
     class="toggle-checkbox"
   />
 </div>
-<button
+<div class="flex gap-2">
+  <button
+    type="button"
+    class="btn bg-white text-sm text-gray-800 p-1 rounded-md"
+    (click)="applyFilters()"
+  >
+    Apply Filters
+  </button>
+  <!-- Clear Filters Button -->
+  <button
+    type="button"
+    class="btn bg-danger text-sm text-white p-1 rounded-md"
+    (click)="clearFilters()"
+  >
+    Clear Filters
+  </button>
+</div>
+<!-- <button
   type="button"
   class="btn bg-white text-sm text-gray-800 p-1 rounded-md"
   (click)="applyFilters()"
 >
   Search
-</button>
+</button> -->
 </div>
       </div>
       <ng-container  *ngIf="!selectedFileConfig">
 
       <div class="mb-4.5 flex flex-col gap-5 px-5 md:flex-row md:items-center">
-        <div *ngIf="datatable.getSelectedRows().length > 0" class="flex gap-2">
+        <div *ngIf="datatable?.getSelectedRows().length > 0" class="flex gap-2">
           <button type="button" class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" (click)="openmovefilemodal()">
             <icon-copy class="h-6 w-6 font-bold"></icon-copy>
             Move File
@@ -82,7 +100,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
             Copy Files
        </a>
         </div>
-        <div *ngIf="datatable.getSelectedRows().length === 0" class="flex gap-2">
+        <div *ngIf="datatable?.getSelectedRows().length === 0" class="flex gap-2">
         <a routerLink="/apps/invoice/add" 
         class="bg-primary panel border gap-2 flex text-white flex-col h-24 w-56" 
         (click)="openCreateFileModal()">
@@ -117,6 +135,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
             Share Selected
           </a>
       </div>
+      <ng-container *ngIf="!isSearchActive">
 
       <ng-datatable
         #datatable
@@ -163,6 +182,27 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
           <span>{{value.size}}</span>
         </ng-template>
       </ng-datatable>
+    </ng-container>
+
+      <ng-container *ngIf="isSearchActive">
+        <ng-datatable
+        #searchDatatable
+        [rows]="SearchingItems"
+        [columns]="Searchingcols"
+        [sortable]="true"
+        [search]="search"
+        skin="whitespace-nowrap bh-table-hover"
+        (rowClick)="handleSearchRowClick($event)"
+      >
+        <ng-template slot="fileName" let-value="data">
+          <div class="flex items-center">
+            <img [src]="value.icon" alt="icon" class="h-6 w-6 ltr:mr-2 rtl:ml-2" />
+            <span>{{ value.fileName }}</span>
+          </div>
+        </ng-template>
+       
+      </ng-datatable>
+      </ng-container>
     </ng-container>
       
     </div>
@@ -311,12 +351,12 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
             <div class="mt-4 flex justify-end">
               <p-button
                 label="Cancel"
-                class="p-button-secondary"
+                class="p-button-secondary bg-danger text-white p-2 rounded-md"
                 (click)="closeArchiveModal()"
               ></p-button>
               <p-button
                 label="Create"
-                class="p-button-primary ml-2"
+                class="p-button-primary ml-2  bg-primary text-white p-2 rounded-md"
                 type="submit"
               ></p-button>
             </div>
