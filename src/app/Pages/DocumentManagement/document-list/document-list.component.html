@@ -188,7 +188,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
   <!-- Create File Modal -->
 <div *ngIf="isFileModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFileModal()"></div>
-  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+  <div class="bg-white rounded-lg shadow-lg max-w-xl w-full z-10 relative">
     <button type="button" (click)="closeCreateFileModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -201,9 +201,32 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
           <form [formGroup]="createFileForm" (ngSubmit)="onSubmitCreateFile()">
             <label for="file-type">File Type:</label>
             <ng-select formControlName="fileType" [items]="fileTypes" bindLabel="label" bindValue="value"></ng-select>
-            <label for="">File Name</label>
+            <!-- <label for="">File Name</label>
             <input type="text" formControlName="fileName" placeholder="Enter file name" required>
-            <button type="submit" class="btn-primary p-2 text-white">Create File</button>
+            <button type="submit" class="btn-primary p-2 text-white">Create File</button> -->
+            <div class="field mt-3">
+              <label for="fileName">File Name:</label>
+              <input
+                id="fileName"
+                type="text"
+                formControlName="fileName"
+                placeholder="Enter file name"
+                class="p-inputtext p-component w-full p-2"
+                required
+              />
+            </div>
+            <div class="mt-4 flex justify-end">
+              <p-button
+                label="Cancel"
+                class="p-button-secondary bg-danger text-white p-2 rounded-md"
+                (click)="closeCreateFileModal()"
+              ></p-button>
+              <p-button
+                label="Create"
+                class="p-button-primary ml-2  bg-primary text-white p-2 rounded-md"
+                type="submit"
+              ></p-button>
+            </div>
           </form>
         </div>
       </div>
@@ -214,7 +237,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
 <!-- Create Folder Modal -->
 <div *ngIf="isFolderModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeCreateFolderModal()"></div>
-  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+  <div class="bg-white rounded-lg shadow-lg max-w-xl w-full z-10 relative">
     <button type="button" (click)="closeCreateFolderModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -225,9 +248,32 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       <div class="mt-5">
         <div class="modal-content p-5">
           <form [formGroup]="createFolderForm" (ngSubmit)="onSubmitCreateFolder()">
-            <label for="folderName">Folder Name:</label>
+            <!-- <label for="folderName">Folder Name:</label>
             <input type="text" formControlName="folderName" placeholder="Enter folder name" required>
-            <button type="submit" class="btn-primary p-2 text-white">Create Folder</button>
+            <button type="submit" class="btn-primary p-2 text-white">Create Folder</button> -->
+            <div class="field">
+              <label for="folderName">Folder Name:</label>
+              <input
+                id="folderName"
+                type="text"
+                formControlName="folderName"
+                placeholder="Enter folder name"
+                class="p-inputtext p-component w-full p-2"
+                required
+              />
+            </div>
+            <div class="mt-4 flex justify-end">
+              <p-button
+                label="Cancel"
+                class="p-button-secondary bg-danger text-white p-2 rounded-md"
+                (click)="closeCreateFolderModal()"
+              ></p-button>
+              <p-button
+                label="Create"
+                class="p-button-primary ml-2  bg-primary text-white p-2 rounded-md"
+                type="submit"
+              ></p-button>
+            </div>
           </form>
         </div>
       </div>
@@ -237,7 +283,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
 <!-- Archive Modal -->
 <div *ngIf="isArchiveModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
   <div class="fixed inset-0 bg-black opacity-60" (click)="closeArchiveModal()"></div>
-  <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full z-10 relative">
+  <div class="bg-white rounded-lg shadow-lg max-w-xl w-full z-10 relative">
     <button type="button" (click)="closeArchiveModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -248,9 +294,32 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       <div class="mt-5">
         <div class="modal-content p-5">
           <form [formGroup]="archiveForm" (ngSubmit)="onSubmitArchive()">
-            <label for="archive-name">Archive Name:</label>
-            <input type="text" formControlName="archiveName" id="archive-name" placeholder="Enter archive name" required>
-            <button type="submit" class="btn-primary p-2 text-white mt-2">Create Archive</button>
+            <!-- <label for="archive-name">Archive Name:</label>
+            <input type="text" formControlName="archiveName" id="archive-name" placeholder="Enter archive name" required> -->
+            <div class="field">
+              <label for="archiveName">Archive Name:</label>
+              <input
+                id="archiveName"
+                type="text"
+                formControlName="archiveName"
+                placeholder="Enter archive name"
+                class="p-inputtext p-component w-full"
+                required
+              />
+            </div>
+            <!-- <button type="submit" class="btn-primary p-2 text-white mt-2">Create Archive</button> -->
+            <div class="mt-4 flex justify-end">
+              <p-button
+                label="Cancel"
+                class="p-button-secondary"
+                (click)="closeArchiveModal()"
+              ></p-button>
+              <p-button
+                label="Create"
+                class="p-button-primary ml-2"
+                type="submit"
+              ></p-button>
+            </div>
           </form>
         </div>
       </div>
@@ -377,104 +446,6 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
   </div>
 </div>
 
-<!-- <p-dialog
-  [(visible)]="isShareModalOpen"
-  header="Share File"
-  [modal]="true"
-  [style]="{ width: '50vw' }"
-  [closable]="false"
-  [draggable]="false"
-  [resizable]="false"
->
-  <ng-container *ngIf="currentStep === 1">
- 
-    <form [formGroup]="shareFormStep1" class="p-fluid">
-      <h3>Select Users</h3>
-      <p-table
-        [value]="users"
-        [paginator]="true"
-        [rows]="5"
-        [rowsPerPageOptions]="[5, 10, 20]"
-        [(selection)]="shareFormStep1.controls['selectedUsers'].value"
-        (selectionChange)="shareFormStep1.controls['selectedUsers'].setValue($event)"
-        [dataKey]="'userId'"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-            <th>Username</th>
-            <th>Email</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-user>
-          <tr [pSelectableRow]="user">
-            <td><p-tableCheckbox [value]="user"></p-tableCheckbox></td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-
-      <div class="mt-4 flex justify-end">
-        <p-button
-          label="Next"
-          icon="pi pi-arrow-right"
-          (click)="nextStep()"
-          [disabled]="shareFormStep1.invalid"
-        ></p-button>
-      </div>
-    </form>
-  </ng-container>
-
-  <ng-container *ngIf="currentStep === 2">
-   
-    <form [formGroup]="shareFormStep2" class="p-fluid">
-      <h3>Select Access Type</h3>
-
-      <div *ngFor="let access of accessTypes" class="mb-2">
-        <p-radioButton
-          name="accessType"
-          [value]="access.id"
-          formControlName="accessType"
-          [label]="access.name"
-        ></p-radioButton>
-      </div>
-
-      <div
-        *ngIf="shareFormStep2.get('accessType')?.value === '10' || shareFormStep2.get('accessType')?.value === '11'"
-        class="mt-4"
-      >
-        <label for="expiration">Expiration Date & Time</label>
-        <p-calendar
-          formControlName="expiration"
-          [showTime]="true"
-          hourFormat="24"
-          inputId="expiration"
-        ></p-calendar>
-      </div>
-
-      <div class="mt-4 flex justify-between">
-        <p-button
-          label="Back"
-          icon="pi pi-arrow-left"
-          (click)="previousStep()"
-          class="p-button-secondary"
-        ></p-button>
-        <p-button
-          label="Send"
-          icon="pi pi-check"
-          (click)="nextStep()"
-          [disabled]="
-            shareFormStep2.invalid ||
-            (['10', '11'].includes(shareFormStep2.value.accessType) &&
-              !shareFormStep2.value.expiration)
-          "
-        ></p-button>
-      </div>
-    </form>
-  </ng-container>
-</p-dialog>
- -->
 
 <!-- Copy Modal -->
 <div *ngIf="isCopyModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
@@ -485,7 +456,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       </div>
       <div class="p-4">
           <div class="mb-4">
-              <button type="button" class="btn-secondary" (click)="goBackDestination()">Back</button>
+              <button type="button" class="btn-secondary bg-secondary p-2 rounded-md" (click)="goBackDestination()">Back</button>
               <span class="ml-4">Current Path: {{ copyDestinationPath }}</span>
           </div>
           <ng-datatable
@@ -495,8 +466,8 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
               skin="whitespace-nowrap bh-table-hover">
           </ng-datatable>
           <div class="mt-4 flex justify-end">
-              <button type="button" class="btn-primary" (click)="pasteFiles()">Paste</button>
-              <button type="button" class="btn-secondary ml-2" (click)="isCopyModalOpen=false">Cancel</button>
+              <button type="button" class="btn-primary bg-primary text-white p-2 rounded-md" (click)="pasteFiles()">Paste</button>
+              <button type="button" class="btn-danger p-2 rounded-md text-white ml-2" (click)="isCopyModalOpen=false">Cancel</button>
           </div>
       </div>
   </div>
@@ -511,7 +482,7 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
       </div>
       <div class="p-4">
           <div class="mb-4">
-              <button type="button" class="btn-secondary" (click)="goBackDestination()">Back</button>
+              <button type="button" class="btn-secondary p-2 rounded-md" (click)="goBackDestination()">Back</button>
               <span class="ml-4">Current Path: {{ moveDestinationPath }}</span>
           </div>
           <ng-datatable
@@ -521,8 +492,8 @@ class="bg-primary p-2 rounded-md shadow-md mt-2 flex flex-row gap-4"
               skin="whitespace-nowrap bh-table-hover">
           </ng-datatable>
           <div class="mt-4 flex justify-end">
-              <button type="button" class="btn-primary" (click)="pasteFiles()">Paste</button>
-              <button type="button" class="btn-secondary ml-2" (click)="isMoveModalOpen=false">Cancel</button>
+              <button type="button" class="btn-primary p-2 rounded-md" (click)="pasteFiles()">Paste</button>
+              <button type="button" class="btn-danger ml-2 p-2 rounded-md" (click)="isMoveModalOpen=false">Cancel</button>
           </div>
       </div>
   </div>
