@@ -431,7 +431,7 @@ isShareModalOpen: boolean = false;
 
   onRequestHistoryClose(): void {
     const file = { path: this.relativeFilePath, type: 'File' };
-    this.openFileInEditor(file);
+    this.openEditor(file);
   }
 
   closeEditor(): void {
