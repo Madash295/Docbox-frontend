@@ -383,32 +383,41 @@ isShareModalOpen: boolean = false;
   }
 
   onRequestHistoryData(event: any): void {
-
-  
+    console.debug("onRequestHistoryData triggered with event:", event);
     this.documentService.getFileHistoryData(this.relativeFilePath, event.data).subscribe({
-
-      next: (versionData) => {
-        const historyData = {
-          changesUrl: versionData.changesUrl,
-          fileType: this.selectedFileConfig && this.selectedFileConfig.document ? this.selectedFileConfig.document.fileType : '',
-          key: versionData.key,
-          previous: versionData.previousKey ? {
-            fileType: this.selectedFileConfig?.document?.fileType ?? '',
-            key: versionData.previousKey,
-            url: versionData.previousUrl,
-          } : null,
-          token: this.selectedFileConfig?.token,
-          url: this.selectedFileConfig?.document?.url ?? '',
-          version: versionData.version,
-        };
-        
-        event.data = historyData;
-      },
-      error: (error :any) => {
-        console.error("Error fetching history data:", error);
-      }
+        next: (versionData) => {
+            const historyData = {
+                changesUrl: versionData.changesUrl,
+                fileType: this.selectedFileConfig?.document?.fileType ?? '',
+                key: versionData.key,
+                previous: versionData.previousKey ? {
+                    fileType: this.selectedFileConfig?.document?.fileType ?? '',
+                    key: versionData.previousKey,
+                    url: versionData.previousUrl,
+                } : null,
+                token: this.selectedFileConfig?.token,
+                url: this.selectedFileConfig?.document?.url ?? '',
+                version: versionData.version,
+            };
+            
+            console.debug("Setting history data:", historyData);
+            event.data = historyData;
+            // If the editor requires refreshing for highlights, call that method here.
+            const editorInstance = this.docEditor || (window as any).DocEditor?.instances?.["docxEditor"];
+            if(editorInstance?.applyHistoryHighlights){
+                editorInstance.applyHistoryHighlights(historyData);
+            }
+        },
+        error: (error: any) => {
+            console.error("Error fetching history data:", error);
+        }
     });
-  }
+}
+
+
+
+
+
 
   onRequestRestore(event: any): void {
 
