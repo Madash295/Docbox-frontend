@@ -99,8 +99,8 @@ export class DocumentListComponent implements OnInit {
 
 isShareModalOpen: boolean = false;
   accessTypes = [
-    { id: '1', name: 'Normal View' },
-    { id: '2', name: 'Strict View' },
+    { id: '6', name: 'Normal View' },
+    { id: '7', name: 'Strict View' },
     { id: '8', name: 'Editor' },
     { id: '9', name: 'View Once' },
     { id: '10', name: 'Edit View TimeShared' },

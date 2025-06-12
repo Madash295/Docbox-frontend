@@ -162,10 +162,18 @@ export class HeaderComponent implements OnInit {
         window.location.reload();
     }
     logoutFromFacebook() {
-        this.facebookService.logoutFromFacebook().then(response => {
-          // Handle the logout response if necessary
-        });
-        this.googleService.LogoutFromGoogle();
+      this.facebookService.logoutFromFacebook().then(response => {
+        // Optionally handle the logout response
+        localStorage.removeItem('token');
+        this.router.navigate(['/']); // Redirect to login
+    });
+    this.googleService.LogoutFromGoogle();
+    localStorage.removeItem('token');
+    this.router.navigate(['/']); // Redirect to login
 
+    }
+    logout() {
+          localStorage.removeItem('token');
+          this.router.navigate(['/']); // Redirect to login
     }
 }

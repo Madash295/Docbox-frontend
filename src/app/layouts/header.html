@@ -257,7 +257,9 @@
 
             <div class="dropdown shrink-0">
                 <div hlMenu class="!block">
-                    <button type="button" hlMenuButton class="group relative block"><img class="w-10 h-10 rounded-full object-cover"[src]="user.profilePicture ? user.profilePicture : defaultProfilePic"  alt="" />                    </button>
+                    <button type="button" hlMenuButton class="group relative block">
+                       <img class="w-10 h-10 rounded-full object-cover header-profile-img" [src]="user.profilePicture ? user.profilePicture : defaultProfilePic" alt="" />
+                    </button>
                     <ul
                         *hlMenuItems
                         @toggleAnimation
@@ -291,7 +293,7 @@
                       
                        
                         <li class="border-t border-white-light dark:border-white-light/10" >
-                            <a  *hlMenuItem="let menuItem" class="!py-3 text-danger" (click)="logoutFromFacebook()">
+                           <a *hlMenuItem="let menuItem" class="!py-3 text-danger" (click)="logout()">
                                 <icon-logout class="h-4.5 w-4.5 shrink-0 rotate-90 ltr:mr-2 rtl:ml-2" />
 
                                 Sign Out
