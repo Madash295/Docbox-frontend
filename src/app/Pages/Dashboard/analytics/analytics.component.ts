@@ -3,6 +3,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { MenuModule } from 'headlessui-angular';
 import { IconModule } from 'src/app/shared/icon/icon.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { HttpClient } from '@angular/common/http';
@@ -19,11 +20,13 @@ import {
   ApexStroke,
   ApexGrid,
   ApexTooltip,
-  ApexLegend
+  ApexLegend,
+  ChartComponent
 } from 'ng-apexcharts';
 import { baseURL } from '../../../environments/dev_baseURL';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ChangeDetectorRef } from '@angular/core';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -60,22 +63,23 @@ export type ChartOptions = {
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.css']
 })
-export class AnalyticsComponent implements OnInit {
+export class AnalyticsComponent implements OnInit , AfterViewInit {
   private apiUrl = baseURL.apiUrl;
   userOptions: { label: string; value: number }[] = [];
+  @ViewChild('mostActiveFilesChart') mostActiveFilesChartRef?: ChartComponent;
+  @ViewChild('chartContainer') chartContainer?: ElementRef;
   topReceivers: any[] = [];
   topSenders: any[] = [];
   fileUploadStats: any[] = [];
   selectedUserId: number | null = null;
   donutChart: any;
-  mostActiveFilesChartOptions: ChartOptions = {
-    series: [],
-    chart: { type: 'bar' },
-    xaxis: { categories: [] },
-    title: { text: '' }
-  };
-
-  constructor(private http: HttpClient) {}
+ 
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  ngAfterViewInit() {
+  setTimeout(() => {
+    this.mostActiveFilesChartRef?.updateOptions(this.mostActiveFilesChartOptions, true, true);
+  }, 300);
+}
 
   ngOnInit() {
     this.http.get<any>(`${this.apiUrl}/Admin/dashboard-stats`).subscribe(data => {
@@ -87,6 +91,7 @@ export class AnalyticsComponent implements OnInit {
         this.topSenders = data.topSenders;
         this.fileUploadStats = data.fileUploadStats;
       this.initCharts(data);
+      this.cdr.detectChanges(); 
     });
   }
 onUserSelect(userId: any) {
@@ -124,8 +129,16 @@ onUserSelect(userId: any) {
       }
     };
   }
+   mostActiveFilesChartOptions: ChartOptions = {
+    series: [],
+    chart: { type: 'bar' },
+    xaxis: { categories: [] },
+    title: { text: '' }
+  };
+
 
   initCharts(data: any) {
+    
   
     // Most Active Files
     this.mostActiveFilesChartOptions = {
@@ -177,5 +190,9 @@ onUserSelect(userId: any) {
   },
   title: { text: 'Most Shared Files' }
     };
+  setTimeout(() => {
+    this.cdr.detectChanges();
+    this.mostActiveFilesChartRef?.updateOptions(this.mostActiveFilesChartOptions, true, true);
+  }, 100);
   }
 }

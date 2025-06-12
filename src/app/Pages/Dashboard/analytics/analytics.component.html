@@ -7,8 +7,10 @@
                 <h5 class="text-lg font-semibold">Most Active Files</h5>
 
             </div>
-            <div class="overflow-hidden">
-                <apx-chart [series]="mostActiveFilesChartOptions.series!" [chart]="mostActiveFilesChartOptions.chart!"
+            <div class="overflow-hidden" #chartContainer>
+                <apx-chart
+                 #mostActiveFilesChart
+                 [series]="mostActiveFilesChartOptions.series!" [chart]="mostActiveFilesChartOptions.chart!"
                     [colors]="mostActiveFilesChartOptions.colors!"
                     [dataLabels]="mostActiveFilesChartOptions.dataLabels!"
                     [stroke]="mostActiveFilesChartOptions.stroke!"
