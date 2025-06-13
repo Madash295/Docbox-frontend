@@ -16,7 +16,7 @@
             </div>
             <ng-scrollbar class="relative !h-[calc(100vh-80px)]" appearance="compact">
                 <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
-                    <li class="accordion menu nav-item" *ngIf="userRole === 'Admin'">
+                    <li class="accordion menu nav-item" *ngIf="userRole === 'Admin' || userRole ==='SuperAdmin'">
                         <button
                             type="button"
                             class="nav-link group w-full"
@@ -36,20 +36,12 @@
                         </button>
                         <div [@slideDownUp]="!activeDropdown.includes('dashboard')" class="accordion-content">
                             <ul class="sub-menu text-gray-500">
-                                <!-- <li>
-                                    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMobileMenu()"
-                                        >{{ 'sales' | translate }}</a
-                                    >
-                                </li> -->
-                                <li>
+                                <li *ngIf="userRole === 'Admin'">
                                     <a routerLink="dashboard/Analytics" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'analytics' | translate }}</a>
                                 </li>
-                                <!-- <li>
-                                    <a routerLink="/finance" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'finance' | translate }}</a>
+                                  <li *ngIf="userRole ==='SuperAdmin'">
+                                    <a routerLink="dashboard/SuperAdminAnalytics" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'analytics' | translate }}</a>
                                 </li>
-                                <li>
-                                    <a routerLink="/crypto" routerLinkActive="active" (click)="toggleMobileMenu()">{{ 'crypto' | translate }}</a>
-                                </li> -->
                             </ul>
                         </div>
                     </li>
@@ -70,6 +62,36 @@
                                 <icon-menu-users class="shrink-0 group-hover:!text-primary" />
 
                                 <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Profiles' | translate }}</span>
+                            </div>
+                        </button>
+                    </li>
+                      <li class="accordion menu nav-item" *ngIf="userRole === 'SuperAdmin'">
+                        <button
+                            type="button"
+                            routerLink="admin/companyStats"
+                            routerLinkActive="active"
+                            class="nav-link group w-full"
+                            [ngClass]="{ active: activeDropdown.includes('company') }"
+                        >
+                            <div class="flex items-center">
+                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
+
+                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Company Stats' | translate }}</span>
+                            </div>
+                        </button>
+                    </li>
+                      <li class="accordion menu nav-item" *ngIf="userRole === 'SuperAdmin'">
+                        <button
+                            type="button"
+                            routerLink="admin/backup"
+                            routerLinkActive="active"
+                            class="nav-link group w-full"
+                            [ngClass]="{ active: activeDropdown.includes('backup') }"
+                        >
+                            <div class="flex items-center">
+                                <icon-menu-users class="shrink-0 group-hover:!text-primary" />
+
+                                <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{{ 'Backup Info' | translate }}</span>
                             </div>
                         </button>
                     </li>

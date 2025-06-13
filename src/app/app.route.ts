@@ -106,6 +106,21 @@ export const routes: Routes = [
                 data: { roles: ['Admin'] }, 
                 canActivate: [authGuard],
             },
+             { 
+                path: 'users/profile', 
+                loadComponent: () => import('./Pages/ProfileManagement/profile/profile.component').then(m => m.ProfileComponent), 
+                title: 'Profile' ,
+                data: { roles: ['Admin'] }, 
+                canActivate: [authGuard],
+            },
+            
+             { 
+                path: 'users/profile', 
+                loadComponent: () => import('./Pages/ProfileManagement/profile/profile.component').then(m => m.ProfileComponent), 
+                title: 'Profile' ,
+                data: { roles: ['Admin'] }, 
+                canActivate: [authGuard],
+            },
             
             { 
                 path: 'users/all-files', 
@@ -116,10 +131,17 @@ export const routes: Routes = [
             },
             
             { 
-                path: 'documents/sharedFiles', 
-                loadComponent: () => import('./Pages/DocumentManagement/shared-files/shared-files.component').then(m => m.SharedFilesComponent), 
-                title: 'Shared Files' ,
-                data: { roles: ['Admin'] },
+                path: 'admin/companyStats', 
+                loadComponent: () => import('./Pages/CompanyManagement/companies/company-stat.component').then(m => m.CompanyComponent), 
+                title: 'Company Stats' ,
+                data: { roles: ['SuperAdmin'] },
+                canActivate: [authGuard], 
+            },
+            { 
+                path: 'admin/backup', 
+                loadComponent: () => import('./Pages/CompanyManagement/backupInfo/backup-info.component').then(m => m.BackupComponent), 
+                title: 'Backup Info' ,
+                data: { roles: ['SuperAdmin'] },
                 canActivate: [authGuard], 
             },
 
@@ -127,6 +149,14 @@ export const routes: Routes = [
                 path: 'dashboard/Analytics', 
                 loadComponent: () => import('./Pages/Dashboard/analytics/analytics.component').then(m => m.AnalyticsComponent), 
                 title: 'Analytics' ,
+                data: { roles: ['Admin'] },
+                canActivate: [authGuard], 
+            },
+              { 
+                path: 'dashboard/SuperAdminAnalytics', 
+                loadComponent: () => import('./Pages/Dashboard/superAdminDashboard/dashboard.component').then(m => m.DashboardComponent), 
+                title: 'Analytics' ,
+                data: { roles: ['SuperAdmin'] },
                 canActivate: [authGuard], 
             },
             { 

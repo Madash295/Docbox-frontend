@@ -1,0 +1,131 @@
+<div>
+
+    <div class="mb-6 grid gap-6 lg:grid-cols-3">
+        <div class="panel h-full p-0 lg:col-span-2">
+            <div
+                class="mb-5 flex items-start justify-between border-b border-[#e0e6ed] p-5 dark:border-[#1b2e4b] dark:text-white-light">
+                <h5 class="text-lg font-semibold">Most Active Files</h5>
+
+            </div>
+            <div class="overflow-hidden" #chartContainer>
+                <apx-chart
+                 #mostActiveFilesChart
+                 [series]="mostActiveFilesChartOptions.series!" [chart]="mostActiveFilesChartOptions.chart!"
+                    [colors]="mostActiveFilesChartOptions.colors!"
+                    [dataLabels]="mostActiveFilesChartOptions.dataLabels!"
+                    [stroke]="mostActiveFilesChartOptions.stroke!"
+                    [plotOptions]="mostActiveFilesChartOptions.plotOptions!" [grid]="mostActiveFilesChartOptions.grid!"
+                    [xaxis]="mostActiveFilesChartOptions.xaxis!" [yaxis]="mostActiveFilesChartOptions.yaxis!"
+                    [tooltip]="mostActiveFilesChartOptions.tooltip!" class="rounded-lg bg-white dark:bg-black">
+
+                    <div
+                        class="grid min-h-[360px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span
+                            class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+        </div>
+
+        <div class="panel h-full">
+            <div
+                class="mb-5 flex flex-col items-start border-b border-[#e0e6ed] p-5 pt-0 dark:border-[#1b2e4b] dark:text-white-light">
+                <h5 class="text-lg font-semibold">User Activity</h5>
+                <div class="mb-4 mt-4 flex items-center justify-between w-full">
+                    <label for="user-select" class="mb-2 block text-sm font-medium text-gray-700 dark:text-white">Select
+                        User</label>
+                    <ng-select id="user-select" [items]="userOptions" bindLabel="label" bindValue="value"
+                        [(ngModel)]="selectedUserId" (change)="onUserSelect($event)" placeholder="Select a user"
+                        class="w-48"></ng-select>
+                </div>
+            </div>
+            <div class="overflow-hidden px-5">
+                <apx-chart *ngIf="donutChart!" [series]="donutChart.series!" [chart]="donutChart.chart!"
+                    [stroke]="donutChart.stroke!" [labels]="donutChart.labels!" [colors]="donutChart.colors!"
+                    [legend]="donutChart.legend!" class="rounded-lg bg-white dark:bg-black">
+                </apx-chart>
+            </div>
+
+        </div>
+    </div>
+    <div class="mb-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <div class="panel h-full sm:col-span-2 xl:col-span-1">
+            <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">Top Receivers</h5>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr class="border-b-0">
+                            <th class="ltr:rounded-l-md rtl:rounded-r-md">Receiver Email</th>
+                            <th>Activity Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let receiver of topReceivers"
+                            class="group text-white-dark hover:text-black dark:hover:text-white-light/90">
+                            <td>{{ receiver?.email }}</td>
+                            <td>{{ receiver?.activityCount }}</td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <div class="panel h-full sm:col-span-2 xl:col-span-1">
+            <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">Top Senders</h5>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr class="border-b-0">
+                            <th class="ltr:rounded-l-md rtl:rounded-r-md">Sender Email</th>
+                            <th>Activity Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sender of topSenders"
+                            class="group text-white-dark hover:text-black dark:hover:text-white-light/90">
+                            <td>{{ sender?.email }}</td>
+                            <td>{{ sender?.activityCount }}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel h-full sm:col-span-2 xl:col-span-1">
+            <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">File Upload Stats</h5>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr class="border-b-0">
+                            <th class="ltr:rounded-l-md rtl:rounded-r-md">Email</th>
+                            <th>File Count</th>
+                            <th>Total Size</th>
+                            <th>Formatted Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let file of fileUploadStats"
+                            class="group text-white-dark hover:text-black dark:hover:text-white-light/90">
+                            <td>{{ file?.email }}</td>
+                            <td>{{ file?.fileCount }}</td>
+                            <td>{{ file?.totalSize }}</td>
+                            <td>{{ file?.formattedSize }}</td>
+
+                        </tr>
+                    </tbody> 
+                         
+                    
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>

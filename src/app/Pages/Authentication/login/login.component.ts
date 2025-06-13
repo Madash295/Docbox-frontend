@@ -106,7 +106,7 @@ login() {
             this.utilsService.showMessage('Login successful', 'success');
 
             // Navigate to the profile page
-            this.router.navigate(['users/profile']);
+            this.router.navigate(['users/all-files']);
           }
         });
   //   console.log(this.LoginForm.value);

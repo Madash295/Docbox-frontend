@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FacebookService } from '../service/socailServices/facebookService';
 import { GoogleService } from '../service/socailServices/googleService';
 import { HttpClient } from '@angular/common/http';
-
+import { UtilsService } from 'src/app/utils.service';
 @Component({
     selector: 'header',
     templateUrl: './header.html',
@@ -91,7 +91,8 @@ export class HeaderComponent implements OnInit {
         private facebookService: FacebookService,
         private sanitizer: DomSanitizer,
         private googleService: GoogleService,
-        private http: HttpClient
+        private http: HttpClient,
+         private utilsService: UtilsService
     ) {
         this.initStore();
     }
@@ -161,11 +162,15 @@ export class HeaderComponent implements OnInit {
         }
         window.location.reload();
     }
-    logoutFromFacebook() {
-        this.facebookService.logoutFromFacebook().then(response => {
-          // Handle the logout response if necessary
-        });
-        this.googleService.LogoutFromGoogle();
+    logout() {
+         localStorage.removeItem('token');
+            localStorage.removeItem('userRole');
+
+            // Show success message
+            this.utilsService.showMessage('Logout successful', 'success');
+
+            // Navigate to the profile page
+            this.router.navigate(['']);
 
     }
 }
