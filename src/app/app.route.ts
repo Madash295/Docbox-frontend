@@ -144,6 +144,13 @@ export const routes: Routes = [
                 data: { roles: ['SuperAdmin'] },
                 canActivate: [authGuard], 
             },
+             { 
+                path: 'trash/recover', 
+                loadComponent: () => import('./Pages/DocumentManagement/BackupRecovery/trashRecover.component').then(m => m.TrashComponent), 
+                title: 'Trash Recovery' ,
+                data: { roles: ['Admin','User'] },
+                canActivate: [authGuard], 
+            },
 
             { 
                 path: 'dashboard/Analytics', 
