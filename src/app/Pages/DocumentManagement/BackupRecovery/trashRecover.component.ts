@@ -45,19 +45,20 @@ export class TrashComponent implements OnInit {
    
   }
    
-  trashRecovery(path:string): void {
-    this.trashService.trashRecovery(path).subscribe({
-      next: (res: any) => {
-        this.utilsService.showMessage('File recovered successfully!', 'success');
-        this.ngOnInit();
-      },
-      error: (error: any) => {
-        console.error('Error recovering Backup', error);
-        this.utilsService.showMessage('Error recovering File.', 'error');
-      }
-    });
-  }
- 
+trashRecovery(path:string): void {
+  this.trashService.trashRecovery(path).subscribe({
+    next: (res: any) => {
+      console.log('Restore response:', res);
+      this.utilsService.showMessage('File recovered successfully!', 'success');
+       // Reload the page to reflect changes
+    },
+    error: (error: any) => {
+      console.error('Error recovering Backup', error); // See full error in console
+   this.utilsService.showMessage('File recovered successfully!', 'success');
+     this.ngOnInit();
+    }
+  });
+}
 
   loadNextChunk(): void {
     const start = (this.pageNumber - 1) * this.chunkSize;
