@@ -17,7 +17,11 @@ export class BackupService {
     return this.http.get<Backup[]>(`${this.apiUrl}/SuperAdmin/backup-info`);
   }  
 restoreBackup(name: string): Observable<any> {
-  return this.http.post(`${this.apiUrl}/SuperAdmin/restore-backup`, { name });
+  return this.http.post(
+    `${this.apiUrl}/SuperAdmin/restore-backup`,
+    JSON.stringify(name), 
+    { headers: { 'Content-Type': 'application/json' } }
+  );
 }
   
   
