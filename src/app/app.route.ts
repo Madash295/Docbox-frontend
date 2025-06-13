@@ -123,11 +123,18 @@ export const routes: Routes = [
                 canActivate: [authGuard], 
             },
 
-            // { 
-            //     path: 'dashboard/Analytics', 
-            //     loadComponent: () => import('./Pages/Authentication/otp-verify/otp-verify.component').then(m => m.OtpVerifyComponent), 
-            //     title: 'Analytics' 
-            // }
+            { 
+                path: 'dashboard/Analytics', 
+                loadComponent: () => import('./Pages/Dashboard/analytics/analytics.component').then(m => m.AnalyticsComponent), 
+                title: 'Analytics' ,
+                canActivate: [authGuard], 
+            },
+            { 
+                path: 'profile/edit', 
+                loadComponent: () => import('./Pages/Authentication/profile/edit-profile.component').then(m => m.EditProfileComponent), 
+                title: 'Edit Profile' ,
+                canActivate: [authGuard], 
+            }
         ],
     },
 ];

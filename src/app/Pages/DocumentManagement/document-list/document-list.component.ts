@@ -99,8 +99,8 @@ export class DocumentListComponent implements OnInit {
 
 isShareModalOpen: boolean = false;
   accessTypes = [
-    { id: '6', name: 'Normal View' },
-    { id: '7', name: 'Strict View' },
+    { id: '1', name: 'Normal View' },
+    { id: '2', name: 'Strict View' },
     { id: '8', name: 'Editor' },
     { id: '9', name: 'View Once' },
     { id: '10', name: 'Edit View TimeShared' },
@@ -232,7 +232,7 @@ isShareModalOpen: boolean = false;
         uuid: this.generateUUID(),
       });
 
-      console.log('Path History:', this.pathHistory); // Logs the updated path history
+      console.log('Path History:', this.pathHistory); 
       this.loadFiles(newPath);
     } else if (row.type === 'File') {
       console.log('File clicked:', row.name);
