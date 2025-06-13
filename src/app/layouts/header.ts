@@ -7,6 +7,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { FacebookService } from '../service/socailServices/facebookService';
 import { GoogleService } from '../service/socailServices/googleService';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'header',
@@ -19,6 +20,8 @@ import { GoogleService } from '../service/socailServices/googleService';
     ],
 })
 export class HeaderComponent implements OnInit {
+     user: any = {};
+    defaultProfilePic = '/assets/images/user-profile.jpeg';
     store: any;
     search = false;
     notifications = [
@@ -87,7 +90,8 @@ export class HeaderComponent implements OnInit {
         private appSetting: AppService,
         private facebookService: FacebookService,
         private sanitizer: DomSanitizer,
-        private googleService: GoogleService
+        private googleService: GoogleService,
+        private http: HttpClient
     ) {
         this.initStore();
     }
@@ -107,6 +111,15 @@ export class HeaderComponent implements OnInit {
                 this.setActiveDropdown();
             }
         });
+        const token = localStorage.getItem('token');
+        if (token) {
+            this.http.get('http://localhost:5235/api/User/me', {
+                headers: { Authorization: `Bearer ${token}` }
+            }).subscribe({
+                next: (user: any) => this.user = user,
+                error: () => this.user = {}
+            });
+        }
     }
 
     setActiveDropdown() {
